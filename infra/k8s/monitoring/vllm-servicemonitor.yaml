@@ -1,0 +1,101 @@
+---
+# Prometheus ServiceMonitor — scrapes vLLM's built-in /metrics endpoint.
+# Requires prometheus-operator CRDs.  If using GKE Managed Prometheus,
+# replace with a PodMonitoring resource (see comment below).
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: vllm-llama3-8b
+  namespace: cloudach
+  labels:
+    app: vllm-llama3-8b
+    release: prometheus   # must match your Prometheus operator label selector
+spec:
+  selector:
+    matchLabels:
+      app: vllm-llama3-8b
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+      scrapeTimeout: 10s
+---
+# GKE Managed Prometheus alternative — uncomment and use instead of ServiceMonitor
+# if running on GKE with Managed Prometheus (no prometheus-operator needed).
+#
+# apiVersion: monitoring.googleapis.com/v1
+# kind: PodMonitoring
+# metadata:
+#   name: vllm-llama3-8b
+#   namespace: cloudach
+# spec:
+#   selector:
+#     matchLabels:
+#       app: vllm-llama3-8b
+#   endpoints:
+#     - port: http
+#       path: /metrics
+#       interval: 15s
+---
+# PrometheusRule — alerts for GPU OOM, high queue depth, degraded throughput.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: vllm-alerts
+  namespace: cloudach
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: vllm.inference
+      interval: 30s
+      rules:
+        # Alert if GPU KV cache is >95% full (risk of OOM / request rejection)
+        - alert: VllmGpuKvCacheHigh
+          expr: |
+            vllm:gpu_cache_usage_perc{namespace="cloudach"} > 0.95
+          for: 2m
+          labels:
+            severity: warning
+            team: infra
+          annotations:
+            summary: "vLLM GPU KV cache >95% full"
+            description: "{{ $labels.pod }} GPU KV cache usage is {{ $value | humanizePercentage }}. Risk of OOM request rejection."
+
+        # Alert if p99 TTFT exceeds 5 seconds
+        - alert: VllmHighTTFT
+          expr: |
+            histogram_quantile(0.99,
+              sum(rate(vllm:time_to_first_token_seconds_bucket{namespace="cloudach"}[5m])) by (le, model_name)
+            ) > 5
+          for: 5m
+          labels:
+            severity: warning
+            team: infra
+          annotations:
+            summary: "vLLM p99 TTFT > 5s"
+            description: "Model {{ $labels.model_name }} p99 time-to-first-token is {{ $value }}s."
+
+        # Alert if request queue depth is growing (potential overload)
+        - alert: VllmRequestQueueGrowing
+          expr: |
+            vllm:num_requests_waiting{namespace="cloudach"} > 20
+          for: 3m
+          labels:
+            severity: warning
+            team: infra
+          annotations:
+            summary: "vLLM request queue growing"
+            description: "{{ $labels.pod }} has {{ $value }} requests waiting in queue."
+
+        # Alert if pod is down
+        - alert: VllmPodDown
+          expr: |
+            up{job="vllm-llama3-8b", namespace="cloudach"} == 0
+          for: 1m
+          labels:
+            severity: critical
+            team: infra
+          annotations:
+            summary: "vLLM pod is down"
+            description: "No healthy vLLM pod found in namespace cloudach."

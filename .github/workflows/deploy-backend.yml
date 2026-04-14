@@ -84,5 +84,8 @@ jobs:
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f infra/k8s/namespace.yaml
+          kubectl apply -f infra/k8s/vllm/
           kubectl apply -f infra/k8s/api-gateway/
+          kubectl apply -f infra/k8s/monitoring/ --server-side --force-conflicts || true
+          kubectl rollout status deployment/vllm-llama3-8b -n cloudach --timeout=10m
           kubectl rollout status deployment/api-gateway -n cloudach --timeout=5m
