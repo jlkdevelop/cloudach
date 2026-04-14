@@ -1,5 +1,6 @@
 import { requireAuth } from '../../../../../lib/auth';
 import { getDb } from '../../../../../lib/db';
+import { logAuditEvent, getClientIp } from '../../../../../lib/audit';
 
 export default requireAuth(async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -18,6 +19,16 @@ export default requireAuth(async function handler(req, res) {
   if (!result.rows.length) {
     return res.status(404).json({ error: 'API key not found or already revoked.' });
   }
+
+  logAuditEvent({
+    userId,
+    actorEmail: req.session.email,
+    action: 'api_key.revoked',
+    resource: 'api_key',
+    resourceId: keyId,
+    ipAddress: getClientIp(req),
+    metadata: { name: result.rows[0].name },
+  });
 
   return res.status(200).json({ key: result.rows[0] });
 });

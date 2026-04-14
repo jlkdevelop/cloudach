@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { requireAuth } from '../../../lib/auth';
 import { getDb } from '../../../lib/db';
+import { logAuditEvent, getClientIp } from '../../../lib/audit';
 
 export default requireAuth(async function handler(req, res) {
   const db = getDb();
@@ -52,6 +53,16 @@ export default requireAuth(async function handler(req, res) {
     );
 
     // Return the raw key once — never stored again
+    logAuditEvent({
+      userId,
+      actorEmail: req.session.email,
+      action: 'api_key.created',
+      resource: 'api_key',
+      resourceId: result.rows[0].id,
+      ipAddress: getClientIp(req),
+      metadata: { name, allowed_models: modelsArr, rate_limit_rpm: rpmLimit },
+    });
+
     return res.status(201).json({ key: result.rows[0], rawKey });
   }
 

@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: '/dashboard/alerts', label: 'Alerts', icon: IconAlerts },
   { href: '/dashboard/team', label: 'Team', icon: IconTeam },
   { href: '/dashboard/webhooks', label: 'Webhooks', icon: IconWebhooks },
+  { href: '/dashboard/audit-log', label: 'Audit Log', icon: IconAuditLog },
   { href: '/dashboard/settings', label: 'Settings', icon: IconSettings },
 ];
 
@@ -218,6 +219,15 @@ function IconWebhooks() {
       <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" strokeWidth="1.4"/>
       <path d="M8 6c1.5 0 2.5.8 2.5 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
       <path d="M4 8c-1.2.4-2 1.4-2 2.5 0 1.4 1.1 2.5 2.5 2.5H8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconAuditLog() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+      <path d="M5 5h6M5 8h4M5 11h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
     </svg>
   );
 }
