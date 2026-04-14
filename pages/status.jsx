@@ -30,7 +30,8 @@ export default function Status() {
         <meta property="og:title" content="System Status — Cloudach" />
         <meta property="og:description" content="Live status of Cloudach infrastructure and services." />
         <meta property="og:url" content="https://cloudach.com/status" />
-        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="System Status — Cloudach" />
+        <meta name="twitter:description" content="Live status of Cloudach infrastructure and services." />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>

@@ -21,13 +21,9 @@ export default function Enterprise() {
         <meta name="description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
         <meta property="og:title" content="Enterprise — Cloudach" />
         <meta property="og:description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
-        <meta property="og:image" content="https://cloudach.com/og-image.png" />
         <meta property="og:url" content="https://cloudach.com/enterprise" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Enterprise — Cloudach" />
         <meta name="twitter:description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
-        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
 
       <Nav />

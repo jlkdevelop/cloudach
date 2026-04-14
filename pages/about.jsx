@@ -11,13 +11,9 @@ export default function About() {
         <meta name="description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
         <meta property="og:title" content="About — Cloudach" />
         <meta property="og:description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
-        <meta property="og:image" content="https://cloudach.com/og-image.png" />
         <meta property="og:url" content="https://cloudach.com/about" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="About — Cloudach" />
         <meta name="twitter:description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
-        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>

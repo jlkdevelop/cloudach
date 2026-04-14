@@ -1,0 +1,21 @@
+# vLLM configuration — qwen25-72b
+# Model: Qwen/Qwen2.5-72B-Instruct
+# Hardware target: 4× NVIDIA A100 80 GB
+
+model: Qwen/Qwen2.5-72B-Instruct
+served_model_name: qwen25-72b
+tokenizer: Qwen/Qwen2.5-72B-Instruct
+tokenizer_mode: auto
+
+tensor_parallel_size: 4
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.92
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 128
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

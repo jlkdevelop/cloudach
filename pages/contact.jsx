@@ -18,13 +18,9 @@ export default function Contact() {
         <meta name="description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
         <meta property="og:title" content="Contact — Cloudach" />
         <meta property="og:description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
-        <meta property="og:image" content="https://cloudach.com/og-image.png" />
         <meta property="og:url" content="https://cloudach.com/contact" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Contact — Cloudach" />
         <meta name="twitter:description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
-        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
       <Nav />
       <main style={{ maxWidth: 560, margin: '0 auto', padding: '88px 48px' }}>

@@ -1,0 +1,21 @@
+# vLLM configuration — mistral-7b
+# Model: mistralai/Mistral-7B-Instruct-v0.3
+# Hardware target: 1× NVIDIA L4 (24 GB VRAM)
+
+model: mistralai/Mistral-7B-Instruct-v0.3
+served_model_name: mistral-7b
+tokenizer: mistralai/Mistral-7B-Instruct-v0.3
+tokenizer_mode: auto
+
+tensor_parallel_size: 1
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 256
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

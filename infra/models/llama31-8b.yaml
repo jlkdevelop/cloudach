@@ -1,0 +1,23 @@
+# vLLM configuration — llama31-8b
+# Model: meta-llama/Meta-Llama-3.1-8B-Instruct
+# Hardware target: 1× NVIDIA L4 (24 GB VRAM)
+# Note: context window is 128K; limit max_model_len for cost control
+
+model: meta-llama/Meta-Llama-3.1-8B-Instruct
+served_model_name: llama31-8b
+tokenizer: meta-llama/Meta-Llama-3.1-8B-Instruct
+tokenizer_mode: auto
+
+tensor_parallel_size: 1
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+# Clamp to 32K by default; raise to 131072 for long-context deployments
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 256
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

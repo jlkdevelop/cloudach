@@ -1,0 +1,21 @@
+# vLLM configuration — mixtral-8x7b
+# Model: mistralai/Mixtral-8x7B-Instruct-v0.1
+# Hardware target: 2× NVIDIA A100 80 GB (MoE requires higher VRAM for expert routing)
+
+model: mistralai/Mixtral-8x7B-Instruct-v0.1
+served_model_name: mixtral-8x7b
+tokenizer: mistralai/Mixtral-8x7B-Instruct-v0.1
+tokenizer_mode: auto
+
+tensor_parallel_size: 2
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 192
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning
