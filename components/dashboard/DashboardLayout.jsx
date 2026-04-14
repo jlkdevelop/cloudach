@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: '/dashboard/models', label: 'Models', icon: IconModels },
   { href: '/dashboard/api-keys', label: 'API Keys', icon: IconKey },
   { href: '/dashboard/usage', label: 'Usage', icon: IconUsage },
+  { href: '/dashboard/logs', label: 'Request Logs', icon: IconLogs },
   { href: '/dashboard/alerts', label: 'Alerts', icon: IconAlerts },
   { href: '/dashboard/billing', label: 'Billing', icon: IconBilling },
   { href: '/dashboard/team', label: 'Team', icon: IconTeam },
@@ -220,6 +221,17 @@ function IconWebhooks() {
       <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" strokeWidth="1.4"/>
       <path d="M8 6c1.5 0 2.5.8 2.5 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
       <path d="M4 8c-1.2.4-2 1.4-2 2.5 0 1.4 1.1 2.5 2.5 2.5H8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconLogs() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="1" y="2" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+      <path d="M4 6h3M4 9h5M4 12h2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+      <circle cx="11" cy="6" r="1" fill="currentColor" opacity="0.7"/>
+      <circle cx="11" cy="9" r="1" fill="currentColor" opacity="0.5"/>
     </svg>
   );
 }
