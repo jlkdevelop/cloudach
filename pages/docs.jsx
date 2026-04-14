@@ -64,6 +64,10 @@ export default function DocsPage() {
                 ['#errors', 'Error Codes'],
                 ['#sdks', 'SDK Reference'],
                 ['#integrations', 'Integrations'],
+                ['#fine-tuning', 'Fine-Tuning'],
+                ['#fine-tuning-quickstart', '↳ Quickstart'],
+                ['#fine-tuning-lora', '↳ LoRA Adapters'],
+                ['#fine-tuning-models', '↳ Supported Models'],
                 ['#tutorials', 'Tutorials'],
                 ['#faq', 'FAQ'],
               ].map(([href, label]) => (
@@ -734,6 +738,101 @@ for (const m of models.data) console.log(m.id);`}</CodeBlock>
               </div>
             </Section>
 
+            {/* ── Fine-Tuning ── */}
+            <Section id="fine-tuning" title="Fine-Tuning">
+              <p style={p}>
+                Fine-tuning lets you adapt a base model to your domain, tone, or task using your own labelled examples.
+                Cloudach exposes fine-tuning through a simple REST API and serves the resulting LoRA adapters on top of
+                vLLM with the same sub-100ms latency as base models.
+              </p>
+
+              <h3 id="fine-tuning-quickstart" style={h3}>Quickstart</h3>
+              <p style={p}>The workflow has four steps: prepare a JSONL dataset → upload → create job → infer.</p>
+              <CodeBlock>{`# 1. Upload your dataset
+curl https://api.cloudach.com/v1/fine-tuning/datasets \\
+  -H "Authorization: Bearer $CLOUDACH_API_KEY" \\
+  -F "file=@training_data.jsonl" \\
+  -F "purpose=fine-tune"
+# → {"id": "ds-8f3a2b1c", ...}
+
+# 2. Create a LoRA fine-tuning job
+curl https://api.cloudach.com/v1/fine-tuning/jobs \\
+  -H "Authorization: Bearer $CLOUDACH_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "llama3-8b",
+    "training_file": "ds-8f3a2b1c",
+    "method": {"type": "lora", "lora": {"rank": 16, "alpha": 32}},
+    "hyperparameters": {"n_epochs": 3},
+    "suffix": "my-model"
+  }'
+# → {"id": "ftjob-a1b2c3", "status": "queued"}
+
+# 3. Poll until succeeded
+curl https://api.cloudach.com/v1/fine-tuning/jobs/ftjob-a1b2c3 \\
+  -H "Authorization: Bearer $CLOUDACH_API_KEY"
+# → {"status": "succeeded", "fine_tuned_model": "llama3-8b:ft:my-model:ftjob-a1b2c3"}
+
+# 4. Infer — use fine_tuned_model as the model ID
+curl https://api.cloudach.com/v1/chat/completions \\
+  -H "Authorization: Bearer $CLOUDACH_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model": "llama3-8b:ft:my-model:ftjob-a1b2c3", "messages": [...]}'`}</CodeBlock>
+
+              <p style={p}>
+                Dataset format: each line of your <code style={{ background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'monospace' }}>.jsonl</code> file
+                must be a JSON object with a <code style={{ background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'monospace' }}>messages</code> array
+                (identical to the OpenAI fine-tuning format). Minimum 100 examples.
+              </p>
+              <CodeBlock>{`{"messages": [
+  {"role": "system", "content": "You are a helpful support agent for Acme Corp."},
+  {"role": "user",   "content": "How do I reset my password?"},
+  {"role": "assistant", "content": "Go to Settings → Security → Reset Password. You'll receive a link within 2 minutes."}
+]}`}</CodeBlock>
+
+              <h3 id="fine-tuning-lora" style={h3}>LoRA adapters</h3>
+              <p style={p}>
+                Cloudach uses <strong>vLLM with multi-adapter LoRA support</strong>. LoRA trains lightweight adapter
+                weights (≈ 0.1–1% of model size) rather than updating the full model. Key properties:
+              </p>
+              <ul style={ul}>
+                <li>Adapter loading adds &lt; 50 ms on first request; warm requests have zero overhead</li>
+                <li>Multiple adapters for the same base model share one GPU replica — you pay base model rates, not a new GPU per fine-tune</li>
+                <li>Adapters can be downloaded for self-hosted vLLM deployments</li>
+              </ul>
+              <Table
+                headers={['Parameter', 'Default', 'Description']}
+                rows={[
+                  ['method.type', 'lora', 'Training method: lora or full (8B models only)'],
+                  ['lora.rank', '16', 'Adapter capacity — 8/16/32/64. Higher = more expressive, higher cost'],
+                  ['lora.alpha', '2 × rank', 'Scaling factor. Usually set to 2× rank'],
+                  ['lora.target_modules', 'q_proj, v_proj', 'Weight matrices to train'],
+                  ['n_epochs', '3', 'Training passes over the dataset'],
+                  ['batch_size', '16', 'Examples per gradient step'],
+                ]}
+              />
+
+              <h3 id="fine-tuning-models" style={h3}>Supported base models</h3>
+              <Table
+                headers={['Model', 'Method', 'LoRA rank options']}
+                rows={[
+                  ['llama3-8b', 'Full fine-tune + LoRA', '8, 16, 32, 64'],
+                  ['llama3-70b', 'LoRA only', '8, 16, 32'],
+                  ['llama31-8b', 'Full fine-tune + LoRA', '8, 16, 32, 64'],
+                  ['llama31-70b', 'LoRA only', '8, 16, 32'],
+                  ['mistral-7b', 'Full fine-tune + LoRA', '8, 16, 32, 64'],
+                  ['mixtral-8x7b', 'LoRA only', '8, 16, 32'],
+                ]}
+              />
+
+              <p style={p}>
+                Full reference: <a href="/docs/fine-tuning" style={link}>Fine-Tuning API Reference</a> —
+                all endpoints, parameters, error codes, and pricing.
+                See also the <a href="/tutorials/fine-tuning-llama3" style={link}>step-by-step tutorial</a> and
+                the <a href="/docs/data-preparation" style={link}>Data Preparation Guide</a>.
+              </p>
+            </Section>
+
             {/* ── Tutorials ── */}
             <Section id="tutorials" title="Tutorials">
               <p style={p}>Step-by-step guides for common use cases.</p>
@@ -782,6 +881,15 @@ for (const m of models.data) console.log(m.id);`}</CodeBlock>
                     badge: 'Intermediate',
                     badgeColor: '#D97706',
                     badgeBg: '#FFFBEB',
+                    lang: null,
+                  },
+                  {
+                    href: '/tutorials/fine-tuning-llama3',
+                    title: 'Fine-tune Llama 3 on your own data',
+                    desc: 'Prepare a JSONL dataset, launch a LoRA job, monitor training, and run inference on your custom model. End-to-end in 30 minutes.',
+                    badge: 'Beginner',
+                    badgeColor: '#059669',
+                    badgeBg: '#ECFDF5',
                     lang: null,
                   },
                 ].map(t => (

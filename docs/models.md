@@ -59,3 +59,22 @@ curl https://api.cloudach.com/v1/models/llama3-8b \
 - **Higher quality responses:** `llama3-70b` or `mixtral-8x7b`
 - **Code generation:** `codellama-13b`
 - **Long context (up to 32K tokens):** `mistral-7b` or `mixtral-8x7b`
+
+---
+
+## Fine-tuning support
+
+You can fine-tune base models to adapt them to your domain, tone, or task. Cloudach uses LoRA (Low-Rank Adaptation) and serves the resulting adapters on vLLM with no extra inference latency.
+
+| Model ID | Fine-tuning method | LoRA rank options |
+|---|---|---|
+| `llama3-8b` | Full fine-tune + LoRA | 8, 16, 32, 64 |
+| `llama3-70b` | LoRA only | 8, 16, 32 |
+| `llama31-8b` | Full fine-tune + LoRA | 8, 16, 32, 64 |
+| `llama31-70b` | LoRA only | 8, 16, 32 |
+| `mistral-7b` | Full fine-tune + LoRA | 8, 16, 32, 64 |
+| `mixtral-8x7b` | LoRA only | 8, 16, 32 |
+
+> **Recommended starting point:** `llama3-8b` with LoRA rank 16. Only move to a larger model if the 8B fine-tune doesn't meet your quality bar — there is a 5–8× cost difference.
+
+See the [Fine-Tuning Guide](./fine-tuning.md) for the full workflow: dataset format, upload, job creation, monitoring, and inference.
