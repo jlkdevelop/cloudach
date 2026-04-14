@@ -101,9 +101,9 @@ export default function SignupPage() {
 
           <p style={{ fontSize: 12, color: '#6B7280', textAlign: 'center', marginTop: 16 }}>
             By creating an account you agree to our{' '}
-            <a href="#" style={{ color: '#6B7280', textDecoration: 'underline' }}>Terms of Service</a>
+            <a href="/terms" style={{ color: '#6B7280', textDecoration: 'underline' }}>Terms of Service</a>
             {' '}and{' '}
-            <a href="#" style={{ color: '#6B7280', textDecoration: 'underline' }}>Privacy Policy</a>.
+            <a href="/privacy" style={{ color: '#6B7280', textDecoration: 'underline' }}>Privacy Policy</a>.
           </p>
         </div>
       </div>

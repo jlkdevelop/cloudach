@@ -997,6 +997,12 @@
   .db-sidebar-overlay { display: block; }
   .db-mobile-topbar { display: flex; }
   .db-main { padding: 32px 20px; }
+
+  /* API keys table: hide low-priority columns on small screens */
+  .db-table .db-col-hide-mobile { display: none; }
+
+  /* Key reveal next-step row: stack vertically */
+  .db-key-reveal-next { flex-direction: column; align-items: flex-start !important; }
 }
 
 /* ---- Inline confirm (revoke/delete actions) ---- */

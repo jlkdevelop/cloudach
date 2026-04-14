@@ -115,6 +115,12 @@ export default function ApiKeysPage() {
               <span style={{ fontFamily: 'monospace', fontSize: 12 }}>{newRawKey}</span>
               <button className="db-copy-btn" onClick={copyKey}>{copied ? 'Copied!' : 'Copy'}</button>
             </div>
+            <div className="db-key-reveal-next" style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 13, color: '#065F46' }}>Next:</span>
+              <Link href="/dashboard/models">
+                <button className="db-btn db-btn--primary db-btn--sm">Deploy a model →</button>
+              </Link>
+            </div>
           </div>
         )}
 
@@ -139,9 +145,9 @@ export default function ApiKeysPage() {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Created</th>
-                    <th>Last used</th>
-                    <th>Rate limit</th>
+                    <th className="db-col-hide-mobile">Created</th>
+                    <th className="db-col-hide-mobile">Last used</th>
+                    <th className="db-col-hide-mobile">Rate limit</th>
                     <th>Status</th>
                     <th></th>
                   </tr>
@@ -151,9 +157,9 @@ export default function ApiKeysPage() {
                     <React.Fragment key={k.id}>
                       <tr>
                         <td><strong>{k.name}</strong></td>
-                        <td>{fmtDate(k.created_at)}</td>
-                        <td>{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
-                        <td>
+                        <td className="db-col-hide-mobile">{fmtDate(k.created_at)}</td>
+                        <td className="db-col-hide-mobile">{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
+                        <td className="db-col-hide-mobile">
                           {k.rate_limit_rpm
                             ? <span style={{ fontSize: 12 }}>{k.rate_limit_rpm} rpm</span>
                             : <span style={{ color: '#9CA3AF', fontSize: 12 }}>Unlimited</span>}
