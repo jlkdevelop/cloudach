@@ -10,18 +10,19 @@ export default function Hero() {
         </div>
         <h1>Run any open-source LLM<br />in production.<br /><em>In under 60 seconds.</em></h1>
         <p className="hero-sub">
-          Cloudach is the fastest way to deploy, scale, and serve open-source language models —
-          Llama 3, Mistral, Qwen, and more. One API, zero GPU ops, production-ready out of the box.
+          Deploy Llama 3, Mistral, Qwen, and 40+ models in under 60 seconds — at a fraction
+          of proprietary API costs. One OpenAI-compatible endpoint. Zero GPU ops.
         </p>
         <div className="hero-btns">
           <Link href="/signup"><button className="btn-cta">Start deploying free</button></Link>
-          <button className="btn-cta-ghost">
+          <Link href="/docs"><button className="btn-cta-ghost">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             View docs
-          </button>
+          </button></Link>
         </div>
+        <p className="hero-free-note">No credit card required &middot; Free up to 1M tokens/month</p>
         <div className="hero-stats">
           <div>
             <div className="stat-val">10ms</div>

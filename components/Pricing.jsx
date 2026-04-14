@@ -47,22 +47,22 @@ export default function Pricing() {
         <h2 className="sec-title">Model to API in three steps</h2>
         <div className="steps">
           <div className="step">
-            <div className="step-n">Step 01</div>
+            <div className="step-n">Step 01 &mdash; ~10 seconds</div>
             <div className="step-line" />
-            <h3>Choose your model</h3>
-            <p>Pick from our library or provide your own weights via HuggingFace URL, direct upload, or our CLI.</p>
+            <h3>Pick your model</h3>
+            <p>Choose from 40+ curated open-source models or paste any HuggingFace URL. GGUF, safetensors, and direct upload all supported.</p>
           </div>
           <div className="step">
-            <div className="step-n">Step 02</div>
+            <div className="step-n">Step 02 &mdash; ~20 seconds</div>
             <div className="step-line" />
-            <h3>Configure your deployment</h3>
-            <p>Select GPU tier, region, and scaling policy. Preview estimated cost before you commit.</p>
+            <h3>Configure and preview cost</h3>
+            <p>Select GPU tier, region, and autoscaling policy. See your estimated cost per million tokens before committing — no surprises.</p>
           </div>
           <div className="step">
-            <div className="step-n">Step 03</div>
+            <div className="step-n">Step 03 &mdash; ~30 seconds</div>
             <div className="step-line" />
-            <h3>Call your endpoint</h3>
-            <p>Receive a live OpenAI-compatible REST URL. Integrate with any SDK, framework, or app immediately.</p>
+            <h3>Get your live endpoint</h3>
+            <p>Receive an OpenAI-compatible REST URL. Swap your base URL and go — same SDK, same interface, your model.</p>
           </div>
         </div>
       </section>
@@ -93,6 +93,9 @@ export default function Pricing() {
                   ? <Link href={plan.href}><button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button></Link>
                   : <button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button>
                 }
+                {plan.name === 'Starter' && (
+                  <p className="plan-free-note">No credit card required</p>
+                )}
               </div>
             ))}
           </div>

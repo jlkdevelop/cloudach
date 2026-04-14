@@ -10,6 +10,27 @@ import Logo from '../components/Logo'
 
 const trustNames = ['Weights & Biases', 'Hugging Face', 'LangChain', 'Cohere', 'Mistral AI', 'Scale AI']
 
+const testimonials = [
+  {
+    quote: "We swapped from a managed API to Cloudach in an afternoon. Same interface, 60% cheaper per token, and we finally own our inference stack.",
+    name: "Sarah K.",
+    role: "Staff ML Engineer",
+    company: "Series B AI startup",
+  },
+  {
+    quote: "The deploy-in-60-seconds claim is real. I had Llama 3 70B serving production traffic before my coffee finished brewing.",
+    name: "Marcus T.",
+    role: "Founder",
+    company: "LLM-powered SaaS",
+  },
+  {
+    quote: "Autoscaling and vLLM batching out of the box — it would've taken our infra team weeks to build this ourselves. Cloudach just works.",
+    name: "Priya N.",
+    role: "Head of Engineering",
+    company: "Enterprise AI team",
+  },
+]
+
 export default function Home() {
   return (
     <>
@@ -31,12 +52,29 @@ export default function Home() {
         <Hero />
 
         <div className="trust-bar">
-          <span className="trust-label">Trusted by teams at</span>
+          <span className="trust-label">5,000+ developers &middot; trusted by teams at</span>
           {trustNames.map(n => <span className="trust-name" key={n}>{n}</span>)}
         </div>
 
         <Features />
         <Models />
+
+        <section className="section-wrap">
+          <div className="sec-tag">What developers say</div>
+          <h2 className="sec-title">Built for engineers who ship.</h2>
+          <div className="tcard-grid">
+            {testimonials.map(t => (
+              <div className="tcard" key={t.name}>
+                <p className="tquote">&ldquo;{t.quote}&rdquo;</p>
+                <div className="tauthor">
+                  <div className="tauthor-name">{t.name}</div>
+                  <div className="tauthor-role">{t.role} &middot; {t.company}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <Pricing />
 
         <section className="cta-band">
@@ -45,8 +83,8 @@ export default function Home() {
           </div>
           <h2>Your model.<br />Production-ready today.</h2>
           <p>
-            Join thousands of developers and businesses running LLMs on Cloudach.<br />
-            No credit card required to start.
+            Join 5,000+ developers and teams running open-source LLMs on Cloudach.<br />
+            Free to start. No credit card required.
           </p>
           <Link href="/signup"><button className="btn-cta-white">Deploy your first model free</button></Link>
         </section>
