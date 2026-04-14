@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: '/dashboard/models', label: 'Models', icon: IconModels },
   { href: '/dashboard/api-keys', label: 'API Keys', icon: IconKey },
   { href: '/dashboard/usage', label: 'Usage', icon: IconUsage },
+  { href: '/dashboard/team', label: 'Team', icon: IconTeam },
   { href: '/dashboard/settings', label: 'Settings', icon: IconSettings },
 ];
 
@@ -181,6 +182,17 @@ function IconSettings() {
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
       <path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconTeam() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <circle cx="5.5" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
+      <circle cx="11" cy="5" r="2" stroke="currentColor" strokeWidth="1.4"/>
+      <path d="M1 13c0-2.485 2.015-4.5 4.5-4.5S10 10.515 10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M11 8.5c1.657 0 3 1.343 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
     </svg>
   );
 }
