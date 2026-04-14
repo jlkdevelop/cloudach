@@ -9,7 +9,15 @@
 
 const http = require('http');
 
-const MODEL_ID = 'llama3-8b';
+const MODELS = [
+  { id: 'llama3-8b',    root: 'meta-llama/Meta-Llama-3-8B-Instruct' },
+  { id: 'llama3-70b',   root: 'meta-llama/Meta-Llama-3-70B-Instruct' },
+  { id: 'llama31-8b',   root: 'meta-llama/Meta-Llama-3.1-8B-Instruct' },
+  { id: 'llama31-70b',  root: 'meta-llama/Meta-Llama-3.1-70B-Instruct' },
+  { id: 'mistral-7b',   root: 'mistralai/Mistral-7B-Instruct-v0.3' },
+  { id: 'mixtral-8x7b', root: 'mistralai/Mixtral-8x7B-Instruct-v0.1' },
+];
+const DEFAULT_MODEL_ID = process.env.MODEL_ID || 'llama3-8b';
 const PORT = process.env.PORT || 8000;
 
 function jsonBody(res, statusCode, obj) {
@@ -39,7 +47,7 @@ function handleRequest(req, res) {
   if (req.method === 'GET' && url.pathname === '/v1/models') {
     return jsonBody(res, 200, {
       object: 'list',
-      data: [{ id: MODEL_ID, object: 'model', created: 1712000000, owned_by: 'cloudach' }],
+      data: MODELS.map((m) => ({ id: m.id, object: 'model', created: 1712000000, owned_by: 'cloudach' })),
     });
   }
 
@@ -49,6 +57,9 @@ function handleRequest(req, res) {
     req.on('end', () => {
       let body = {};
       try { body = JSON.parse(Buffer.concat(chunks).toString()); } catch (_) {}
+
+      const requestedModel = body.model || DEFAULT_MODEL_ID;
+      const resolvedModel = MODELS.find((m) => m.id === requestedModel) ? requestedModel : DEFAULT_MODEL_ID;
 
       const id = `chatcmpl-mock-${Date.now()}`;
       const created = Math.floor(Date.now() / 1000);
@@ -72,7 +83,7 @@ function handleRequest(req, res) {
 
         // Final chunk with usage
         const finalChunk = {
-          id, object: 'chat.completion.chunk', created, model: MODEL_ID,
+          id, object: 'chat.completion.chunk', created, model: resolvedModel,
           choices: [{ index: 0, delta: {}, finish_reason: 'stop' }],
           usage: { prompt_tokens: 10, completion_tokens: fakeTokens.length, total_tokens: 10 + fakeTokens.length },
         };
@@ -83,12 +94,12 @@ function handleRequest(req, res) {
         const isChatCompletion = url.pathname === '/v1/chat/completions';
         const responseObj = isChatCompletion
           ? {
-              id, object: 'chat.completion', created, model: MODEL_ID,
+              id, object: 'chat.completion', created, model: resolvedModel,
               choices: [{ index: 0, message: { role: 'assistant', content: fakeText }, finish_reason: 'stop' }],
               usage: { prompt_tokens: 10, completion_tokens: fakeTokens.length, total_tokens: 10 + fakeTokens.length },
             }
           : {
-              id, object: 'text_completion', created, model: MODEL_ID,
+              id, object: 'text_completion', created, model: resolvedModel,
               choices: [{ text: fakeText, index: 0, finish_reason: 'stop' }],
               usage: { prompt_tokens: 10, completion_tokens: fakeTokens.length, total_tokens: 10 + fakeTokens.length },
             };

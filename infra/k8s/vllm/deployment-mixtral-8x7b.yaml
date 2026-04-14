@@ -1,25 +1,27 @@
+# vLLM deployment for Mixtral-8x7B-Instruct-v0.1
+# GPU: 2x NVIDIA L4 (tensor-parallel-size=2, ~48GB VRAM total)
+# MoE model: ~46GB in fp16 — requires 2 L4s for comfortable fit
+# Optimal settings: flash-attention-2, continuous batching, chunked prefill
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vllm-llama3-8b
+  name: vllm-mixtral-8x7b
   namespace: cloudach
   labels:
-    app: vllm-llama3-8b
-    model: llama3-8b
+    app: vllm-mixtral-8x7b
+    model: mixtral-8x7b
     component: inference
 spec:
-  replicas: 0  # KEDA ScaledObject manages replicas (infra/k8s/autoscaling/)
+  replicas: 1
   selector:
     matchLabels:
-      app: vllm-llama3-8b
+      app: vllm-mixtral-8x7b
   template:
     metadata:
       labels:
-        app: vllm-llama3-8b
-        model: llama3-8b
-        component: inference  # required by NetworkPolicy selectors
+        app: vllm-mixtral-8x7b
+        model: mixtral-8x7b
     spec:
-      # Prefer GPU nodes
       nodeSelector:
         cloud.google.com/gke-accelerator: nvidia-l4
       tolerations:
@@ -31,19 +33,19 @@ spec:
           image: vllm/vllm-openai:v0.4.2
           args:
             - "--model"
-            - "meta-llama/Meta-Llama-3-8B-Instruct"
+            - "mistralai/Mixtral-8x7B-Instruct-v0.1"
             - "--served-model-name"
-            - "llama3-8b"
+            - "mixtral-8x7b"
             - "--tensor-parallel-size"
-            - "1"
+            - "2"
             - "--max-model-len"
-            - "8192"
+            - "32768"
             - "--port"
             - "8000"
             - "--host"
             - "0.0.0.0"
             - "--gpu-memory-utilization"
-            - "0.90"
+            - "0.92"
             - "--enable-chunked-prefill"
             - "--max-num-batched-tokens"
             - "4096"
@@ -58,61 +60,54 @@ spec:
               name: http
           resources:
             requests:
-              cpu: "4"
-              memory: 16Gi
-              nvidia.com/gpu: "1"
-            limits:
               cpu: "8"
               memory: 32Gi
-              nvidia.com/gpu: "1"
+              nvidia.com/gpu: "2"
+            limits:
+              cpu: "16"
+              memory: 64Gi
+              nvidia.com/gpu: "2"
           readinessProbe:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 10
             failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 120
+            initialDelaySeconds: 180
             periodSeconds: 30
           volumeMounts:
             - name: model-cache
               mountPath: /root/.cache/huggingface
+            - name: shm
+              mountPath: /dev/shm
       volumes:
         - name: model-cache
           persistentVolumeClaim:
             claimName: model-cache-pvc
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 4Gi
       terminationGracePeriodSeconds: 60
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vllm-llama3-8b
+  name: vllm-mixtral-8x7b
   namespace: cloudach
   labels:
-    app: vllm-llama3-8b
-    model: llama3-8b
+    app: vllm-mixtral-8x7b
+    model: mixtral-8x7b
 spec:
   selector:
-    app: vllm-llama3-8b
+    app: vllm-mixtral-8x7b
   ports:
     - port: 8000
       targetPort: 8000
       name: http
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: model-cache-pvc
-  namespace: cloudach
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: premium-rwo
