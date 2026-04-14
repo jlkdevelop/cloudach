@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your model is still waiting</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0f14; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #e2e8f0; }
+    .wrapper { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .logo-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .hero { background: #161b27; border: 1px solid #232b3e; border-radius: 12px; padding: 40px 36px; margin-bottom: 24px; }
+    .hero h1 { font-size: 26px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 16px; letter-spacing: -0.4px; }
+    .hero p { font-size: 15px; line-height: 1.7; color: #94a3b8; margin-bottom: 20px; }
+    .cta-btn { display: inline-block; background: #4F6EF7; color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 8px; }
+    .blocker-card { background: #1a1f2e; border: 1px solid #2a3347; border-left: 3px solid #f59e0b; border-radius: 8px; padding: 20px 24px; margin-bottom: 24px; }
+    .blocker-card h3 { font-size: 13px; font-weight: 600; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .blocker-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .blocker-item:last-child { margin-bottom: 0; }
+    .blocker-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .blocker-item p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+    .blocker-item a { color: #4F6EF7; text-decoration: none; }
+    .code-block { background: #0d0f14; border: 1px solid #232b3e; border-radius: 8px; padding: 16px 20px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #94a3b8; margin: 20px 0; line-height: 1.7; }
+    .code-block .comment { color: #475569; }
+    .code-block .key { color: #4F6EF7; }
+    .code-block .val { color: #34d399; }
+    .stat-row { display: flex; gap: 16px; margin-bottom: 24px; }
+    .stat { flex: 1; background: #161b27; border: 1px solid #232b3e; border-radius: 10px; padding: 20px; text-align: center; }
+    .stat .num { font-size: 24px; font-weight: 700; color: #4F6EF7; margin-bottom: 4px; }
+    .stat .label { font-size: 12px; color: #64748b; line-height: 1.4; }
+    .divider { height: 1px; background: #1e293b; margin: 24px 0; }
+    .footer { text-align: center; padding: 20px 0; }
+    .footer p { font-size: 12px; color: #475569; line-height: 1.6; }
+    .footer a { color: #4F6EF7; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" fill="#4F6EF7" opacity="0.15" stroke="#4F6EF7" stroke-width="1.5"/>
+        <path d="M16 8L22 11.5V18.5L16 22L10 18.5V11.5L16 8Z" fill="#4F6EF7" opacity="0.4"/>
+        <path d="M16 12L19 13.75V17.25L16 19L13 17.25V13.75L16 12Z" fill="#4F6EF7"/>
+      </svg>
+      <span class="logo-text">Cloudach</span>
+    </div>
+
+    <div class="hero">
+      <h1>You signed up yesterday. Your model is still waiting.</h1>
+      <p>
+        You created a Cloudach account 24 hours ago but haven't made your first API call yet. That's the only thing standing between you and a live open-source model endpoint.
+      </p>
+      <p>
+        It takes about 60 seconds. Here's everything you need:
+      </p>
+
+      <div class="code-block">
+        <span class="comment"># 1. Deploy a model from your dashboard</span><br>
+        <span class="comment"># 2. Copy your API key + endpoint URL</span><br>
+        <span class="comment"># 3. Make your first call:</span><br><br>
+        curl https://api.cloudach.com/v1/chat/completions \<br>
+        &nbsp;&nbsp;-H <span class="val">"Authorization: Bearer YOUR_KEY"</span> \<br>
+        &nbsp;&nbsp;-H <span class="val">"Content-Type: application/json"</span> \<br>
+        &nbsp;&nbsp;-d <span class="val">'{"model":"llama-3-70b","messages":[{"role":"user","content":"Hello"}]}'</span>
+      </div>
+
+      <a href="https://cloudach.com/dashboard" class="cta-btn">Deploy your model now →</a>
+    </div>
+
+    <!-- Common blockers -->
+    <div class="blocker-card">
+      <h3>Common questions</h3>
+
+      <div class="blocker-item">
+        <span class="blocker-icon">💳</span>
+        <p><strong style="color:#e2e8f0;">Do I need a credit card?</strong> No. The Starter plan is completely free — no card required until you exceed the free tier limits.</p>
+      </div>
+
+      <div class="blocker-item">
+        <span class="blocker-icon">⚡</span>
+        <p><strong style="color:#e2e8f0;">Which model should I start with?</strong> <a href="https://cloudach.com/models/llama-3-70b">Llama 3 70B</a> for quality, <a href="https://cloudach.com/models/mistral-7b">Mistral 7B</a> for speed. Both are OpenAI-compatible.</p>
+      </div>
+
+      <div class="blocker-item">
+        <span class="blocker-icon">🔌</span>
+        <p><strong style="color:#e2e8f0;">Will it break my existing code?</strong> No. Just change your <code style="background:#0d0f14; padding:2px 6px; border-radius:4px; font-size:12px;">base_url</code>. Same OpenAI SDK, same interface.</p>
+      </div>
+    </div>
+
+    <!-- Social proof stats -->
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">60s</div>
+        <div class="label">Average time from signup to first API call</div>
+      </div>
+      <div class="stat">
+        <div class="num">60%</div>
+        <div class="label">Average token cost savings vs. OpenAI</div>
+      </div>
+      <div class="stat">
+        <div class="num">40+</div>
+        <div class="label">Open-source models ready to deploy</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="footer">
+      <p>
+        Need help? <a href="https://cloudach.com/docs">Read the quickstart</a> or reply to this email.<br>
+        <a href="{{unsubscribe_url}}">Unsubscribe</a> · <a href="https://cloudach.com/privacy">Privacy Policy</a>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

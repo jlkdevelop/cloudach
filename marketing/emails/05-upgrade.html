@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You've been on Cloudach for 2 weeks</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0f14; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #e2e8f0; }
+    .wrapper { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .logo-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .header { margin-bottom: 28px; }
+    .header .tag { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #34d399; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); border-radius: 20px; padding: 4px 12px; margin-bottom: 14px; }
+    .header h1 { font-size: 26px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; letter-spacing: -0.4px; }
+    .header p { font-size: 15px; line-height: 1.7; color: #94a3b8; }
+    .compare-table { background: #161b27; border: 1px solid #232b3e; border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+    .compare-header { display: grid; grid-template-columns: 2fr 1fr 1fr; background: #1a2035; padding: 12px 20px; border-bottom: 1px solid #232b3e; }
+    .compare-header span { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .compare-header .highlight-col { color: #4F6EF7; }
+    .compare-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 14px 20px; border-bottom: 1px solid #1e293b; }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row span { font-size: 13px; color: #94a3b8; display: flex; align-items: center; }
+    .compare-row .feature-name { color: #e2e8f0; }
+    .check { color: #34d399; font-size: 15px; }
+    .dash { color: #2a3347; font-size: 15px; }
+    .pro-highlight { background: rgba(79,110,247,0.05); }
+    .pricing-card { background: linear-gradient(135deg, #1a2035 0%, #1e2840 100%); border: 1px solid #4F6EF7; border-radius: 12px; padding: 32px; margin-bottom: 24px; text-align: center; position: relative; overflow: hidden; }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #4F6EF7, #818cf8); }
+    .pricing-card .badge { display: inline-block; background: rgba(79,110,247,0.2); color: #818cf8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
+    .pricing-card h2 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; }
+    .pricing-card .subtitle { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+    .price-display { margin-bottom: 20px; }
+    .price-display .amount { font-size: 48px; font-weight: 800; color: #fff; letter-spacing: -2px; }
+    .price-display .period { font-size: 16px; color: #64748b; }
+    .price-display .tokens { font-size: 13px; color: #4F6EF7; margin-top: 4px; }
+    .cta-btn { display: inline-block; background: #4F6EF7; color: #fff; text-decoration: none; font-size: 15px; font-weight: 700; padding: 14px 36px; border-radius: 8px; margin-bottom: 12px; }
+    .cta-sub { font-size: 12px; color: #475569; }
+    .testimonial { background: #161b27; border: 1px solid #232b3e; border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+    .testimonial blockquote { font-size: 14px; font-style: italic; color: #94a3b8; line-height: 1.7; margin-bottom: 10px; }
+    .testimonial .attr { font-size: 12px; color: #475569; }
+    .testimonial .attr strong { color: #64748b; }
+    .faq { background: #161b27; border: 1px solid #232b3e; border-radius: 12px; padding: 24px 28px; margin-bottom: 24px; }
+    .faq h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+    .faq-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #1e293b; }
+    .faq-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .faq-item strong { display: block; font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
+    .faq-item p { font-size: 12px; color: #64748b; line-height: 1.6; }
+    .divider { height: 1px; background: #1e293b; margin: 24px 0; }
+    .footer { text-align: center; padding: 20px 0; }
+    .footer p { font-size: 12px; color: #475569; line-height: 1.6; }
+    .footer a { color: #4F6EF7; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" fill="#4F6EF7" opacity="0.15" stroke="#4F6EF7" stroke-width="1.5"/>
+        <path d="M16 8L22 11.5V18.5L16 22L10 18.5V11.5L16 8Z" fill="#4F6EF7" opacity="0.4"/>
+        <path d="M16 12L19 13.75V17.25L16 19L13 17.25V13.75L16 12Z" fill="#4F6EF7"/>
+      </svg>
+      <span class="logo-text">Cloudach</span>
+    </div>
+
+    <div class="header">
+      <div class="tag">Day 14</div>
+      <h1>You've been on Cloudach for 2 weeks. Here's what unlocks next.</h1>
+      <p>You've seen what Cloudach can do on the free tier. If you're using it for anything real, upgrading to Pro pays for itself the moment you exceed ~330M tokens per month.</p>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="compare-table">
+      <div class="compare-header">
+        <span></span>
+        <span>Starter</span>
+        <span class="highlight-col">Pro</span>
+      </div>
+
+      <div class="compare-row">
+        <span class="feature-name">Active deployments</span>
+        <span>1</span>
+        <span class="check">10</span>
+      </div>
+      <div class="compare-row pro-highlight">
+        <span class="feature-name">Token price</span>
+        <span>$0.20/M</span>
+        <span class="check">$0.15/M</span>
+      </div>
+      <div class="compare-row">
+        <span class="feature-name">GPU infrastructure</span>
+        <span>Shared</span>
+        <span class="check">Dedicated</span>
+      </div>
+      <div class="compare-row pro-highlight">
+        <span class="feature-name">Autoscaling</span>
+        <span class="dash">—</span>
+        <span class="check">✓</span>
+      </div>
+      <div class="compare-row">
+        <span class="feature-name">Fine-tuning</span>
+        <span class="dash">—</span>
+        <span class="check">✓</span>
+      </div>
+      <div class="compare-row pro-highlight">
+        <span class="feature-name">Usage dashboard + logs</span>
+        <span class="dash">—</span>
+        <span class="check">✓</span>
+      </div>
+      <div class="compare-row">
+        <span class="feature-name">Support</span>
+        <span>Community</span>
+        <span class="check">Priority</span>
+      </div>
+    </div>
+
+    <!-- Pricing card -->
+    <div class="pricing-card">
+      <div class="badge">Most popular</div>
+      <h2>Pro</h2>
+      <div class="subtitle">For production apps and growing teams.</div>
+      <div class="price-display">
+        <span class="amount">$49</span>
+        <span class="period">/month</span>
+        <div class="tokens">+ $0.15 per million tokens</div>
+      </div>
+      <a href="https://cloudach.com/upgrade" class="cta-btn">Upgrade to Pro →</a>
+      <div class="cta-sub">14-day free trial. Cancel anytime.</div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="testimonial">
+      <blockquote>
+        "We swapped from a managed API to Cloudach in an afternoon. Same interface, 60% cheaper per token, and we finally own our inference stack."
+      </blockquote>
+      <div class="attr"><strong>Sarah K.</strong> — Staff ML Engineer, Series B AI startup</div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq">
+      <h3>Common questions</h3>
+
+      <div class="faq-item">
+        <strong>When does upgrading make financial sense?</strong>
+        <p>If you're running more than ~330M tokens/month, the $0.05/M token savings on Pro ($0.15 vs $0.20) covers the $49/month base fee. At 500M tokens/month that's $25 net savings.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Can I cancel at any time?</strong>
+        <p>Yes. Cancel from the dashboard and you won't be charged again. Your deployments stay active until end of the billing period.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>What if I need more than 10 deployments or enterprise compliance?</strong>
+        <p>Contact us about Enterprise — private VPC, unlimited deployments, HIPAA/SOC 2/GDPR, and a dedicated solutions engineer.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="footer">
+      <p>
+        Questions about upgrading? <a href="mailto:sales@cloudach.com">Email our team</a> or <a href="https://cloudach.com/docs/pricing">read the pricing FAQ</a>.<br>
+        <a href="{{unsubscribe_url}}">Unsubscribe</a> · <a href="https://cloudach.com/privacy">Privacy Policy</a>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

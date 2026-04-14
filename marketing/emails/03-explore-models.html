@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>40+ models. Which one fits your workload?</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0f14; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #e2e8f0; }
+    .wrapper { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .logo-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .header { margin-bottom: 28px; }
+    .header .tag { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #4F6EF7; background: rgba(79,110,247,0.12); border: 1px solid rgba(79,110,247,0.25); border-radius: 20px; padding: 4px 12px; margin-bottom: 14px; }
+    .header h1 { font-size: 26px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; letter-spacing: -0.4px; }
+    .header p { font-size: 15px; line-height: 1.7; color: #94a3b8; }
+    .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .model-card { background: #161b27; border: 1px solid #232b3e; border-radius: 10px; padding: 20px; }
+    .model-card:hover { border-color: #4F6EF7; }
+    .model-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; }
+    .badge-blue { background: rgba(79,110,247,0.15); color: #4F6EF7; }
+    .badge-green { background: rgba(52,211,153,0.15); color: #34d399; }
+    .badge-orange { background: rgba(251,146,60,0.15); color: #fb923c; }
+    .badge-purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
+    .model-card h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .model-card p { font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px; }
+    .model-meta { display: flex; justify-content: space-between; font-size: 11px; color: #475569; }
+    .model-meta .price { color: #34d399; font-weight: 600; }
+    .usecase-section { background: #161b27; border: 1px solid #232b3e; border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; }
+    .usecase-section h2 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 20px; }
+    .usecase { display: flex; gap: 14px; margin-bottom: 16px; }
+    .usecase:last-child { margin-bottom: 0; }
+    .usecase-icon { font-size: 20px; flex-shrink: 0; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #1e2a42; border-radius: 8px; }
+    .usecase-body strong { display: block; font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 2px; }
+    .usecase-body span { font-size: 12px; color: #64748b; }
+    .cta-section { text-align: center; background: linear-gradient(135deg, #1e2a42 0%, #161b27 100%); border: 1px solid #2a3347; border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+    .cta-section h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .cta-section p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+    .cta-btn { display: inline-block; background: #4F6EF7; color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 8px; }
+    .divider { height: 1px; background: #1e293b; margin: 24px 0; }
+    .footer { text-align: center; padding: 20px 0; }
+    .footer p { font-size: 12px; color: #475569; line-height: 1.6; }
+    .footer a { color: #4F6EF7; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" fill="#4F6EF7" opacity="0.15" stroke="#4F6EF7" stroke-width="1.5"/>
+        <path d="M16 8L22 11.5V18.5L16 22L10 18.5V11.5L16 8Z" fill="#4F6EF7" opacity="0.4"/>
+        <path d="M16 12L19 13.75V17.25L16 19L13 17.25V13.75L16 12Z" fill="#4F6EF7"/>
+      </svg>
+      <span class="logo-text">Cloudach</span>
+    </div>
+
+    <div class="header">
+      <div class="tag">Day 3</div>
+      <h1>40+ models. Which one fits your workload?</h1>
+      <p>You've been on Cloudach for 3 days. Here's a quick guide to the most popular models and which tasks they're best for — so you're not guessing.</p>
+    </div>
+
+    <!-- Model cards -->
+    <div class="model-grid">
+      <div class="model-card">
+        <div class="model-badge badge-blue">Most popular</div>
+        <h3>Llama 3 70B</h3>
+        <p>Best all-around quality. Matches GPT-4o on most coding and reasoning tasks.</p>
+        <div class="model-meta">
+          <span>70B params</span>
+          <span class="price">$0.15/M tokens</span>
+        </div>
+      </div>
+
+      <div class="model-card">
+        <div class="model-badge badge-green">Fastest</div>
+        <h3>Mistral 7B</h3>
+        <p>Ultra-low latency. Great for streaming responses and chatbots.</p>
+        <div class="model-meta">
+          <span>7B params</span>
+          <span class="price">$0.05/M tokens</span>
+        </div>
+      </div>
+
+      <div class="model-card">
+        <div class="model-badge badge-orange">Coding</div>
+        <h3>DeepSeek Coder</h3>
+        <p>Outperforms GPT-4 on HumanEval. Purpose-built for code generation.</p>
+        <div class="model-meta">
+          <span>33B params</span>
+          <span class="price">$0.10/M tokens</span>
+        </div>
+      </div>
+
+      <div class="model-card">
+        <div class="model-badge badge-purple">Long context</div>
+        <h3>Qwen 2.5 72B</h3>
+        <p>128K context window. Ideal for document analysis and RAG pipelines.</p>
+        <div class="model-meta">
+          <span>72B params</span>
+          <span class="price">$0.15/M tokens</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use case guide -->
+    <div class="usecase-section">
+      <h2>Match model to use case</h2>
+
+      <div class="usecase">
+        <div class="usecase-icon">🤖</div>
+        <div class="usecase-body">
+          <strong>Chatbots &amp; assistants</strong>
+          <span>Mistral 7B (fast) or Llama 3 70B (high quality) — both handle conversation well</span>
+        </div>
+      </div>
+
+      <div class="usecase">
+        <div class="usecase-icon">💻</div>
+        <div class="usecase-body">
+          <strong>Code generation &amp; review</strong>
+          <span>DeepSeek Coder 33B or Llama 3 70B — both beat GPT-3.5 on most benchmarks</span>
+        </div>
+      </div>
+
+      <div class="usecase">
+        <div class="usecase-icon">📄</div>
+        <div class="usecase-body">
+          <strong>Document summarization &amp; RAG</strong>
+          <span>Qwen 2.5 72B with 128K context — handles entire PDFs without chunking tricks</span>
+        </div>
+      </div>
+
+      <div class="usecase">
+        <div class="usecase-icon">🔬</div>
+        <div class="usecase-body">
+          <strong>Data extraction &amp; structured output</strong>
+          <span>Llama 3 70B with JSON mode — reliable structured output at scale</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <h2>Browse the full model library</h2>
+      <p>40+ models, benchmarks, pricing, and one-click deploy.</p>
+      <a href="https://cloudach.com/models" class="cta-btn">Explore models →</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="footer">
+      <p>
+        <a href="https://cloudach.com/docs/models">Model comparison docs</a> · <a href="https://discord.gg/cloudach">Discord</a><br>
+        <a href="{{unsubscribe_url}}">Unsubscribe</a> · <a href="https://cloudach.com/privacy">Privacy Policy</a>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

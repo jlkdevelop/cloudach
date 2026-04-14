@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Cloudach</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0f14; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #e2e8f0; }
+    .wrapper { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+    .logo-mark { width: 32px; height: 32px; }
+    .logo-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .hero { background: #161b27; border: 1px solid #232b3e; border-radius: 12px; padding: 40px 36px; margin-bottom: 24px; }
+    .hero h1 { font-size: 28px; font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .hero p { font-size: 15px; line-height: 1.7; color: #94a3b8; margin-bottom: 24px; }
+    .cta-btn { display: inline-block; background: #4F6EF7; color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 8px; letter-spacing: 0.1px; }
+    .steps { background: #161b27; border: 1px solid #232b3e; border-radius: 12px; padding: 28px 36px; margin-bottom: 24px; }
+    .steps h2 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 20px; }
+    .step { display: flex; gap: 16px; margin-bottom: 16px; }
+    .step:last-child { margin-bottom: 0; }
+    .step-num { width: 24px; height: 24px; background: #1e2a42; border: 1px solid #4F6EF7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #4F6EF7; flex-shrink: 0; margin-top: 1px; }
+    .step-body strong { display: block; font-size: 14px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
+    .step-body span { font-size: 13px; color: #64748b; line-height: 1.5; }
+    .code-block { background: #0d0f14; border: 1px solid #232b3e; border-radius: 8px; padding: 16px 20px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #94a3b8; margin: 20px 0; overflow-x: auto; }
+    .code-block .comment { color: #475569; }
+    .code-block .keyword { color: #4F6EF7; }
+    .code-block .string { color: #34d399; }
+    .divider { height: 1px; background: #1e293b; margin: 24px 0; }
+    .footer { text-align: center; padding: 20px 0; }
+    .footer p { font-size: 12px; color: #475569; line-height: 1.6; }
+    .footer a { color: #4F6EF7; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Logo -->
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" fill="#4F6EF7" opacity="0.15" stroke="#4F6EF7" stroke-width="1.5"/>
+        <path d="M16 8L22 11.5V18.5L16 22L10 18.5V11.5L16 8Z" fill="#4F6EF7" opacity="0.4"/>
+        <path d="M16 12L19 13.75V17.25L16 19L13 17.25V13.75L16 12Z" fill="#4F6EF7"/>
+      </svg>
+      <span class="logo-text">Cloudach</span>
+    </div>
+
+    <!-- Hero card -->
+    <div class="hero">
+      <h1>Your model is one command away.</h1>
+      <p>
+        Welcome to Cloudach. You now have access to 40+ open-source models, dedicated GPU infrastructure, and an OpenAI-compatible API — no infra work required.
+      </p>
+      <p>
+        Most developers make their first API call within 5 minutes of signing up. Let's get yours done now.
+      </p>
+      <a href="https://cloudach.com/dashboard" class="cta-btn">Open your dashboard →</a>
+    </div>
+
+    <!-- Getting started steps -->
+    <div class="steps">
+      <h2>Get running in 60 seconds</h2>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Pick a model</strong>
+          <span>Choose from Llama 3, Mistral, Qwen, DeepSeek, and 40+ others — or paste any HuggingFace URL.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Deploy in ~30 seconds</strong>
+          <span>Select GPU tier, region, and autoscaling policy. Your model goes live instantly.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Swap your base URL</strong>
+          <span>One line change in your existing code. Same OpenAI SDK, your model, your endpoint.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code snippet -->
+    <div class="code-block">
+      <div class="comment"># Before (OpenAI)</div>
+      client = OpenAI(<span class="keyword">base_url</span>=<span class="string">"https://api.openai.com/v1"</span>)<br><br>
+      <div class="comment"># After (Cloudach — same SDK)</div>
+      client = OpenAI(<span class="keyword">base_url</span>=<span class="string">"https://api.cloudach.com/v1"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">api_key</span>=<span class="string">"YOUR_API_KEY"</span>)
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="footer">
+      <p>
+        Questions? Reply to this email or join our <a href="https://discord.gg/cloudach">Discord community</a>.<br>
+        You're receiving this because you signed up for Cloudach.<br>
+        <a href="{{unsubscribe_url}}">Unsubscribe</a> · <a href="https://cloudach.com/privacy">Privacy Policy</a>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>
