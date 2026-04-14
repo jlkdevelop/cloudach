@@ -3,10 +3,14 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 const MODELS = [
-  { id: 'llama3-8b',    name: 'Llama 3 8B',      ctx: '8K',  best: 'Fast chat, Q&A, summarization' },
-  { id: 'llama3-70b',   name: 'Llama 3 70B',     ctx: '8K',  best: 'Complex reasoning, analysis' },
-  { id: 'mistral-7b',   name: 'Mistral 7B',      ctx: '32K', best: 'Long context, code, EU-hosted' },
-  { id: 'mixtral-8x7b', name: 'Mixtral 8×7B',   ctx: '32K', best: 'Best accuracy, complex tasks' },
+  { id: 'llama3-8b',      name: 'Llama 3 8B',      ctx: '8K',   best: 'Fast chat, Q&A, summarization' },
+  { id: 'llama3-70b',     name: 'Llama 3 70B',     ctx: '8K',   best: 'Complex reasoning, analysis' },
+  { id: 'llama31-8b',     name: 'Llama 3.1 8B',    ctx: '128K', best: 'Long-context chat, fast inference' },
+  { id: 'llama31-70b',    name: 'Llama 3.1 70B',   ctx: '128K', best: 'State-of-the-art open model, long context' },
+  { id: 'mistral-7b',     name: 'Mistral 7B',      ctx: '32K',  best: 'Long context, code, EU-hosted' },
+  { id: 'mixtral-8x7b',  name: 'Mixtral 8\xd77B', ctx: '32K',  best: 'Best accuracy, complex tasks' },
+  { id: 'command-r-plus', name: 'Command R+',       ctx: '128K', best: 'RAG, tool use, multi-step agents' },
+  { id: 'dbrx',           name: 'DBRX',            ctx: '32K',  best: 'Coding, reasoning, MoE efficiency' },
 ];
 
 export default function DocsPage() {
@@ -59,6 +63,7 @@ export default function DocsPage() {
                 ['#rate-limits', 'Rate Limits'],
                 ['#errors', 'Error Codes'],
                 ['#sdks', 'SDK Compatibility'],
+                ['#integrations', 'Integrations'],
                 ['#tutorials', 'Tutorials'],
                 ['#faq', 'FAQ'],
               ].map(([href, label]) => (

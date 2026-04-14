@@ -1,0 +1,22 @@
+# vLLM configuration — command-r-plus
+# Model: CohereForAI/c4ai-command-r-plus
+# Hardware target: 4× NVIDIA A100 80 GB
+# Notes: 104B parameter MoE-style model; requires tensor parallelism across 4 GPUs.
+
+model: CohereForAI/c4ai-command-r-plus
+served_model_name: command-r-plus
+tokenizer: CohereForAI/c4ai-command-r-plus
+tokenizer_mode: auto
+
+tensor_parallel_size: 4
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+max_model_len: 128000
+max_num_batched_tokens: 4096
+max_num_seqs: 64
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

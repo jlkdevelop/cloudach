@@ -1,0 +1,24 @@
+# vLLM configuration — dbrx
+# Model: databricks/dbrx-instruct
+# Hardware target: 4× NVIDIA A100 80 GB
+# Notes: 132B MoE model (36B active params per forward pass).
+# Requires bfloat16 and at least 4× 80GB for comfortable inference.
+
+model: databricks/dbrx-instruct
+served_model_name: dbrx
+tokenizer: databricks/dbrx-instruct
+tokenizer_mode: auto
+dtype: bfloat16
+
+tensor_parallel_size: 4
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.92
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 64
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

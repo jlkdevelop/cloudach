@@ -5,6 +5,13 @@ import Link from 'next/link'
 
 const posts = [
   {
+    date: 'Apr 14, 2026',
+    tag: 'Product',
+    title: 'New models on Cloudach: Llama 3.1, Command R+, and DBRX',
+    desc: 'Four new models are now available — Llama 3.1 8B and 70B with 128K context, Cohere Command R+ for RAG and agents, and Databricks DBRX for coding and reasoning.',
+    slug: '/blog/new-models-llama31-command-r-plus-dbrx',
+  },
+  {
     date: 'Apr 10, 2026',
     tag: 'Engineering',
     title: 'How we achieve sub-100ms TTFT on Llama 3 with vLLM',
