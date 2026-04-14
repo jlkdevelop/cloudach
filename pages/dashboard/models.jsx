@@ -107,6 +107,14 @@ function ModelCard({ model, onDeploy, onStop, isDeploying }) {
 
       <p className="db-model-desc">{model.description}</p>
 
+      {model.latency && (
+        <div style={{ display: 'flex', gap: 16, marginBottom: 8, fontSize: 12, color: '#6B7280' }}>
+          <span title="Requests in last 24h">{model.latency.requestCount24h} req/24h</span>
+          <span title="Average latency">avg {model.latency.avgLatencyMs}ms</span>
+          <span title="P95 latency">p95 {model.latency.p95LatencyMs}ms</span>
+        </div>
+      )}
+
       {model.tags?.length > 0 && (
         <div className="db-model-tags">
           {model.tags.map(t => <span key={t} className="db-tag">{t}</span>)}
