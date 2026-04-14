@@ -366,6 +366,35 @@ for await (const chunk of stream) {
 }`}</CodeBlock>
             </Section>
 
+            {/* ── Integrations ── */}
+            <Section id="integrations" title="Integrations">
+              <p style={p}>Use Cloudach with popular LLM frameworks. Drop-in compatible — change the base URL and API key, nothing else.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {[
+                  {
+                    href: '/tutorials/langchain',
+                    title: 'LangChain',
+                    desc: 'Use Cloudach as a ChatOpenAI provider. Covers basic chat, streaming, and LCEL chains.',
+                    badge: 'Python',
+                  },
+                  {
+                    href: '/tutorials/llamaindex',
+                    title: 'LlamaIndex',
+                    desc: 'Use Cloudach as the LLM backend in LlamaIndex. Covers completions, chat, streaming, and RAG pipelines.',
+                    badge: 'Python',
+                  },
+                ].map(t => (
+                  <a key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
+                  </a>
+                ))}
+              </div>
+            </Section>
+
             {/* ── Tutorials ── */}
             <Section id="tutorials" title="Tutorials">
               <p style={p}>Step-by-step guides for common use cases.</p>
