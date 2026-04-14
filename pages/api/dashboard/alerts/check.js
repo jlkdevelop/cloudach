@@ -12,6 +12,7 @@
 import { requireAuth } from '../../../../lib/auth';
 import { getDb } from '../../../../lib/db';
 import { dispatchWebhookEvent } from '../../../../lib/webhooks';
+import { sendAlertEmail } from '../../../../lib/email';
 
 export default requireAuth(async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -89,6 +90,19 @@ export default requireAuth(async function handler(req, res) {
        WHERE user_id = $1 AND revoked_at IS NULL`,
       [userId]
     );
+  }
+
+  // Send email notifications (fire-and-forget — one email per threshold crossed)
+  if (cfg.notify_email && userEmail) {
+    newlyTriggered.forEach((t) => {
+      sendAlertEmail({
+        to: userEmail,
+        thresholdPct: t,
+        spend,
+        budget,
+        hardCapApplied: capTriggered && t === 100,
+      }).catch(() => {});
+    });
   }
 
   // Fire webhook events for each threshold (fire-and-forget)

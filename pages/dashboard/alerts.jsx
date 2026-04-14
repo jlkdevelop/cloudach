@@ -26,13 +26,24 @@ export default function AlertsPage() {
   const [history, setHistory] = useState([]);
   const [currentSpend, setCurrentSpend] = useState(null);
 
+  // Per-model limits state
+  const [modelLimits, setModelLimits] = useState([]);
+  const [availableModels, setAvailableModels] = useState([]);
+  const [newModelId, setNewModelId] = useState('');
+  const [newModelLimit, setNewModelLimit] = useState('');
+  const [savingModel, setSavingModel] = useState(false);
+  const [deletingModel, setDeletingModel] = useState(null);
+
   const loadData = useCallback(async () => {
-    const res = await fetch('/api/dashboard/alerts');
-    if (!res.ok) {
+    const [alertsRes, limitsRes] = await Promise.all([
+      fetch('/api/dashboard/alerts'),
+      fetch('/api/dashboard/alerts/model-limits'),
+    ]);
+    if (!alertsRes.ok) {
       setError('Failed to load alert configuration.');
       return;
     }
-    const data = await res.json();
+    const data = await alertsRes.json();
     setCurrentSpend(data.currentMonthSpend ?? null);
     setHistory(data.history || []);
     if (data.config) {
@@ -44,14 +55,25 @@ export default function AlertsPage() {
     } else {
       setHasConfig(false);
     }
+    if (limitsRes.ok) {
+      const limitsData = await limitsRes.json();
+      setModelLimits(limitsData.limits || []);
+    }
   }, []);
 
   useEffect(() => {
     async function init() {
       try {
-        const meRes = await fetch('/api/auth/me');
+        const [meRes, modelsRes] = await Promise.all([
+          fetch('/api/auth/me'),
+          fetch('/api/dashboard/models'),
+        ]);
         if (!meRes.ok) { router.replace('/login'); return; }
         setUser((await meRes.json()).user);
+        if (modelsRes.ok) {
+          const md = await modelsRes.json();
+          setAvailableModels((md.models || []).map((m) => ({ id: m.id, name: m.name || m.id })));
+        }
         await loadData();
       } catch {
         setError('Network error. Please check your connection and refresh.');
@@ -125,6 +147,44 @@ export default function AlertsPage() {
     setThresholds((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t].sort((a, b) => a - b)
     );
+  }
+
+  async function handleAddModelLimit(e) {
+    e.preventDefault();
+    if (!newModelId || !newModelLimit) return;
+    setSavingModel(true);
+    setError('');
+    try {
+      const res = await fetch('/api/dashboard/alerts/model-limits', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modelId: newModelId, limitUsd: parseFloat(newModelLimit) }),
+      });
+      if (!res.ok) {
+        const d = await res.json();
+        setError(d.error || 'Failed to save model limit.');
+      } else {
+        setNewModelId('');
+        setNewModelLimit('');
+        await loadData();
+      }
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setSavingModel(false);
+    }
+  }
+
+  async function handleDeleteModelLimit(modelId) {
+    setDeletingModel(modelId);
+    try {
+      await fetch(`/api/dashboard/alerts/model-limits?modelId=${encodeURIComponent(modelId)}`, { method: 'DELETE' });
+      await loadData();
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setDeletingModel(null);
+    }
   }
 
   if (loading || !user) return <PageLoader />;
@@ -370,6 +430,134 @@ export default function AlertsPage() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Per-model spending limits */}
+        <div className="db-card" style={{ marginTop: 24 }}>
+          <div className="db-card-header">
+            <span className="db-card-title">Per-model spending limits</span>
+            <span style={{ fontSize: 12, color: '#9CA3AF' }}>Block a model when its monthly spend exceeds a cap</span>
+          </div>
+
+          {/* Existing limits */}
+          {modelLimits.length > 0 && (
+            <div style={{ marginBottom: 20 }}>
+              {modelLimits.map((lim) => {
+                const pct = lim.limitUsd > 0 ? Math.min((lim.spendThisMonth / lim.limitUsd) * 100, 100) : 0;
+                const barColor = pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : '#4F6EF7';
+                return (
+                  <div key={lim.modelId} style={{
+                    padding: '14px 0',
+                    borderBottom: '1px solid #F3F4F6',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                      <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: '#111827', fontFamily: 'monospace' }}>
+                        {lim.modelId}
+                      </span>
+                      <span style={{ fontSize: 13, color: '#6B7280' }}>
+                        {formatCost(lim.spendThisMonth)} / {formatCost(lim.limitUsd)}
+                      </span>
+                      <button
+                        onClick={() => handleDeleteModelLimit(lim.modelId)}
+                        disabled={deletingModel === lim.modelId}
+                        style={{
+                          background: 'none', border: 'none', cursor: 'pointer',
+                          color: '#9CA3AF', padding: '2px 6px', fontSize: 16, lineHeight: 1,
+                        }}
+                        title="Remove limit"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    <div style={{ height: 6, background: '#F3F4F6', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%', width: `${pct}%`, background: barColor,
+                        borderRadius: 3, transition: 'width 0.4s ease',
+                      }} />
+                    </div>
+                    {pct >= 100 && (
+                      <div style={{ fontSize: 11, color: '#DC2626', marginTop: 4, fontWeight: 600 }}>
+                        Limit reached — model blocked for this billing period
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Add new model limit */}
+          <form onSubmit={handleAddModelLimit} style={{ display: 'flex', gap: 10, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+            <div style={{ flex: '1 1 220px' }}>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 5 }}>
+                Model
+              </label>
+              {availableModels.length > 0 ? (
+                <select
+                  value={newModelId}
+                  onChange={(e) => setNewModelId(e.target.value)}
+                  style={{
+                    width: '100%', padding: '9px 12px', border: '1px solid #E5E7EB',
+                    borderRadius: 8, fontSize: 13, background: '#FAFAFA', outline: 'none',
+                  }}
+                >
+                  <option value="">Select a model…</option>
+                  {availableModels.map((m) => (
+                    <option key={m.id} value={m.id}>{m.name}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  placeholder="e.g. llama-3-70b-instruct"
+                  value={newModelId}
+                  onChange={(e) => setNewModelId(e.target.value)}
+                  style={{
+                    width: '100%', padding: '9px 12px', border: '1px solid #E5E7EB',
+                    borderRadius: 8, fontSize: 13, background: '#FAFAFA', outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              )}
+            </div>
+            <div style={{ flex: '0 1 140px' }}>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 5 }}>
+                Monthly cap (USD)
+              </label>
+              <div style={{ position: 'relative' }}>
+                <span style={{
+                  position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)',
+                  color: '#9CA3AF', fontSize: 13,
+                }}>$</span>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="50.00"
+                  value={newModelLimit}
+                  onChange={(e) => setNewModelLimit(e.target.value)}
+                  style={{
+                    width: '100%', padding: '9px 10px 9px 22px', border: '1px solid #E5E7EB',
+                    borderRadius: 8, fontSize: 13, background: '#FAFAFA', outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={savingModel || !newModelId || !newModelLimit}
+              className="db-btn db-btn--primary"
+              style={{ flexShrink: 0 }}
+            >
+              {savingModel ? 'Saving…' : 'Add limit'}
+            </button>
+          </form>
+
+          <p style={{ margin: '12px 0 0', fontSize: 12, color: '#9CA3AF' }}>
+            When a model&apos;s monthly spend reaches its cap, API requests to that model return a
+            {' '}<code style={{ fontSize: 11 }}>429 spending_limit_exceeded</code> error until the next billing cycle.
+          </p>
         </div>
 
         {/* Email template preview */}
