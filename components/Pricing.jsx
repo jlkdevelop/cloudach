@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const CheckIcon = () => (
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style={{ flexShrink: 0 }}>
     <path d="M2.5 7.5l3.5 3.5 6.5-6.5" stroke="#4F6EF7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -12,6 +14,7 @@ const plans = [
     unit: '+ $0.20 / million tokens',
     features: ['1 active deployment', 'Shared GPU infrastructure', 'OpenAI-compatible API', 'Community support'],
     cta: 'Get started free',
+    href: '/signup',
     featured: false,
   },
   {
@@ -21,6 +24,7 @@ const plans = [
     unit: 'per month + $0.15 / million tokens',
     features: ['10 active deployments', 'Dedicated GPU instances', 'Autoscaling + fine-tuning', 'Usage dashboard + logs', 'Priority support'],
     cta: 'Start free trial',
+    href: '/signup',
     featured: true,
   },
   {
@@ -30,6 +34,7 @@ const plans = [
     unit: 'Volume discounts · dedicated team',
     features: ['Unlimited deployments', 'Private VPC + air-gap', '99.9% SLA guarantee', 'HIPAA · SOC 2 · GDPR', 'Dedicated solutions engineer'],
     cta: 'Contact sales',
+    href: null,
     featured: false,
   },
 ]
@@ -84,7 +89,10 @@ export default function Pricing() {
                     <li key={f}><CheckIcon />{f}</li>
                   ))}
                 </ul>
-                <button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button>
+                {plan.href
+                  ? <Link href={plan.href}><button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button></Link>
+                  : <button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button>
+                }
               </div>
             ))}
           </div>

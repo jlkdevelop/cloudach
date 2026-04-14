@@ -3,19 +3,26 @@
 const http = require('http');
 const https = require('https');
 
-const VLLM_BASE_URL = process.env.VLLM_BASE_URL || 'http://vllm-llama3-8b:8000';
-const parsed = new URL(VLLM_BASE_URL);
-const isHttps = parsed.protocol === 'https:';
-const transport = isHttps ? https : http;
+const DEFAULT_BASE_URL = process.env.VLLM_BASE_URL || 'http://vllm-mock:8000';
 
 /**
- * Forward a request body to the vLLM backend and pipe the response back.
+ * Forward a request body to a vLLM-compatible backend and pipe the response back.
  *
  * Handles both streaming (SSE) and non-streaming JSON responses.
  * Returns a Promise that resolves to { usage } so callers can track tokens.
+ *
+ * @param {import('express').Request}  req
+ * @param {import('express').Response} res
+ * @param {string} vllmPath    - e.g. '/v1/chat/completions'
+ * @param {object} [bodyOverrides] - extra fields merged into the request body
+ * @param {string} [baseUrl]   - override the backend base URL (defaults to VLLM_BASE_URL env)
  */
-function proxyToVllm(req, res, vllmPath, bodyOverrides = {}) {
+function proxyToVllm(req, res, vllmPath, bodyOverrides = {}, baseUrl = DEFAULT_BASE_URL) {
   return new Promise((resolve, reject) => {
+    const parsed = new URL(baseUrl);
+    const isHttps = parsed.protocol === 'https:';
+    const transport = isHttps ? https : http;
+
     const body = JSON.stringify({ ...req.body, ...bodyOverrides });
 
     const options = {
@@ -76,8 +83,8 @@ function proxyToVllm(req, res, vllmPath, bodyOverrides = {}) {
           res.send(raw);
           let usage = null;
           try {
-            const parsed = JSON.parse(raw.toString());
-            usage = parsed.usage ?? null;
+            const parsed2 = JSON.parse(raw.toString());
+            usage = parsed2.usage ?? null;
           } catch (_) {}
           resolve({ usage });
         });

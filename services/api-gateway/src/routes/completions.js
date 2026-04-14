@@ -1,11 +1,12 @@
 'use strict';
 
 const { Router } = require('express');
-const { proxyToVllm } = require('../lib/vllmProxy');
+const { getBackend } = require('../lib/inference');
+const { logUsage } = require('../lib/usageLogger');
 
 const completionsRouter = Router();
 
-const ALLOWED_MODELS = new Set(['llama3-8b']);
+const ALLOWED_MODELS = new Set(['llama3-8b', 'llama3-70b', 'mistral-7b', 'mixtral-8x7b', 'codellama-13b', 'gemma-7b']);
 
 // Legacy text completions endpoint (OpenAI /v1/completions)
 completionsRouter.post('/', async (req, res) => {
@@ -36,10 +37,22 @@ completionsRouter.post('/', async (req, res) => {
     });
   }
 
+  const startMs = Date.now();
   try {
-    const { usage } = await proxyToVllm(req, res, '/v1/completions');
-    if (usage && req.trackTokens) {
-      await req.trackTokens(usage.prompt_tokens ?? 0, usage.completion_tokens ?? 0);
+    const { usage } = await getBackend().completions(req, res, model);
+    const latencyMs = Date.now() - startMs;
+
+    if (usage) {
+      if (req.trackTokens) await req.trackTokens(usage.prompt_tokens ?? 0, usage.completion_tokens ?? 0);
+      logUsage({
+        userId: req.userId,
+        apiKeyId: req.apiKeyId,
+        model,
+        promptTokens: usage.prompt_tokens,
+        completionTokens: usage.completion_tokens,
+        latencyMs,
+        statusCode: res.statusCode,
+      });
     }
   } catch (err) {
     req.log.error({ err }, 'completions: proxy error');

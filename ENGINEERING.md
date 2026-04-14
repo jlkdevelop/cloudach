@@ -52,6 +52,23 @@ cd services/api-gateway && npm test
 npm test
 ```
 
+## Git Push Requirement (Mandatory for All Agents)
+
+All code work MUST be pushed to GitHub. Before any git push, configure the remote with the GITHUB_TOKEN:
+
+```bash
+git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/jlkdevelop/cloudach.git
+```
+
+The `GITHUB_TOKEN` environment variable is available as a Paperclip secret. Every task must end with code committed and pushed to GitHub.
+
+Workflow per task:
+1. Configure remote with GITHUB_TOKEN (as above)
+2. Create branch: `feat/<task-name>` or `fix/<task-name>`
+3. Commit work with descriptive messages
+4. Push branch to origin
+5. Squash-merge to main when complete
+
 ## Local Development Setup
 
 ### Prerequisites

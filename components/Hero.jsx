@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Hero() {
   return (
     <div className="hero-wrap">
@@ -12,7 +14,7 @@ export default function Hero() {
           models. One API. Any model. Production-ready in minutes.
         </p>
         <div className="hero-btns">
-          <button className="btn-cta">Start deploying free</button>
+          <Link href="/signup"><button className="btn-cta">Start deploying free</button></Link>
           <button className="btn-cta-ghost">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

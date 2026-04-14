@@ -1,9 +1,31 @@
 version: '3.9'
 
-# Local development environment for Cloudach backend services.
-# The frontend (Next.js) is run separately via `npm run dev`.
+# Full Cloudach stack — bring everything up with:
+#   cp .env.example .env   # fill in values
+#   docker-compose up --build
 
 services:
+
+  # ─── Dashboard (Next.js) ───────────────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://cloudach:cloudach@postgres:5432/cloudach}
+      - JWT_SECRET=${JWT_SECRET:-local-dev-secret-change-in-prod}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+      - NODE_ENV=production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ─── API Gateway ───────────────────────────────────────────────────────────
   api-gateway:
     build:
       context: ./services/api-gateway
@@ -12,11 +34,11 @@ services:
       - "8080:8080"
     environment:
       - PORT=8080
-      - VLLM_BASE_URL=http://vllm-mock:8000
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=local-dev-secret-change-in-prod
-      - DB_URL=postgresql://cloudach:cloudach@postgres:5432/cloudach
-      - NODE_ENV=development
+      - VLLM_BASE_URL=${VLLM_BASE_URL:-http://vllm-mock:8000}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - JWT_SECRET=${JWT_SECRET:-local-dev-secret-change-in-prod}
+      - DB_URL=${DATABASE_URL:-postgresql://cloudach:cloudach@postgres:5432/cloudach}
+      - NODE_ENV=production
     depends_on:
       postgres:
         condition: service_healthy
@@ -24,28 +46,33 @@ services:
         condition: service_healthy
       vllm-mock:
         condition: service_healthy
-    volumes:
-      - ./services/api-gateway/src:/app/src
     restart: unless-stopped
 
+  # ─── PostgreSQL ────────────────────────────────────────────────────────────
   postgres:
     image: postgres:16-alpine
     environment:
-      - POSTGRES_USER=cloudach
-      - POSTGRES_PASSWORD=cloudach
-      - POSTGRES_DB=cloudach
+      - POSTGRES_USER=${POSTGRES_USER:-cloudach}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-cloudach}
+      - POSTGRES_DB=${POSTGRES_DB:-cloudach}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Migrations run in order on first boot
+      - ./infra/db/init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - ./infra/db/002_add_auth.sql:/docker-entrypoint-initdb.d/002_add_auth.sql:ro
+      - ./infra/db/003_api_key_scoping.sql:/docker-entrypoint-initdb.d/003_api_key_scoping.sql:ro
+      - ./infra/db/004_billing.sql:/docker-entrypoint-initdb.d/004_billing.sql:ro
+      - ./infra/db/005_admin_role.sql:/docker-entrypoint-initdb.d/005_admin_role.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U cloudach"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cloudach}"]
       interval: 5s
       timeout: 5s
       retries: 5
     restart: unless-stopped
 
+  # ─── Redis ─────────────────────────────────────────────────────────────────
   redis:
     image: redis:7-alpine
     ports:
@@ -60,7 +87,7 @@ services:
       retries: 5
     restart: unless-stopped
 
-  # vLLM mock for local dev — real GPU inference runs in K8s
+  # ─── Inference backend (local mock — real GPU inference runs in K8s) ───────
   vllm-mock:
     image: node:20-alpine
     working_dir: /app

@@ -1,6 +1,30 @@
 # Cloudach — LLM Hosting Platform
 
-## Local development
+## Full-stack with Docker Compose
+
+Bring up the entire platform — dashboard, API gateway, Postgres, Redis, and a local
+inference mock — with a single command:
+
+```bash
+cp .env.example .env          # review defaults (JWT_SECRET, etc.)
+docker-compose up --build     # first boot builds images and runs DB migrations
+```
+
+| Service        | URL                       | Notes                               |
+| -------------- | ------------------------- | ----------------------------------- |
+| Dashboard      | http://localhost:3000     | Next.js app                         |
+| API Gateway    | http://localhost:8080     | JWT-authenticated LLM proxy         |
+| Postgres       | localhost:5432            | credentials: cloudach / cloudach    |
+| Redis          | localhost:6379            | rate limiting & session cache       |
+| vLLM mock      | http://localhost:8001     | local dev only; real GPU uses K8s   |
+
+**First-time setup notes:**
+- DB migrations run automatically on first boot via `docker-entrypoint-initdb.d/`.
+- If you previously started the stack without `002_add_auth.sql`, remove the
+  Postgres volume and restart: `docker-compose down -v && docker-compose up --build`
+- To generate a strong `JWT_SECRET`: `openssl rand -hex 32`
+
+## Local development (frontend only)
 
 ```bash
 npm install
