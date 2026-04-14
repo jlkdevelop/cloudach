@@ -26,7 +26,11 @@ export default function UsagePage() {
     init();
   }, [router]);
 
-  if (!user) return null;
+  if (!user) return (
+    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
+    </div>
+  );
 
   const totalTokens = daily.reduce((s, d) => s + parseInt(d.tokens || 0, 10), 0);
   const totalReqs = daily.reduce((s, d) => s + parseInt(d.requests || 0, 10), 0);
@@ -119,7 +123,7 @@ export default function UsagePage() {
                   {logs.map((l) => (
                     <tr key={l.id}>
                       <td style={{ whiteSpace: 'nowrap', color: '#6B7280', fontSize: 12 }}>
-                        {new Date(l.created_at).toLocaleTimeString()}
+                        {new Date(l.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </td>
                       <td><code style={{ fontSize: 12, background: '#F3F4F6', padding: '2px 6px', borderRadius: 4 }}>{l.model}</code></td>
                       <td>{l.prompt_tokens?.toLocaleString()}</td>

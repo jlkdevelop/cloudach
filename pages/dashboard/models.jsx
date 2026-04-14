@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import { useToast } from '../../components/dashboard/useToast';
 
 export default function ModelsPage() {
   const router = useRouter();
@@ -9,6 +10,8 @@ export default function ModelsPage() {
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deploying, setDeploying] = useState(null);
+  const [deployError, setDeployError] = useState(null);
+  const [toastEl, showToast] = useToast();
 
   useEffect(() => {
     async function init() {
@@ -28,12 +31,20 @@ export default function ModelsPage() {
 
   async function deploy(modelId) {
     setDeploying(modelId);
-    await fetch('/api/dashboard/models', {
+    setDeployError(null);
+    const deployRes = await fetch('/api/dashboard/models', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ modelId }),
     });
+    if (!deployRes.ok) {
+      const data = await deployRes.json().catch(() => ({}));
+      setDeployError(data.error || 'Deploy request failed. Please try again.');
+      setDeploying(null);
+      return;
+    }
     // Poll for active status
+    let activated = false;
     for (let i = 0; i < 10; i++) {
       await sleep(1000);
       const res = await fetch('/api/dashboard/models');
@@ -41,18 +52,33 @@ export default function ModelsPage() {
         const { models: updated } = await res.json();
         setModels(updated);
         const m = updated.find(m => m.model_id === modelId);
-        if (m?.deploy_status === 'active') break;
+        if (m?.deploy_status === 'active') { activated = true; break; }
       }
+    }
+    if (!activated) {
+      setDeployError('Deploy timed out. The model may still be starting — refresh in a moment or contact support.');
+      showToast('Deploy timed out.', 'error', 5000);
+    } else {
+      showToast(`${modelId} is now active.`);
     }
     setDeploying(null);
   }
 
   async function stopModel(modelId) {
-    await fetch(`/api/dashboard/models/${modelId}/stop`, { method: 'POST' });
+    const res = await fetch(`/api/dashboard/models/${modelId}/stop`, { method: 'POST' });
+    if (res.ok) {
+      showToast(`${modelId} stopped.`);
+    } else {
+      showToast('Failed to stop model. Please try again.', 'error');
+    }
     await loadModels();
   }
 
-  if (!user) return null;
+  if (!user) return (
+    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
+    </div>
+  );
 
   return (
     <>
@@ -62,6 +88,20 @@ export default function ModelsPage() {
           <h1 className="db-page-title">Model Catalog</h1>
           <p className="db-page-subtitle">Deploy open-source LLMs and get an OpenAI-compatible endpoint instantly.</p>
         </div>
+
+        {toastEl}
+
+        {deployError && (
+          <div className="db-error" style={{ marginBottom: 20 }}>
+            {deployError}
+            <button
+              onClick={() => setDeployError(null)}
+              style={{ marginLeft: 12, background: 'none', border: 'none', cursor: 'pointer', color: '#991B1B', fontWeight: 600, fontSize: 13 }}
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
 
         {loading ? (
           <p style={{ color: '#9CA3AF', fontSize: 14 }}>Loading models…</p>

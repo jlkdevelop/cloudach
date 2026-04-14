@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Logo from '../Logo';
@@ -12,6 +13,7 @@ const NAV_ITEMS = [
 
 export default function DashboardLayout({ children, user }) {
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   async function handleLogout() {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -20,8 +22,22 @@ export default function DashboardLayout({ children, user }) {
 
   return (
     <div className="db-shell">
+      {/* Mobile hamburger */}
+      <button
+        className="db-hamburger"
+        onClick={() => setSidebarOpen(o => !o)}
+        aria-label="Toggle navigation"
+      >
+        <IconHamburger />
+      </button>
+
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div className="db-sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
+
       {/* Sidebar */}
-      <aside className="db-sidebar">
+      <aside className={`db-sidebar${sidebarOpen ? ' db-sidebar--open' : ''}`}>
         <div className="db-sidebar-logo">
           <Logo size={22} />
           <span className="db-sidebar-brand">cloud<span>ach</span></span>
@@ -46,7 +62,7 @@ export default function DashboardLayout({ children, user }) {
         <div className="db-sidebar-footer">
           <div className="db-user-chip">
             <div className="db-user-avatar">{user?.email?.[0]?.toUpperCase() || 'U'}</div>
-            <span className="db-user-email">{user?.email || 'User'}</span>
+            <span className="db-user-email" title={user?.email}>{user?.email || 'User'}</span>
           </div>
           <button className="db-logout-btn" onClick={handleLogout} title="Sign out">
             <IconLogout />
@@ -119,6 +135,14 @@ function IconLogout() {
       <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M10.5 5L14 8L10.5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M14 8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconHamburger() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"/>
     </svg>
   );
 }

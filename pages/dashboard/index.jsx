@@ -41,7 +41,11 @@ export default function DashboardOverview() {
     init();
   }, [router]);
 
-  if (!user) return null;
+  if (!user) return (
+    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
+    </div>
+  );
 
   const maxTokens = Math.max(...daily.map(d => parseInt(d.tokens || 0, 10)), 1);
 
