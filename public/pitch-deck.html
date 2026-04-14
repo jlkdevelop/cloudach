@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cloudach — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',-apple-system,sans-serif;background:#0D0F1A;color:#fff}
+.deck{width:100%;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px;opacity:0;pointer-events:none;transition:opacity 0.4s ease}
+.slide.active{opacity:1;pointer-events:all}
+
+/* Progress bar */
+.progress{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:100}
+.prog-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.3s}
+.prog-dot.active{background:#4F6EF7;width:24px;border-radius:4px}
+
+/* Nav arrows */
+.nav-btn{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:100}
+.nav-btn:hover{background:rgba(79,110,247,0.2);border-color:#4F6EF7;color:#fff}
+.nav-prev{left:24px}
+.nav-next{right:24px}
+
+/* Slide counter */
+.counter{position:fixed;top:28px;right:32px;font-size:12px;color:rgba(255,255,255,0.25);font-weight:500;letter-spacing:0.05em}
+
+/* Logo */
+.logo-wrap{display:flex;align-items:center;gap:10px;position:fixed;top:24px;left:32px}
+.logo-text{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.3px}
+.logo-text span{color:#4F6EF7}
+
+/* ── SLIDE 1: TITLE ── */
+#s1{background:radial-gradient(ellipse at 60% 40%,#1a1f4e 0%,#0D0F1A 70%)}
+#s1 .eyebrow{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.3);padding:6px 16px;border-radius:99px;margin-bottom:28px}
+#s1 h1{font-size:72px;font-weight:800;letter-spacing:-3px;line-height:1;text-align:center;margin-bottom:24px}
+#s1 h1 span{color:#4F6EF7}
+#s1 p{font-size:20px;color:rgba(255,255,255,0.5);text-align:center;line-height:1.6;max-width:560px;margin-bottom:48px}
+#s1 .stats{display:flex;gap:48px}
+#s1 .stat-val{font-size:28px;font-weight:700;color:#fff;letter-spacing:-1px}
+#s1 .stat-lab{font-size:12px;color:rgba(255,255,255,0.35);margin-top:4px}
+#s1 .stat{text-align:center}
+#s1 .divider{width:1px;background:rgba(255,255,255,0.08);align-self:stretch}
+
+/* ── SLIDE 2: PROBLEM ── */
+#s2{background:#0D0F1A}
+#s2 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#EF4444;margin-bottom:20px}
+#s2 h2{font-size:52px;font-weight:800;letter-spacing:-2px;line-height:1.1;margin-bottom:52px;max-width:700px}
+#s2 .problems{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%;max-width:900px}
+#s2 .prob{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:14px;padding:28px 24px}
+#s2 .prob-icon{font-size:28px;margin-bottom:14px}
+#s2 .prob h3{font-size:16px;font-weight:700;margin-bottom:8px;color:#fff}
+#s2 .prob p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.65}
+
+/* ── SLIDE 3: SOLUTION ── */
+#s3{background:radial-gradient(ellipse at 40% 60%,#0f1e3a 0%,#0D0F1A 65%)}
+#s3 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px}
+#s3 h2{font-size:56px;font-weight:800;letter-spacing:-2px;line-height:1.08;text-align:center;max-width:800px;margin-bottom:24px}
+#s3 h2 em{font-style:normal;color:#4F6EF7}
+#s3 .sub{font-size:18px;color:rgba(255,255,255,0.45);text-align:center;max-width:580px;line-height:1.7;margin-bottom:52px}
+#s3 .pill-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+#s3 .pill{background:rgba(79,110,247,0.1);border:1px solid rgba(79,110,247,0.25);color:#A5B4FC;font-size:13px;font-weight:600;padding:8px 18px;border-radius:99px}
+
+/* ── SLIDE 4: HOW IT WORKS ── */
+#s4{background:#0D0F1A}
+#s4 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px;align-self:flex-start}
+#s4 h2{font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:52px;align-self:flex-start}
+#s4 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;width:100%;max-width:960px;position:relative}
+#s4 .step-arrow{position:absolute;top:36px;font-size:20px;color:rgba(255,255,255,0.15);z-index:1}
+#s4 .arrow1{left:calc(33.33% - 10px)}
+#s4 .arrow2{left:calc(66.66% - 10px)}
+#s4 .step{padding:0 32px;position:relative;z-index:2}
+#s4 .step-n{font-size:11px;font-weight:800;color:#4F6EF7;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px}
+#s4 .step-icon{font-size:36px;margin-bottom:16px}
+#s4 .step h3{font-size:18px;font-weight:700;margin-bottom:10px;letter-spacing:-0.3px}
+#s4 .step p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.65}
+#s4 .code-pill{background:#141626;border:1px solid #1E2235;border-radius:8px;padding:12px 16px;margin-top:16px;font-family:'Menlo',monospace;font-size:12px;color:#34D399}
+
+/* ── SLIDE 5: PLATFORM ── */
+#s5{background:radial-gradient(ellipse at 70% 30%,#0f1e2e 0%,#0D0F1A 65%)}
+#s5 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px;align-self:flex-start}
+#s5 h2{font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:48px;align-self:flex-start;max-width:600px}
+#s5 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:960px}
+#s5 .feat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:24px 20px}
+#s5 .feat-icon{font-size:22px;margin-bottom:12px}
+#s5 .feat h3{font-size:14px;font-weight:700;margin-bottom:6px;color:#fff}
+#s5 .feat p{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6}
+
+/* ── SLIDE 6: MODELS ── */
+#s6{background:#0D0F1A}
+#s6 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px;align-self:flex-start}
+#s6 h2{font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:12px;align-self:flex-start}
+#s6 .sub{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:40px;align-self:flex-start}
+#s6 .model-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:960px}
+#s6 .mcard{background:#111420;border:1px solid #1E2235;border-radius:10px;padding:18px}
+#s6 .mbadge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:10px}
+#s6 .mb-os{background:#1e2a5e;color:#818CF8}
+#s6 .mb-cu{background:#064e3b;color:#34D399}
+#s6 .mcard h4{font-size:13px;font-weight:700;margin-bottom:3px;color:#fff}
+#s6 .mcard p{font-size:11px;color:rgba(255,255,255,0.35)}
+#s6 .more{margin-top:20px;font-size:13px;color:rgba(255,255,255,0.3);align-self:flex-start}
+#s6 .more span{color:#4F6EF7;font-weight:600}
+
+/* ── SLIDE 7: PRICING ── */
+#s7{background:radial-gradient(ellipse at 30% 70%,#0f1e3a 0%,#0D0F1A 65%)}
+#s7 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px;align-self:flex-start}
+#s7 h2{font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:48px;align-self:flex-start}
+#s7 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:900px}
+#s7 .plan{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:28px 24px}
+#s7 .plan.featured{border-color:#4F6EF7;border-width:2px;background:rgba(79,110,247,0.06)}
+#s7 .plan-tag{font-size:10px;font-weight:700;background:rgba(79,110,247,0.2);color:#818CF8;padding:3px 10px;border-radius:4px;display:inline-block;margin-bottom:16px}
+#s7 .plan h3{font-size:15px;font-weight:700;margin-bottom:4px}
+#s7 .plan-desc{font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:20px}
+#s7 .plan-price{font-size:36px;font-weight:800;letter-spacing:-1.5px;margin-bottom:4px}
+#s7 .plan-unit{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:20px}
+#s7 .plan ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+#s7 .plan li{font-size:12px;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:8px}
+#s7 .plan li::before{content:'✓';color:#4F6EF7;font-weight:700;font-size:11px}
+
+/* ── SLIDE 8: ENTERPRISE ── */
+#s8{background:#0D0F1A}
+#s8 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px;align-self:flex-start}
+#s8 h2{font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:12px;align-self:flex-start;max-width:700px;line-height:1.1}
+#s8 .sub{font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:44px;align-self:flex-start}
+#s8 .ent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:960px}
+#s8 .ent{background:#111420;border:1px solid #1E2235;border-radius:12px;padding:24px 20px}
+#s8 .ent-icon{font-size:24px;margin-bottom:12px}
+#s8 .ent h3{font-size:14px;font-weight:700;margin-bottom:6px;color:#fff}
+#s8 .ent p{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6}
+
+/* ── SLIDE 9: WHY CLOUDACH ── */
+#s9{background:radial-gradient(ellipse at 50% 50%,#0f1e3a 0%,#0D0F1A 70%)}
+#s9 .tag{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4F6EF7;margin-bottom:20px}
+#s9 h2{font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:52px;text-align:center}
+#s9 .compare{width:100%;max-width:900px;border-collapse:collapse}
+#s9 .compare th{padding:12px 20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.3);text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)}
+#s9 .compare th:nth-child(2){color:#4F6EF7}
+#s9 .compare td{padding:14px 20px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+#s9 .compare tr:last-child td{border:none}
+#s9 .compare td:first-child{color:rgba(255,255,255,0.5);font-weight:500}
+#s9 .compare td:nth-child(2){color:#fff;font-weight:600}
+#s9 .compare td:nth-child(3),.compare td:nth-child(4){color:rgba(255,255,255,0.3)}
+#s9 .yes{color:#34D399!important}
+#s9 .no{color:#6B7280!important}
+#s9 .highlight-col{background:rgba(79,110,247,0.06)}
+
+/* ── SLIDE 10: CTA ── */
+#s10{background:radial-gradient(ellipse at 50% 40%,#1a1f4e 0%,#0D0F1A 65%)}
+#s10 h2{font-size:64px;font-weight:800;letter-spacing:-3px;line-height:1;text-align:center;margin-bottom:20px}
+#s10 h2 span{color:#4F6EF7}
+#s10 .sub{font-size:18px;color:rgba(255,255,255,0.45);text-align:center;max-width:520px;line-height:1.7;margin-bottom:48px}
+#s10 .cta-row{display:flex;gap:16px;margin-bottom:56px}
+#s10 .btn-primary{background:#4F6EF7;color:#fff;border:none;padding:16px 36px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:-0.2px}
+#s10 .btn-ghost{background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.15);padding:16px 36px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
+#s10 .contacts{display:flex;gap:40px}
+#s10 .contact-item{text-align:center}
+#s10 .contact-label{font-size:11px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+#s10 .contact-val{font-size:14px;color:rgba(255,255,255,0.7);font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- Logo watermark -->
+<div class="logo-wrap">
+  <svg width="22" height="28" viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="0,26 14,4 28,26 14,48" fill="#4F6EF7"/>
+    <polygon points="14,4 28,26 42,4" fill="#7B96FF"/>
+    <polygon points="0,26 14,48 28,26" fill="#2E4FD4"/>
+    <polygon points="14,4 28,4 28,26" fill="#A0B4FF" opacity="0.7"/>
+    <polygon points="28,26 42,4 44,26 42,48" fill="#4F6EF7" opacity="0.4"/>
+  </svg>
+  <span class="logo-text">cloud<span>ach</span></span>
+</div>
+
+<!-- Slide counter -->
+<div class="counter" id="counter">1 / 10</div>
+
+<!-- Nav buttons -->
+<button class="nav-btn nav-prev" onclick="changeSlide(-1)">&#8592;</button>
+<button class="nav-btn nav-next" onclick="changeSlide(1)">&#8594;</button>
+
+<!-- Progress dots -->
+<div class="progress" id="progress"></div>
+
+<div class="deck">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="s1">
+    <div class="eyebrow">LLM Cloud Infrastructure</div>
+    <h1>Deploy any<br /><span>open-source LLM.</span><br />In 60 seconds.</h1>
+    <p>The developer platform for hosting, scaling, and fine-tuning open-source language models — with a live OpenAI-compatible API endpoint.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">10ms</div><div class="stat-lab">Avg. time to first token</div></div>
+      <div class="divider"></div>
+      <div class="stat"><div class="stat-val">99.9%</div><div class="stat-lab">Uptime SLA</div></div>
+      <div class="divider"></div>
+      <div class="stat"><div class="stat-val">40+</div><div class="stat-lab">Models available</div></div>
+      <div class="divider"></div>
+      <div class="stat"><div class="stat-val">$0</div><div class="stat-lab">To get started</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: PROBLEM -->
+  <div class="slide" id="s2">
+    <div class="tag">The Problem</div>
+    <h2>Running LLMs in production<br />is still too hard.</h2>
+    <div class="problems">
+      <div class="prob">
+        <div class="prob-icon">🔒</div>
+        <h3>Data privacy risk</h3>
+        <p>Sending sensitive data to OpenAI or Anthropic breaks compliance for healthcare, finance, and legal teams.</p>
+      </div>
+      <div class="prob">
+        <div class="prob-icon">⚙️</div>
+        <h3>Infrastructure complexity</h3>
+        <p>Self-hosting vLLM, managing GPUs, autoscaling, and monitoring requires a dedicated ML infrastructure team.</p>
+      </div>
+      <div class="prob">
+        <div class="prob-icon">💸</div>
+        <h3>Cost at scale</h3>
+        <p>OpenAI and Anthropic per-token pricing becomes prohibitively expensive as AI usage grows across a company.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: SOLUTION -->
+  <div class="slide" id="s3">
+    <div class="tag">The Solution</div>
+    <h2>One platform to deploy,<br />scale, and own your<br /><em>AI infrastructure.</em></h2>
+    <p class="sub">Cloudach gives companies a private, OpenAI-compatible API endpoint powered by open-source models — without managing any infrastructure.</p>
+    <div class="pill-row">
+      <div class="pill">🔒 Your data never leaves your environment</div>
+      <div class="pill">⚡ Sub-100ms latency</div>
+      <div class="pill">💰 10x cheaper at scale</div>
+      <div class="pill">🔧 OpenAI-compatible API</div>
+      <div class="pill">📈 Autoscaling included</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: HOW IT WORKS -->
+  <div class="slide" id="s4">
+    <div class="tag">How It Works</div>
+    <h2>From zero to live API<br />in three steps.</h2>
+    <div class="steps" style="width:100%;max-width:900px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+      <div class="step">
+        <div class="step-n">Step 01</div>
+        <div class="step-icon">🎯</div>
+        <h3>Choose your model</h3>
+        <p>Pick from our curated catalog of 40+ open-source models, or bring your own fine-tuned weights via HuggingFace or direct upload.</p>
+        <div class="code-pill">llama3-70b, mistral-7b, mixtral-8x7b...</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Step 02</div>
+        <div class="step-icon">⚙️</div>
+        <h3>Configure your deployment</h3>
+        <p>Select GPU tier, region, and scaling policy. Preview estimated cost before you commit. Private VPC available for enterprise.</p>
+        <div class="code-pill">region: us-east-1 · gpu: A100 · scale: auto</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Step 03</div>
+        <div class="step-icon">🚀</div>
+        <h3>Call your endpoint</h3>
+        <p>Receive a live OpenAI-compatible REST endpoint. Drop it into any existing SDK, framework, or application immediately.</p>
+        <div class="code-pill">api.cloudach.com/llama3-70b ✓ Live</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: PLATFORM -->
+  <div class="slide" id="s5">
+    <div class="tag">Platform</div>
+    <h2>Infrastructure built for<br />serious LLM workloads.</h2>
+    <div class="grid">
+      <div class="feat"><div class="feat-icon">⚡</div><h3>Sub-100ms TTFT</h3><p>vLLM continuous batching, flash attention, and tensor parallelism — tuned for low latency at high load.</p></div>
+      <div class="feat"><div class="feat-icon">📈</div><h3>Autoscaling inference</h3><p>Scale from zero to thousands of RPS in seconds. Pay only for tokens processed — no idle GPU billing.</p></div>
+      <div class="feat"><div class="feat-icon">🔌</div><h3>OpenAI-compatible API</h3><p>Swap your base URL and go. Same SDK, same interface — your open-source model, your infrastructure.</p></div>
+      <div class="feat"><div class="feat-icon">🔒</div><h3>Private VPC isolation</h3><p>Your model, your network. No shared compute. Enterprise deployments support full air-gap mode.</p></div>
+      <div class="feat"><div class="feat-icon">🎛️</div><h3>Fine-tuning jobs</h3><p>Run LoRA and QLoRA fine-tunes on your data directly on the platform. No external training infra needed.</p></div>
+      <div class="feat"><div class="feat-icon">📊</div><h3>Usage dashboard</h3><p>Real-time token usage, latency metrics, cost tracking, and API key management in one place.</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: MODELS -->
+  <div class="slide" id="s6">
+    <div class="tag">Models</div>
+    <h2>Any model. Your model.</h2>
+    <p class="sub">Deploy from our curated library or bring your own fine-tuned weights.</p>
+    <div class="model-grid">
+      <div class="mcard"><span class="mbadge mb-os">Open source</span><h4>Llama 3 8B / 70B</h4><p>Meta · General purpose</p></div>
+      <div class="mcard"><span class="mbadge mb-os">Open source</span><h4>Mistral 7B</h4><p>Mistral AI · Fast &amp; efficient</p></div>
+      <div class="mcard"><span class="mbadge mb-os">Open source</span><h4>Mixtral 8×7B</h4><p>Mistral AI · MoE · Powerful</p></div>
+      <div class="mcard"><span class="mbadge mb-os">Open source</span><h4>Qwen 2.5 72B</h4><p>Alibaba · Multilingual</p></div>
+      <div class="mcard"><span class="mbadge mb-os">Open source</span><h4>DeepSeek R1</h4><p>DeepSeek · Reasoning</p></div>
+      <div class="mcard"><span class="mbadge mb-os">Open source</span><h4>Phi-3 / Gemma 2</h4><p>Microsoft / Google · Compact</p></div>
+      <div class="mcard"><span class="mbadge mb-cu">Custom</span><h4>HuggingFace import</h4><p>Any public or private repo</p></div>
+      <div class="mcard"><span class="mbadge mb-cu">Custom</span><h4>Your fine-tuned model</h4><p>GGUF · safetensors · bin</p></div>
+    </div>
+    <p class="more"><span>40+</span> models available and growing weekly</p>
+  </div>
+
+  <!-- SLIDE 7: PRICING -->
+  <div class="slide" id="s7">
+    <div class="tag">Pricing</div>
+    <h2>Usage-based. No surprises.</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>Starter</h3>
+        <p class="plan-desc">For developers and side projects.</p>
+        <div class="plan-price">$0</div>
+        <div class="plan-unit">+ $0.20 / million tokens</div>
+        <ul>
+          <li>1 active deployment</li>
+          <li>Shared GPU infrastructure</li>
+          <li>OpenAI-compatible API</li>
+          <li>Community support</li>
+        </ul>
+      </div>
+      <div class="plan featured">
+        <div class="plan-tag">Most popular</div>
+        <h3>Pro</h3>
+        <p class="plan-desc">For production apps and growing teams.</p>
+        <div class="plan-price">$49</div>
+        <div class="plan-unit">per month + $0.15 / million tokens</div>
+        <ul>
+          <li>10 active deployments</li>
+          <li>Dedicated GPU instances</li>
+          <li>Autoscaling + fine-tuning</li>
+          <li>Usage dashboard + logs</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <p class="plan-desc">For regulated industries and large teams.</p>
+        <div class="plan-price" style="font-size:28px;padding-top:6px">Custom</div>
+        <div class="plan-unit">Volume discounts · dedicated team</div>
+        <ul>
+          <li>Unlimited deployments</li>
+          <li>Private VPC + air-gap</li>
+          <li>99.9% SLA guarantee</li>
+          <li>HIPAA · SOC 2 · GDPR</li>
+          <li>Dedicated solutions engineer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: ENTERPRISE -->
+  <div class="slide" id="s8">
+    <div class="tag">Enterprise</div>
+    <h2>Built for regulated<br />industries and serious teams.</h2>
+    <p class="sub">Every enterprise plan includes private infrastructure, compliance controls, and a dedicated team.</p>
+    <div class="ent-grid">
+      <div class="ent"><div class="ent-icon">🏗️</div><h3>Private VPC deployment</h3><p>Your models run in an isolated network. No shared compute. Full air-gap mode available for maximum security.</p></div>
+      <div class="ent"><div class="ent-icon">⚡</div><h3>Dedicated GPU instances</h3><p>Reserved A100 and H100 capacity. Guaranteed throughput with no noisy neighbors. SLA-backed uptime.</p></div>
+      <div class="ent"><div class="ent-icon">📋</div><h3>Compliance ready</h3><p>HIPAA-adjacent, SOC 2 Type II, and GDPR-ready infrastructure. Full audit logs for every API request.</p></div>
+      <div class="ent"><div class="ent-icon">🌍</div><h3>Multi-region deployment</h3><p>Deploy to any AWS or GCP region. Data residency controls for EU, US, and APAC requirements.</p></div>
+      <div class="ent"><div class="ent-icon">👥</div><h3>Dedicated support team</h3><p>A solutions engineer assigned to your account. SLA-backed response times. Onboarding included.</p></div>
+      <div class="ent"><div class="ent-icon">🔑</div><h3>SSO + RBAC</h3><p>Single sign-on, role-based access control, and team management for large engineering organizations.</p></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: WHY CLOUDACH -->
+  <div class="slide" id="s9">
+    <div class="tag">Why Cloudach</div>
+    <h2>The only platform that gives you<br />all three.</h2>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>☁ Cloudach</th>
+          <th>OpenAI / Anthropic</th>
+          <th>Self-hosted vLLM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Data privacy &amp; isolation</td><td class="highlight-col yes">✓ Full private VPC</td><td class="no">✗ Data sent to vendor</td><td class="yes">✓ Yes</td></tr>
+        <tr><td>OpenAI-compatible API</td><td class="highlight-col yes">✓ Drop-in replacement</td><td class="yes">✓ Native</td><td class="no">✗ Manual setup</td></tr>
+        <tr><td>Zero infrastructure ops</td><td class="highlight-col yes">✓ Fully managed</td><td class="yes">✓ Managed</td><td class="no">✗ You manage everything</td></tr>
+        <tr><td>Open-source model access</td><td class="highlight-col yes">✓ 40+ models</td><td class="no">✗ Closed models only</td><td class="yes">✓ Yes</td></tr>
+        <tr><td>Cost at scale</td><td class="highlight-col yes">✓ 10x cheaper</td><td class="no">✗ Expensive per-token</td><td class="no">✗ High ops cost</td></tr>
+        <tr><td>Fine-tuning on your data</td><td class="highlight-col yes">✓ LoRA / QLoRA</td><td class="no">✗ Limited / expensive</td><td class="no">✗ Manual setup</td></tr>
+        <tr><td>Autoscaling inference</td><td class="highlight-col yes">✓ Built-in</td><td class="yes">✓ Managed</td><td class="no">✗ Manual setup</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SLIDE 10: CTA -->
+  <div class="slide" id="s10">
+    <h2>Ready to own your<br /><span>AI infrastructure?</span></h2>
+    <p class="sub">Join developers and enterprises running private LLMs on Cloudach. Deploy your first model free — no credit card required.</p>
+    <div class="cta-row">
+      <button class="btn-primary" onclick="window.open('https://cloudach.com/signup')">Start free today</button>
+      <button class="btn-ghost" onclick="window.open('https://cloudach.com/enterprise')">Talk to sales</button>
+    </div>
+    <div class="contacts">
+      <div class="contact-item"><div class="contact-label">Website</div><div class="contact-val">cloudach.com</div></div>
+      <div class="contact-item"><div class="contact-label">Email</div><div class="contact-val">hello@cloudach.com</div></div>
+      <div class="contact-item"><div class="contact-label">Docs</div><div class="contact-val">cloudach.com/docs</div></div>
+      <div class="contact-item"><div class="contact-label">Enterprise</div><div class="contact-val">cloudach.com/enterprise</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+// Build dots
+const prog = document.getElementById('progress');
+for(let i=0;i<total;i++){
+  const d = document.createElement('div');
+  d.className = 'prog-dot' + (i===0?' active':'');
+  d.onclick = ()=>goTo(i);
+  prog.appendChild(d);
+}
+
+function goTo(n){
+  slides[current].classList.remove('active');
+  prog.children[current].classList.remove('active');
+  current = (n+total)%total;
+  slides[current].classList.add('active');
+  prog.children[current].classList.add('active');
+  document.getElementById('counter').textContent = (current+1)+' / '+total;
+}
+
+function changeSlide(dir){ goTo(current+dir); }
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') changeSlide(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') changeSlide(-1);
+});
+
+// Click anywhere on slide to advance
+document.querySelector('.deck').addEventListener('click', e=>{
+  if(!e.target.closest('.nav-btn')&&!e.target.closest('.progress')&&!e.target.closest('button')) changeSlide(1);
+});
+</script>
+</body>
+</html>
