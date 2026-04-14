@@ -10,6 +10,7 @@ export default function ApiKeysPage() {
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
   const [newKeyName, setNewKeyName] = useState('');
+  const [newRateLimitRpm, setNewRateLimitRpm] = useState('');
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState('');
   const [newRawKey, setNewRawKey] = useState(null);
@@ -36,16 +37,29 @@ export default function ApiKeysPage() {
     if (!newKeyName.trim()) { setCreateError('Name is required.'); return; }
     setCreating(true);
     setCreateError('');
+
+    const body = { name: newKeyName.trim() };
+    if (newRateLimitRpm.trim()) {
+      const rpm = parseInt(newRateLimitRpm, 10);
+      if (isNaN(rpm) || rpm < 1) {
+        setCreateError('Rate limit must be a positive number.');
+        setCreating(false);
+        return;
+      }
+      body.rate_limit_rpm = rpm;
+    }
+
     const res = await fetch('/api/dashboard/api-keys', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: newKeyName.trim() }),
+      body: JSON.stringify(body),
     });
     const data = await res.json();
     if (!res.ok) { setCreateError(data.error || 'Failed to create key.'); setCreating(false); return; }
     setNewRawKey(data.rawKey);
     setShowCreate(false);
     setNewKeyName('');
+    setNewRateLimitRpm('');
     setCreating(false);
     await loadKeys();
   }
@@ -108,6 +122,7 @@ export default function ApiKeysPage() {
                     <th>Name</th>
                     <th>Created</th>
                     <th>Last used</th>
+                    <th>Rate limit</th>
                     <th>Status</th>
                     <th></th>
                   </tr>
@@ -118,6 +133,11 @@ export default function ApiKeysPage() {
                       <td><strong>{k.name}</strong></td>
                       <td>{fmtDate(k.created_at)}</td>
                       <td>{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
+                      <td>
+                        {k.rate_limit_rpm
+                          ? <span style={{ fontSize: 12 }}>{k.rate_limit_rpm} rpm</span>
+                          : <span style={{ color: '#9CA3AF', fontSize: 12 }}>Unlimited</span>}
+                      </td>
                       <td>
                         {k.revoked_at
                           ? <span className="db-badge db-badge--revoked">Revoked</span>
@@ -154,7 +174,7 @@ export default function ApiKeysPage() {
           <div className="db-modal-backdrop" onClick={() => setShowCreate(false)}>
             <div className="db-modal" onClick={e => e.stopPropagation()}>
               <div className="db-modal-title">New API key</div>
-              <div className="db-modal-sub">Give it a descriptive name so you can identify it later.</div>
+              <div className="db-modal-sub">Give it a descriptive name. Optionally set a rate limit.</div>
               <form onSubmit={createKey}>
                 {createError && <div className="db-error">{createError}</div>}
                 <div className="db-field">
@@ -165,6 +185,17 @@ export default function ApiKeysPage() {
                     value={newKeyName}
                     onChange={e => setNewKeyName(e.target.value)}
                     autoFocus
+                  />
+                </div>
+                <div className="db-field">
+                  <label className="db-label">Rate limit (requests/min) <span style={{ color: '#9CA3AF', fontWeight: 400 }}>— optional</span></label>
+                  <input
+                    className="db-input"
+                    type="number"
+                    min="1"
+                    placeholder="e.g. 60  (leave blank for unlimited)"
+                    value={newRateLimitRpm}
+                    onChange={e => setNewRateLimitRpm(e.target.value)}
                   />
                 </div>
                 <div className="db-modal-actions">

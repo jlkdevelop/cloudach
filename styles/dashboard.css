@@ -729,3 +729,105 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Welcome / quickstart banner */
+.db-welcome-banner {
+  position: relative;
+  background: linear-gradient(135deg, #1e2a5e 0%, #0f172a 100%);
+  border: 1px solid rgba(79, 110, 247, 0.35);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  color: #E2E8F0;
+}
+
+.db-welcome-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #6B7280;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+.db-welcome-close:hover { color: #9CA3AF; }
+
+.db-welcome-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.db-welcome-sub {
+  font-size: 13.5px;
+  color: #94A3B8;
+  margin: 0 0 20px;
+}
+
+.db-welcome-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.db-welcome-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.db-welcome-step-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #4F6EF7;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.db-welcome-step-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #E2E8F0;
+  margin-bottom: 3px;
+}
+
+.db-welcome-step-desc {
+  font-size: 13px;
+  color: #94A3B8;
+  margin-bottom: 8px;
+}
+
+.db-welcome-step-desc a {
+  color: #818CF8;
+  text-decoration: none;
+  font-weight: 500;
+}
+.db-welcome-step-desc a:hover { text-decoration: underline; }
+
+.db-welcome-code {
+  font-family: 'Fira Code', 'Menlo', monospace;
+  font-size: 11.5px;
+  color: #CBD5E1;
+  background: #0D0F1A;
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+  line-height: 1.65;
+}
+
+.db-login-brand span {
+  color: #4F6EF7;
+}

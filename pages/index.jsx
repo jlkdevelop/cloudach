@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import Nav from '../components/Nav'
 import Hero from '../components/Hero'
 import Features from '../components/Features'
@@ -42,7 +43,7 @@ export default function Home() {
             Join thousands of developers and businesses running LLMs on Cloudach.<br />
             No credit card required to start.
           </p>
-          <button className="btn-cta-white">Deploy your first model free</button>
+          <Link href="/signup"><button className="btn-cta-white">Deploy your first model free</button></Link>
         </section>
       </main>
 

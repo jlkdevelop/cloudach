@@ -3,16 +3,18 @@
 /**
  * Sliding-window rate limiter backed by Redis.
  *
- * Limits:
- *   - 60 requests / minute  per user
- *   - 1 000 000 tokens / day per user  (approximate; counted from response)
+ * Per-request limits:
+ *   - Global default: 60 requests / minute per user (RATE_LIMIT_RPM env var)
+ *   - Per-key override: if req.keyRateLimitRpm is set (from auth middleware), that
+ *     value takes precedence over the global default for API-key requests.
+ *   - Token day limit: 1,000,000 tokens / day per user (approximate)
  *
  * @param {object} [deps]
  * @param {object} [deps.redis] - ioredis client (defaults to ./lib/redis)
  */
 function createRateLimiter(deps) {
   const redis = deps?.redis ?? require('../lib/redis').redis;
-  const RPM_LIMIT = parseInt(process.env.RATE_LIMIT_RPM || '60', 10);
+  const GLOBAL_RPM_LIMIT = parseInt(process.env.RATE_LIMIT_RPM || '60', 10);
 
   const incrExpireLua = `
 local current = redis.call('INCR', KEYS[1])
@@ -24,7 +26,14 @@ return current
 
   return async function rateLimiter(req, res, next) {
     const userId = req.userId || 'anonymous';
-    const minuteKey = `rl:rpm:${userId}:${Math.floor(Date.now() / 60000)}`;
+
+    // Use per-key RPM limit when set, otherwise fall back to global default
+    const rpmLimit = req.keyRateLimitRpm ?? GLOBAL_RPM_LIMIT;
+
+    // Scope the key to the API key id when available, so per-key limits are
+    // isolated from other keys belonging to the same user.
+    const scope = req.apiKeyId ? `key:${req.apiKeyId}` : `user:${userId}`;
+    const minuteKey = `rl:rpm:${scope}:${Math.floor(Date.now() / 60000)}`;
 
     let rpm;
     try {
@@ -35,11 +44,11 @@ return current
       return next();
     }
 
-    if (rpm > RPM_LIMIT) {
+    if (rpm > rpmLimit) {
       res.set('Retry-After', '60');
       return res.status(429).json({
         error: {
-          message: `Rate limit exceeded: ${RPM_LIMIT} requests per minute.`,
+          message: `Rate limit exceeded: ${rpmLimit} requests per minute.`,
           type: 'requests',
           code: 'rate_limit_exceeded',
         },

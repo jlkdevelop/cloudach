@@ -10,6 +10,15 @@ export default function DashboardOverview() {
   const [stats, setStats] = useState(null);
   const [daily, setDaily] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    if (router.query.welcome === '1') {
+      setShowWelcome(true);
+      // Remove ?welcome=1 from URL without triggering a reload
+      router.replace('/dashboard', undefined, { shallow: true });
+    }
+  }, [router.query.welcome]);
 
   useEffect(() => {
     async function init() {
@@ -44,6 +53,54 @@ export default function DashboardOverview() {
           <h1 className="db-page-title">Overview</h1>
           <p className="db-page-subtitle">Welcome back, {user.email}</p>
         </div>
+
+        {/* Quickstart guide — shown after signup */}
+        {showWelcome && (
+          <div className="db-welcome-banner">
+            <button
+              className="db-welcome-close"
+              onClick={() => setShowWelcome(false)}
+              aria-label="Dismiss"
+            >
+              ×
+            </button>
+            <div className="db-welcome-title">Welcome to Cloudach!</div>
+            <p className="db-welcome-sub">Get up and running in three steps:</p>
+            <div className="db-welcome-steps">
+              <div className="db-welcome-step">
+                <div className="db-welcome-step-num">1</div>
+                <div>
+                  <div className="db-welcome-step-title">Create an API key</div>
+                  <div className="db-welcome-step-desc">
+                    Go to <Link href="/dashboard/api-keys">API Keys</Link> and create your first key.
+                  </div>
+                </div>
+              </div>
+              <div className="db-welcome-step">
+                <div className="db-welcome-step-num">2</div>
+                <div>
+                  <div className="db-welcome-step-title">Choose a model</div>
+                  <div className="db-welcome-step-desc">
+                    Browse available LLMs in <Link href="/dashboard/models">Models</Link> and deploy one.
+                  </div>
+                </div>
+              </div>
+              <div className="db-welcome-step">
+                <div className="db-welcome-step-num">3</div>
+                <div>
+                  <div className="db-welcome-step-title">Make your first request</div>
+                  <div className="db-welcome-step-desc">
+                    Use the OpenAI-compatible API with your key:
+                  </div>
+                  <pre className="db-welcome-code">{`curl https://api.cloudach.com/v1/chat/completions \\
+  -H "Authorization: Bearer <your-api-key>" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"llama3-8b","messages":[{"role":"user","content":"Hello!"}]}'`}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Stats */}
         <div className="db-stats-grid">

@@ -19,7 +19,7 @@ export default function Nav() {
         <Link href="/login">
           <button className="btn-ghost">Sign in</button>
         </Link>
-        <Link href="/login">
+        <Link href="/signup">
           <button className="btn-solid">Get started free</button>
         </Link>
       </div>
