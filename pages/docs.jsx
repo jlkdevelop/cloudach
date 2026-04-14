@@ -286,37 +286,245 @@ data: [DONE]`}</CodeBlock>
 
             {/* ── Rate Limits ── */}
             <Section id="rate-limits" title="Rate Limits">
+              <p style={p}>Rate limits apply per API key. All limits reset on a rolling window (RPM) or at midnight UTC (TPD).</p>
+
+              <h3 style={h3}>Limits by plan</h3>
               <Table
-                headers={['Limit', 'Value', 'Scope', 'Reset']}
+                headers={['Plan', 'Requests / min (RPM)', 'Tokens / day (TPD)', 'Notes']}
                 rows={[
-                  ['Requests per minute (RPM)', '60', 'Per API key', 'Rolling 60s window'],
-                  ['Tokens per day (TPD)', '1,000,000', 'Per API key', 'Midnight UTC'],
+                  ['Free', '60', '1,000,000', 'Default on sign-up'],
+                  ['Pro', '600', '10,000,000', 'Available after plan upgrade'],
+                  ['Enterprise', 'Custom', 'Custom', 'Contact sales@cloudach.com'],
                 ]}
               />
-              <h3 style={h3}>Rate limit error (429)</h3>
-              <CodeBlock>{`{"error": {"message": "Rate limit exceeded: 60 requests per minute.", "type": "requests", "code": "rate_limit_exceeded"}}`}</CodeBlock>
+
+              <h3 style={h3}>Per-key overrides</h3>
               <p style={p}>
-                The response includes a <Code>Retry-After: 60</Code> header.
-                Implement exponential backoff starting at 1 second.
-                Contact <a href="mailto:sales@cloudach.com" style={link}>sales@cloudach.com</a> for enterprise rate limit increases.
+                You can set a custom <Code>rate_limit_rpm</Code> on individual API keys from the{' '}
+                <a href="/dashboard/api-keys" style={link}>dashboard</a>. Useful for restricting
+                keys used in untrusted environments or increasing limits for high-throughput integrations.
+              </p>
+
+              <h3 style={h3}>Rate-limit response headers</h3>
+              <p style={p}>Every API response includes these headers so you can track your usage proactively:</p>
+              <Table
+                headers={['Header', 'Example value', 'Meaning']}
+                rows={[
+                  ['X-RateLimit-Limit-Requests', '60', 'Your RPM ceiling'],
+                  ['X-RateLimit-Remaining-Requests', '42', 'Requests left in this 60-second window'],
+                  ['X-RateLimit-Reset-Requests', '2026-04-14T12:01:00Z', 'UTC timestamp when the window resets'],
+                  ['X-RateLimit-Limit-Tokens', '1000000', 'Your daily token ceiling'],
+                  ['X-RateLimit-Remaining-Tokens', '987432', 'Tokens left today'],
+                  ['X-RateLimit-Reset-Tokens', '2026-04-15T00:00:00Z', 'UTC timestamp of next daily reset'],
+                  ['Retry-After', '60', 'Seconds to wait before retrying (only on 429 responses)'],
+                ]}
+              />
+
+              <h3 style={h3}>429 error responses</h3>
+              <p style={p}>Use the <Code>type</Code> field to distinguish RPM from TPD errors:</p>
+              <CodeBlock>{`// RPM exceeded — type: "requests"
+{"error": {"message": "Rate limit exceeded: 60 requests per minute.", "type": "requests", "code": "rate_limit_exceeded"}}
+
+// TPD exceeded — type: "tokens"
+{"error": {"message": "You have exceeded your daily token limit of 1,000,000 tokens. Tokens reset at midnight UTC.", "type": "tokens", "code": "rate_limit_exceeded"}}`}</CodeBlock>
+
+              <h3 style={h3}>Handling 429s — exponential backoff</h3>
+              <p style={p}>
+                Always respect the <Code>Retry-After</Code> header when present. Fall back to exponential backoff
+                (1 s → 2 s → 4 s → 8 s) when the header is absent.
+              </p>
+
+              <h4 style={h4}>Python</h4>
+              <CodeBlock>{`import time
+from openai import OpenAI, APIStatusError
+
+client = OpenAI(api_key="sk-cloudach-YOUR_KEY", base_url="https://api.cloudach.com/v1")
+
+RETRYABLE = {429, 500, 502, 503}
+
+def chat_with_backoff(messages, model="llama3-8b", max_retries=5):
+    for attempt in range(max_retries):
+        try:
+            return client.chat.completions.create(model=model, messages=messages)
+        except APIStatusError as e:
+            if e.status_code not in RETRYABLE or attempt == max_retries - 1:
+                raise
+            retry_after = e.response.headers.get("Retry-After")
+            wait = float(retry_after) if retry_after else 2 ** attempt
+            print(f"Attempt {attempt + 1} failed ({e.status_code}). Retrying in {wait}s...")
+            time.sleep(wait)`}</CodeBlock>
+
+              <h4 style={h4}>Node.js</h4>
+              <CodeBlock>{`import OpenAI from "openai";
+
+const client = new OpenAI({ apiKey: "sk-cloudach-YOUR_KEY", baseURL: "https://api.cloudach.com/v1" });
+
+const RETRYABLE = new Set([429, 500, 502, 503]);
+
+async function chatWithBackoff(messages, model = "llama3-8b", maxRetries = 5) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await client.chat.completions.create({ model, messages });
+    } catch (err) {
+      if (!(err instanceof OpenAI.APIError) || !RETRYABLE.has(err.status) || attempt === maxRetries - 1) {
+        throw err;
+      }
+      const retryAfter = err.headers?.["retry-after"];
+      const wait = retryAfter ? parseFloat(retryAfter) * 1000 : Math.pow(2, attempt) * 1000;
+      console.log(\`Attempt \${attempt + 1} failed (\${err.status}). Retrying in \${wait}ms...\`);
+      await new Promise((r) => setTimeout(r, wait));
+    }
+  }
+}`}</CodeBlock>
+
+              <p style={p}>
+                Need higher limits?{' '}
+                <a href="mailto:sales@cloudach.com" style={link}>Contact sales</a> to discuss enterprise quotas.
               </p>
             </Section>
 
             {/* ── Errors ── */}
             <Section id="errors" title="Error Codes">
-              <p style={p}>All errors follow the OpenAI error schema: <Code>{`{"error": {"message": "...", "type": "...", "code": "...", "param": "..."}}`}</Code></p>
+              <p style={p}>
+                All errors follow the OpenAI error schema:{' '}
+                <Code>{`{"error": {"message": "...", "type": "...", "code": "...", "param": "..."}}`}</Code>.{' '}
+                <Code>param</Code> is only included when the error is tied to a specific request field.
+              </p>
+
+              <h3 style={h3}>Error reference</h3>
               <Table
-                headers={['HTTP', 'type', 'Cause', 'Fix']}
+                headers={['HTTP', 'code', 'type', 'Cause', 'Fix']}
                 rows={[
-                  ['400', 'invalid_request_error', 'Bad request body', 'Check model, messages fields'],
-                  ['401', 'authentication_error', 'Invalid or revoked key', 'Check key in dashboard'],
-                  ['401', 'invalid_request_error', 'Missing Authorization header', 'Add Bearer token'],
-                  ['404', 'invalid_request_error', 'Unknown model or route', 'Check /v1/models'],
-                  ['429', 'requests', 'Rate limit exceeded', 'Backoff + retry'],
-                  ['502', 'api_error', 'Model backend unavailable', 'Retry with backoff'],
-                  ['500', 'api_error', 'Internal server error', 'Retry; contact support if persistent'],
+                  ['400', 'invalid_request', 'invalid_request_error', 'Malformed JSON body', 'Validate JSON; set Content-Type: application/json'],
+                  ['400', 'missing_required_param', 'invalid_request_error', 'model or messages missing', 'Include both model and messages in every request'],
+                  ['400', 'invalid_param_value', 'invalid_request_error', 'temperature out of [0,2], empty messages, etc.', 'Validate parameter values before sending'],
+                  ['400', 'context_length_exceeded', 'invalid_request_error', 'Prompt + max_tokens exceeds model context', 'Trim history or switch to a larger-context model'],
+                  ['401', 'missing_credentials', 'invalid_request_error', 'No Authorization header', "Add Authorization: Bearer <key>"],
+                  ['401', 'invalid_api_key', 'authentication_error', 'Key is wrong, expired, or revoked', 'Check or rotate key in the dashboard'],
+                  ['403', 'insufficient_quota', 'permission_error', 'Monthly token cap reached', 'Upgrade plan or wait for reset'],
+                  ['404', 'model_not_found', 'invalid_request_error', 'Model ID not recognised', 'Call GET /v1/models for valid IDs'],
+                  ['404', 'not_found', 'invalid_request_error', 'Route does not exist', 'Check base URL and path'],
+                  ['413', 'request_too_large', 'invalid_request_error', 'Body > 1 MB', 'Chunk large payloads'],
+                  ['429', 'rate_limit_exceeded', 'requests', 'RPM limit hit', 'Wait Retry-After seconds; use exponential backoff'],
+                  ['429', 'rate_limit_exceeded', 'tokens', 'Daily token limit hit', 'Wait until midnight UTC for reset'],
+                  ['500', 'internal_server_error', 'api_error', 'Unexpected server fault', 'Retry with backoff; contact support if persistent'],
+                  ['502', 'model_backend_unavailable', 'api_error', 'Inference backend down or overloaded', 'Retry with exponential backoff'],
+                  ['503', 'service_unavailable', 'api_error', 'Maintenance window', 'Check status.cloudach.com'],
                 ]}
               />
+
+              <h3 style={h3}>Example error responses</h3>
+
+              <h4 style={h4}>400 — Context length exceeded</h4>
+              <CodeBlock>{`{
+  "error": {
+    "message": "This model's maximum context length is 8192 tokens, but your request has 9500 tokens (8100 prompt + 1400 max_tokens). Shorten your messages or reduce max_tokens.",
+    "type": "invalid_request_error",
+    "code": "context_length_exceeded"
+  }
+}`}</CodeBlock>
+
+              <h4 style={h4}>401 — Invalid key</h4>
+              <CodeBlock>{`{
+  "error": {
+    "message": "Invalid or revoked API key.",
+    "type": "authentication_error",
+    "code": "invalid_api_key"
+  }
+}`}</CodeBlock>
+
+              <h4 style={h4}>404 — Model not found</h4>
+              <CodeBlock>{`{
+  "error": {
+    "message": "The model 'gpt-4' does not exist or you do not have access to it.",
+    "type": "invalid_request_error",
+    "code": "model_not_found",
+    "param": "model"
+  }
+}`}</CodeBlock>
+
+              <h4 style={h4}>429 — Rate limited</h4>
+              <CodeBlock>{`// RPM exceeded (type: "requests")
+{"error": {"message": "Rate limit exceeded: 60 requests per minute.", "type": "requests", "code": "rate_limit_exceeded"}}
+
+// Daily token cap (type: "tokens")
+{"error": {"message": "You have exceeded your daily token limit of 1,000,000 tokens. Tokens reset at midnight UTC.", "type": "tokens", "code": "rate_limit_exceeded"}}`}</CodeBlock>
+
+              <Callout>Do NOT retry 400, 401, 403, or 404 errors — they indicate a bug in the request, not a transient fault. Retry 429, 500, 502, and 503 with exponential backoff.</Callout>
+
+              <h3 style={h3}>Streaming error handling</h3>
+              <p style={p}>
+                Errors in streaming responses fall into two categories:
+              </p>
+              <ul style={ul}>
+                <li>
+                  <strong>Pre-stream errors</strong> — the request fails before any <Code>data:</Code> events are sent.
+                  You receive a normal HTTP error response (non-200 status, JSON body). Handle identically to non-streaming errors.
+                </li>
+                <li>
+                  <strong>Mid-stream errors</strong> — the backend fails after the stream has started.
+                  The <Code>data:</Code> sequence is cut short; the final event is an error object instead of <Code>data: [DONE]</Code>.
+                </li>
+              </ul>
+
+              <h4 style={h4}>Mid-stream error event</h4>
+              <CodeBlock>{`data: {"id":"chatcmpl-abc","choices":[{"delta":{"content":"The answer is"},"index":0}]}
+
+data: {"error": {"message": "Stream interrupted by server.", "type": "api_error", "code": "stream_error"}}
+
+// Connection closes — [DONE] is NOT sent`}</CodeBlock>
+
+              <h4 style={h4}>Python — streaming with error handling</h4>
+              <CodeBlock>{`from openai import OpenAI, APIStatusError
+
+client = OpenAI(api_key="sk-cloudach-YOUR_KEY", base_url="https://api.cloudach.com/v1")
+
+collected = []
+try:
+    stream = client.chat.completions.create(
+        model="llama3-8b",
+        messages=[{"role": "user", "content": "Tell me a story."}],
+        stream=True,
+    )
+    for chunk in stream:
+        delta = chunk.choices[0].delta.content or ""
+        collected.append(delta)
+        print(delta, end="", flush=True)
+except APIStatusError as e:
+    # Covers both pre-stream HTTP errors and mid-stream 5xx faults
+    print(f"\\nStream error ({e.status_code}): {e.message}")
+    # Retry the full request if e.status_code in {429, 500, 502, 503}`}</CodeBlock>
+
+              <h4 style={h4}>Node.js — streaming with error handling</h4>
+              <CodeBlock>{`import OpenAI from "openai";
+
+const client = new OpenAI({ apiKey: "sk-cloudach-YOUR_KEY", baseURL: "https://api.cloudach.com/v1" });
+
+const collected = [];
+try {
+  const stream = await client.chat.completions.create({
+    model: "llama3-8b",
+    messages: [{ role: "user", content: "Tell me a story." }],
+    stream: true,
+  });
+  for await (const chunk of stream) {
+    const delta = chunk.choices[0]?.delta?.content ?? "";
+    collected.push(delta);
+    process.stdout.write(delta);
+  }
+} catch (err) {
+  if (err instanceof OpenAI.APIError) {
+    console.error(\`\\nStream error (\${err.status}): \${err.message}\`);
+    // Retry if err.status is in [429, 500, 502, 503]
+  } else {
+    throw err; // Network-level error (TCP reset, proxy timeout)
+  }
+}`}</CodeBlock>
+
+              <p style={p}>
+                Network-level interruptions (TCP resets, proxy timeouts) surface as connection errors from the HTTP client,
+                not as API error JSON. Always wrap stream consumption in a try/catch and implement a retry strategy for the full request.
+              </p>
             </Section>
 
             {/* ── SDK Compatibility ── */}
