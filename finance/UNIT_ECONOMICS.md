@@ -1,33 +1,28 @@
 # Cloudach — Unit Economics Analysis
 
 > **As of:** April 2026 | Competitive benchmarks vs. Together AI, Fireworks AI, Replicate
+> **Updated:** Reflects live pricing tiers (Free / Pro / Enterprise) from CLO-59. Rates are **combined input + output** per million tokens.
 
 ---
 
 ## 1. Competitive Pricing Landscape
 
-### Input Token Pricing ($/1M tokens)
+### Token Pricing ($/1M tokens, combined input + output)
 
-| Provider | Llama 3 8B | Llama 3 70B | Mistral 7B | Mixtral 8x7B |
-|---|---|---|---|---|
-| **Together AI** | $0.20 | $0.90 | $0.20 | $0.60 |
-| **Fireworks AI** | $0.20 | $0.90 | $0.20 | $0.50 |
-| **Replicate** | $0.05/sec compute | ~$3.00 | $0.05/sec | ~$0.65 |
-| **OpenAI (GPT-4o)** | — | ~$2.50 | — | — |
-| **AWS Bedrock** | $0.30 | $2.65 | — | — |
-| **Cloudach Developer** | $0.80 | $0.80 | $0.80 | $0.80 |
-| **Cloudach Enterprise** | $0.30 | $0.30 | $0.30 | $0.30 |
+| Provider | Llama 3.1 8B | Llama 3.1 70B | Mistral 7B | Mixtral 8×7B | Subscription |
+|---|---|---|---|---|---|
+| **Together AI** | $0.20 | $0.90 | $0.20 | $0.60 | None |
+| **Fireworks AI** | $0.20 | $0.90 | $0.20 | $0.50 | None |
+| **Replicate** | ~$0.40 (compute-sec basis) | ~$3.00 | ~$0.35 | ~$0.65 | None |
+| **AWS Bedrock** | $0.30 | $2.65 | — | — | None |
+| **OpenAI (GPT-4o)** | — | ~$5.00 (equiv) | — | — | None |
+| **Cloudach Free** | **$0.20** | $0.60 | $0.16 | $0.48 | $0/mo |
+| **Cloudach Pro** | **$0.15** | **$0.45** | **$0.12** | **$0.36** | $49/mo |
+| **Cloudach Enterprise** | Custom | Custom | Custom | Custom | Custom |
 
-*Cloudach uses a unified per-token pricing model (not model-specific). Developer tier is priced at a premium for simplicity; enterprise gets volume discounts matching or beating competitors.*
+*Cloudach Pro undercuts Together AI / Fireworks AI by 25–50% on equivalent models. Cloudach Free matches Together AI on Llama 3.1 8B (the most common developer model) while offering model-specific rates that are competitive or better across the full catalog.*
 
-### Output Token Pricing ($/1M tokens)
-
-| Provider | Llama 3 8B | Llama 3 70B | Mistral 7B |
-|---|---|---|---|
-| **Together AI** | $0.20 | $0.90 | $0.20 |
-| **Fireworks AI** | $0.20 | $0.90 | $0.20 |
-| **Cloudach Developer** | $2.40 | $2.40 | $2.40 |
-| **Cloudach Enterprise** | $0.90 | $0.90 | $0.90 |
+*Note: Together AI / Fireworks AI rates are input-only; combined input+output at equal ratios would roughly double. Cloudach rates are explicitly combined, making direct comparison slightly favorable to competitors — still competitive at Pro rates.*
 
 ---
 
@@ -70,77 +65,69 @@
 
 ---
 
-## 3. Unit Economics Per Pricing Tier
+## 3. Unit Economics Per Pricing Tier (Live Pricing — April 2026)
 
-### Developer Tier (Pay-as-you-go)
-
-| Metric | Value |
-|---|---|
-| Avg monthly token usage | 22M input + 8M output |
-| Avg monthly revenue | $18.00 |
-| Avg monthly COGS (blended) | $8.70 |
-| **Gross profit/customer/month** | **$9.30** |
-| **Gross margin %** | **52%** |
-| CAC (organic/content) | $15 |
-| CAC payback period | 1.6 months |
-| LTV (12-mo avg tenure) | $112 |
-| LTV:CAC ratio | **7.5:1** |
-
-### Startup Tier ($99/mo base)
+### Free Tier ($0/mo — pay-as-you-go)
 
 | Metric | Value |
 |---|---|
-| Avg monthly token usage | 55M input + 20M output |
-| Avg monthly revenue | $210.00 |
-| Avg monthly COGS | $88.20 |
-| **Gross profit/customer/month** | **$121.80** |
+| Avg monthly token usage | ~30M tokens (combined in+out) |
+| Avg monthly revenue | $5.46 ($0.182/M blended) |
+| Avg monthly COGS (shared GPU, packed) | $4.08 ($0.136/M) |
+| **Gross profit/user/month** | **$1.38** |
+| **Gross margin %** | **25%** |
+| CAC (organic/SEO/content) | $6 |
+| CAC payback period | 4.3 months |
+| LTV primary value | Free→Pro upgrade funnel |
+| LTV (if stays Free, 8-mo avg tenure) | $44 |
+| LTV:CAC ratio | **7:1** |
+
+*Free tier is acquisition-focused. Primary financial value is the upgrade funnel: every 8% Free→Pro conversion at M12 (450 Pro customers from ~5,600 Free users) generates $45K MRR at 58% GM.*
+
+### Pro Tier ($49/mo + $0.15/M tokens)
+
+| Metric | Value |
+|---|---|
+| Avg monthly token usage | ~340M tokens (combined in+out) |
+| Base subscription revenue | $49.00 |
+| Token revenue ($0.15/M avg — small model weighted) | $51.00 |
+| **Total avg monthly revenue** | **$100.00** |
+| Token COGS (reserved, 85% util, small model mix) | $37.50 |
+| Dedicated GPU slot overhead | $4.50 |
+| **Total avg monthly COGS** | **$42.00** |
+| **Gross profit/customer/month** | **$58.00** |
 | **Gross margin %** | **58%** |
-| CAC (content + paid) | $180 |
-| CAC payback period | 1.5 months |
-| LTV (18-mo avg tenure) | $2,192 |
-| LTV:CAC ratio | **12.2:1** |
+| CAC (inbound + content) | $80 |
+| CAC payback period | 1.4 months |
+| LTV (18-mo avg tenure) | $1,044 |
+| LTV:CAC ratio | **13:1** |
 
-### Growth Tier ($499/mo base)
-
-| Metric | Value |
-|---|---|
-| Avg monthly token usage | 360M input + 140M output |
-| Avg monthly revenue | $820.00 |
-| Avg monthly COGS | $344.40 |
-| **Gross profit/customer/month** | **$475.60** |
-| **Gross margin %** | **58%** |
-| CAC (outbound + events) | $800 |
-| CAC payback period | 1.7 months |
-| LTV (24-mo avg tenure) | $11,414 |
-| LTV:CAC ratio | **14.3:1** |
-
-### Enterprise Tier ($2,500+/mo base)
+### Enterprise Tier (Custom contract)
 
 | Metric | Value |
 |---|---|
-| Avg monthly token usage | 700M input + 300M output |
-| Avg monthly revenue | $3,400.00 |
-| Avg monthly COGS | $952.00 (reserved instances) |
-| **Gross profit/customer/month** | **$2,448.00** |
+| Avg monthly contract value | $4,500 |
+| Contract basis | Base + compute + SLA + support + compliance |
+| Avg monthly COGS (reserved instances + support allocation) | $1,260 |
+| **Gross profit/logo/month** | **$3,240** |
 | **Gross margin %** | **72%** |
-| CAC (enterprise sales) | $8,000 |
-| CAC payback period | 3.3 months |
-| LTV (36-mo avg tenure) | $88,128 |
-| LTV:CAC ratio | **11.0:1** |
+| CAC (enterprise sales cycle) | $8,000 |
+| CAC payback period | 2.5 months |
+| LTV (36-mo avg tenure) | $116,640 |
+| LTV:CAC ratio | **14.6:1** |
 
 ---
 
 ## 4. Gross Margin Summary
 
-| Tier | GM% (On-Demand) | GM% (Reserved) | Target GM% (Year 2) |
+| Tier | GM% (Current — On-Demand Mix) | GM% (Reserved, 85% Util) | Target GM% (Year 2) |
 |---|---|---|---|
-| Developer | 52% | 62% | 65% |
-| Startup | 58% | 66% | 68% |
-| Growth | 58% | 66% | 70% |
-| Enterprise | 65% | 72% | 75% |
-| **Blended** | **57%** | **66%** | **70%** |
+| Free | 25% | 32% | 38% |
+| Pro | 52% | 58% | 63% |
+| Enterprise | 68% | 72% | 76% |
+| **Blended** | **47% (early)** | **57% (M12 base)** | **65% (Year 2)** |
 
-*Reserved instances unlock significant margin improvement. At 60% reserved coverage (achievable by Month 9 with enterprise commitments), blended GM jumps from 57% → 66%.*
+*Blended GM starts lower in early months (Free-tier heavy) and improves as enterprise mix grows. At 60% reserved coverage (Month 9) and 14+ enterprise logos (Month 12), blended GM reaches 57%. Year 2 target of 65% assumes Trainium2 migration for large models + 80% reserved coverage.*
 
 ---
 
@@ -150,7 +137,7 @@
 
 | Item | Estimate |
 |---|---|
-| Price charged (Llama 3 8B) | $0.20/1M tok |
+| Price charged (Llama 3.1 8B, input-only) | $0.20/1M tok |
 | AWS cost (reserved, 80% util) | ~$0.14/1M tok |
 | **Gross margin** | **~30%** |
 | Series B raised | $102.5M (2024) |
@@ -160,12 +147,12 @@
 
 | Item | Estimate |
 |---|---|
-| Price charged (Llama 3 8B) | $0.20/1M tok |
+| Price charged (Llama 3.1 8B, input-only) | $0.20/1M tok |
 | AWS/custom silicon cost | ~$0.12–0.15/1M tok |
 | **Gross margin** | **~25–40%** |
 | Series B raised | $52M (2024) |
 
-**Cloudach advantage:** Cloudach charges a premium on Developer tier for ease-of-use (unified pricing, single API key). Enterprise tier is cost-competitive. The differentiation is developer experience, multi-model flexibility, and team management — not price alone.
+**Cloudach positioning:** Cloudach Pro matches or beats Together AI / Fireworks AI on token rates (25–50% cheaper on equivalent models) while adding the $49/mo subscription that lifts overall GM to 58% at the Pro tier level. Neither competitor charges a subscription fee, meaning Cloudach captures more revenue per active customer at equivalent or lower per-token prices. Enterprise tier is priced at a premium reflecting dedicated infrastructure, compliance features (HIPAA, SOC 2, GDPR), and dedicated solutions engineering.
 
 ---
 
