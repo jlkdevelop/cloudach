@@ -62,7 +62,7 @@ export default function DocsPage() {
                 ['#models-list', '↳ Models List'],
                 ['#rate-limits', 'Rate Limits'],
                 ['#errors', 'Error Codes'],
-                ['#sdks', 'SDK Compatibility'],
+                ['#sdks', 'SDK Reference'],
                 ['#integrations', 'Integrations'],
                 ['#tutorials', 'Tutorials'],
                 ['#faq', 'FAQ'],
@@ -527,51 +527,182 @@ try {
               </p>
             </Section>
 
-            {/* ── SDK Compatibility ── */}
-            <Section id="sdks" title="SDK Compatibility">
+            {/* ── SDK Reference ── */}
+            <Section id="sdks" title="SDK Reference">
               <p style={p}>
                 Cloudach is drop-in compatible with any OpenAI SDK. Change two values: <Code>base_url</Code> and <Code>api_key</Code>.
+                All request/response shapes are identical.
               </p>
+
+              <h3 style={h3}>SDK quickstart guides</h3>
+              <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
+                {[
+                  { href: '/tutorials/python-quickstart', lang: 'Python', pkg: 'pip install openai', desc: 'Install, configure, first call in 5 lines' },
+                  { href: '/tutorials/nodejs-quickstart', lang: 'Node.js', pkg: 'npm install openai', desc: 'ESM, CommonJS, and TypeScript setup' },
+                ].map(t => (
+                  <a key={t.href} href={t.href} style={{ flex: 1, border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px', textDecoration: 'none', display: 'block' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: '#0D0F1A' }}>{t.lang}</span>
+                      <Code>{t.pkg}</Code>
+                    </div>
+                    <div style={{ fontSize: 12, color: '#6B7280' }}>{t.desc}</div>
+                  </a>
+                ))}
+              </div>
+
               <Table
-                headers={['SDK', 'base_url / baseURL', 'api_key / apiKey']}
+                headers={['SDK', 'Install', 'base_url / baseURL']}
                 rows={[
-                  ['Python openai ≥ 1.0', 'https://api.cloudach.com/v1', 'sk-cloudach-...'],
-                  ['Node.js openai ≥ 4.0', 'https://api.cloudach.com/v1', 'sk-cloudach-...'],
-                  ['LangChain (Python)', 'openai_api_base env var', 'sk-cloudach-...'],
-                  ['LiteLLM', 'api_base config', 'sk-cloudach-...'],
-                  ['Direct HTTP', 'Authorization: Bearer header', '—'],
+                  ['Python openai ≥ 1.0', 'pip install openai', 'https://api.cloudach.com/v1'],
+                  ['Node.js openai ≥ 4.0', 'npm install openai', 'https://api.cloudach.com/v1'],
+                  ['LangChain (Python)', 'pip install langchain-openai', 'openai_api_base env var'],
+                  ['LiteLLM', 'pip install litellm', 'api_base config'],
+                  ['Direct HTTP / curl', '—', 'Authorization: Bearer header'],
                 ]}
               />
 
-              <h3 style={h3}>Python example (with streaming)</h3>
-              <CodeBlock>{`from openai import OpenAI
+              <h3 style={{ ...h3, marginTop: 28 }}>chat.completions.create — parameters</h3>
+              <Table
+                headers={['Parameter', 'Type', 'Required', 'Default', 'Description']}
+                rows={[
+                  ['model', 'string', 'Yes', '—', 'Model ID. See /v1/models for available IDs.'],
+                  ['messages', 'array', 'Yes', '—', 'Non-empty array of {role, content} objects. Roles: system, user, assistant.'],
+                  ['stream', 'boolean', 'No', 'false', 'If true, response is SSE stream of delta chunks ending with data: [DONE].'],
+                  ['temperature', 'number', 'No', '1.0', 'Sampling temperature. 0.0 = deterministic, 2.0 = very random.'],
+                  ['max_tokens', 'number', 'No', 'model max', 'Maximum tokens to generate. Caps completion length.'],
+                  ['top_p', 'number', 'No', '1.0', 'Nucleus sampling. Alternative to temperature. Use one, not both.'],
+                  ['n', 'number', 'No', '1', 'Number of completions to generate. Higher values multiply token cost.'],
+                  ['stop', 'string | array', 'No', 'null', 'Stop sequence(s). Generation halts when one is produced.'],
+                  ['presence_penalty', 'number', 'No', '0.0', '-2.0 to 2.0. Positive values penalise repeated topics.'],
+                  ['frequency_penalty', 'number', 'No', '0.0', '-2.0 to 2.0. Positive values penalise repeated tokens.'],
+                  ['user', 'string', 'No', '—', 'Stable end-user identifier for abuse monitoring.'],
+                ]}
+              />
 
-client = OpenAI(api_key="sk-cloudach-YOUR_KEY", base_url="https://api.cloudach.com/v1")
+              <h3 style={{ ...h3, marginTop: 28 }}>chat.completions.create — response (non-streaming)</h3>
+              <CodeBlock>{`{
+  "id": "chatcmpl-abc123",           // unique completion ID
+  "object": "chat.completion",
+  "created": 1712345678,             // Unix timestamp
+  "model": "llama3-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I help?"
+      },
+      "finish_reason": "stop"        // "stop" | "length" | "content_filter"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 18,
+    "completion_tokens": 7,
+    "total_tokens": 25
+  }
+}`}</CodeBlock>
 
-stream = client.chat.completions.create(
-    model="llama3-8b",
-    messages=[{"role": "user", "content": "Tell me a story."}],
-    stream=True,
+              <h3 style={{ ...h3, marginTop: 28 }}>chat.completions.create — streaming chunk</h3>
+              <CodeBlock>{`{
+  "id": "chatcmpl-abc123",
+  "object": "chat.completion.chunk",
+  "created": 1712345678,
+  "model": "llama3-8b",
+  "choices": [
+    {
+      "index": 0,
+      "delta": {
+        "role": "assistant",  // only in first chunk
+        "content": "Hello"   // null in first and last chunks
+      },
+      "finish_reason": null   // "stop" | "length" in final chunk
+    }
+  ],
+  // usage only in the last content chunk (before [DONE])
+  "usage": { "prompt_tokens": 18, "completion_tokens": 1, "total_tokens": 19 }
+}`}</CodeBlock>
+
+              <h3 style={{ ...h3, marginTop: 28 }}>models.list — response</h3>
+              <CodeBlock>{`// GET /v1/models
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "llama3-8b",
+      "object": "model",
+      "created": 1712000000,
+      "owned_by": "cloudach"
+    }
+    // ... more models
+  ]
+}`}</CodeBlock>
+
+              <h3 style={h3}>Python — full client reference</h3>
+              <CodeBlock>{`from openai import OpenAI, AsyncOpenAI
+
+# Sync client
+client = OpenAI(
+    base_url="https://api.cloudach.com/v1",
+    api_key="sk-cloudach-YOUR_KEY",
+    timeout=60.0,       # request timeout in seconds (default: 60)
+    max_retries=2,      # automatic retries on 429/5xx (default: 2)
 )
 
-for chunk in stream:
-    if chunk.choices[0].delta.content:
-        print(chunk.choices[0].delta.content, end="", flush=True)`}</CodeBlock>
+# Async client (asyncio / FastAPI)
+async_client = AsyncOpenAI(
+    base_url="https://api.cloudach.com/v1",
+    api_key="sk-cloudach-YOUR_KEY",
+)
 
-              <h3 style={h3}>Node.js example (with streaming)</h3>
+# Chat completion (sync)
+response = client.chat.completions.create(model="llama3-8b", messages=[...])
+text = response.choices[0].message.content
+usage = response.usage  # .prompt_tokens, .completion_tokens, .total_tokens
+
+# Chat completion (async)
+response = await async_client.chat.completions.create(model="llama3-8b", messages=[...])
+
+# List models
+models = client.models.list()
+for m in models.data:
+    print(m.id)
+
+# Retrieve a model
+model = client.models.retrieve("llama3-8b")`}</CodeBlock>
+
+              <h3 style={h3}>Node.js — full client reference</h3>
               <CodeBlock>{`import OpenAI from "openai";
 
-const client = new OpenAI({ apiKey: "sk-cloudach-YOUR_KEY", baseURL: "https://api.cloudach.com/v1" });
-
-const stream = await client.chat.completions.create({
-  model: "llama3-8b",
-  messages: [{ role: "user", content: "Tell me a story." }],
-  stream: true,
+const client = new OpenAI({
+  baseURL: "https://api.cloudach.com/v1",
+  apiKey: "sk-cloudach-YOUR_KEY",
+  timeout: 60_000,    // ms (default: 60000)
+  maxRetries: 2,      // automatic retries on 429/5xx (default: 2)
 });
 
+// Chat completion
+const response = await client.chat.completions.create({ model: "llama3-8b", messages: [...] });
+const text = response.choices[0].message.content;
+const usage = response.usage; // .promptTokens, .completionTokens, .totalTokens
+
+// Streaming
+const stream = await client.chat.completions.create({
+  model: "llama3-8b", messages: [...], stream: true,
+});
 for await (const chunk of stream) {
   process.stdout.write(chunk.choices[0]?.delta?.content ?? "");
-}`}</CodeBlock>
+}
+
+// List models
+const models = await client.models.list();
+for (const m of models.data) console.log(m.id);`}</CodeBlock>
+
+              <p style={p}>
+                Full guides: <a href="/tutorials/python-quickstart" style={link}>Python quickstart</a>{' '}·{' '}
+                <a href="/tutorials/nodejs-quickstart" style={link}>Node.js quickstart</a>{' '}·{' '}
+                <a href="/tutorials/streaming" style={link}>Streaming guide</a>{' '}·{' '}
+                <a href="/tutorials/migrate-from-openai" style={link}>Migrate from OpenAI</a>
+              </p>
             </Section>
 
             {/* ── Integrations ── */}
@@ -609,16 +740,56 @@ for await (const chunk of stream) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[
                   {
+                    href: '/tutorials/python-quickstart',
+                    title: 'Python SDK quickstart',
+                    desc: 'Install, configure, and make your first chat completion in Python. 5 minutes.',
+                    badge: 'Beginner',
+                    badgeColor: '#059669',
+                    badgeBg: '#ECFDF5',
+                    lang: 'Python',
+                  },
+                  {
+                    href: '/tutorials/nodejs-quickstart',
+                    title: 'Node.js SDK quickstart',
+                    desc: 'ESM, CommonJS, and TypeScript setup. First call in under 5 minutes.',
+                    badge: 'Beginner',
+                    badgeColor: '#059669',
+                    badgeBg: '#ECFDF5',
+                    lang: 'Node.js',
+                  },
+                  {
+                    href: '/tutorials/migrate-from-openai',
+                    title: 'Migrate from OpenAI to Cloudach in 2 minutes',
+                    desc: 'Change base_url and api_key. Keep your existing OpenAI SDK and code unchanged.',
+                    badge: 'Beginner',
+                    badgeColor: '#059669',
+                    badgeBg: '#ECFDF5',
+                    lang: null,
+                  },
+                  {
+                    href: '/tutorials/streaming',
+                    title: 'Streaming guide',
+                    desc: 'How SSE works, collecting chunks, error handling, async Python, Next.js API routes, and React UI patterns.',
+                    badge: 'Intermediate',
+                    badgeColor: '#D97706',
+                    badgeBg: '#FFFBEB',
+                    lang: null,
+                  },
+                  {
                     href: '/tutorials/customer-support-bot',
                     title: 'Build a customer support bot with Llama 3',
-                    desc: 'Stream responses, handle context, deploy to production.',
+                    desc: 'Stream responses, handle context across turns, and deploy to production.',
                     badge: 'Intermediate',
+                    badgeColor: '#D97706',
+                    badgeBg: '#FFFBEB',
+                    lang: null,
                   },
                 ].map(t => (
                   <a key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
                       <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: t.badgeColor, background: t.badgeBg, padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                      {t.lang && <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.lang}</span>}
                     </div>
                     <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
                   </a>
