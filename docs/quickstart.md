@@ -92,6 +92,8 @@ print(response.choices[0].message.content)
 npm install openai
 ```
 
+> **Note:** These snippets use ES module syntax (`import`) and top-level `await`. Make sure your `package.json` contains `"type": "module"` before running with `node`.
+
 ```javascript
 import OpenAI from "openai";
 

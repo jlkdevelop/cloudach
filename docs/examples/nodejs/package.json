@@ -1,0 +1,13 @@
+{
+  "name": "cloudach-nodejs-examples",
+  "version": "1.0.0",
+  "description": "Cloudach Node.js API examples",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
