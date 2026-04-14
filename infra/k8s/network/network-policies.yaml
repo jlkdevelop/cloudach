@@ -1,0 +1,182 @@
+# NetworkPolicies — tenant isolation for the cloudach namespace.
+#
+# Design principle: tenants must NEVER share GPU compute or network namespace.
+# Today the "cloudach" namespace hosts shared infrastructure (api-gateway,
+# vllm pods). These policies enforce pod-level network isolation as a defence-
+# in-depth layer.  The per-tenant namespace model (see infra/k8s/tenancy/)
+# is the stronger long-term isolation boundary.
+#
+# Policy summary:
+#   1. default-deny-all       — block all ingress+egress unless explicitly allowed
+#   2. allow-api-gateway-ingress — api-gateway accepts traffic from the LB/ingress
+#   3. allow-gateway-to-vllm  — api-gateway pods can reach vLLM pods
+#   4. allow-vllm-egress      — vLLM pods can reach DNS + HuggingFace model hub
+#   5. allow-dns              — all pods can resolve DNS
+#   6. allow-monitoring       — Prometheus scrape access to /metrics
+#   7. deny-vllm-lateral      — vLLM pods cannot talk to each other directly
+#      (all inference traffic must flow through api-gateway which enforces tenant JWT)
+
+---
+# 1. Default deny: no pod can talk to any other pod unless a policy allows it.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: cloudach
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# 2. API gateway ingress: accept traffic from the GKE L7 ingress controller.
+# The LB health checks and user requests arrive from nodes in the cluster.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-gateway-ingress
+  namespace: cloudach
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  policyTypes:
+    - Ingress
+  ingress:
+    # Allow from anywhere (GCE LB and internal callers on port 8080)
+    - ports:
+        - protocol: TCP
+          port: 8080
+
+---
+# 3. API gateway → vLLM: only api-gateway pods may initiate connections to vLLM.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-gateway-to-vllm
+  namespace: cloudach
+spec:
+  podSelector:
+    matchLabels:
+      component: inference
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: api-gateway
+      ports:
+        - protocol: TCP
+          port: 8000
+
+---
+# 4. vLLM egress: model pods need to reach HuggingFace Hub on initial pull.
+# Scope to HTTPS only. Once models are cached in the PVC, traffic is minimal.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-vllm-egress-https
+  namespace: cloudach
+spec:
+  podSelector:
+    matchLabels:
+      component: inference
+  policyTypes:
+    - Egress
+  egress:
+    # DNS
+    - ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # HuggingFace Hub (model weights download)
+    - ports:
+        - protocol: TCP
+          port: 443
+
+---
+# 5. All pods: allow DNS resolution (kube-dns in kube-system).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns-egress
+  namespace: cloudach
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+
+---
+# 6. Prometheus scrape: allow monitoring namespace to scrape /metrics on vLLM.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scrape
+  namespace: cloudach
+spec:
+  podSelector:
+    matchLabels:
+      component: inference
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - protocol: TCP
+          port: 8000
+
+---
+# 7. API gateway egress: allow api-gateway to reach vLLM, Postgres, Redis.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-gateway-egress
+  namespace: cloudach
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  policyTypes:
+    - Egress
+  egress:
+    # DNS
+    - ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # vLLM inference
+    - to:
+        - podSelector:
+            matchLabels:
+              component: inference
+      ports:
+        - protocol: TCP
+          port: 8000
+    # Cloud SQL (Postgres) — private IP in the VPC; allow all TCP/5432
+    - ports:
+        - protocol: TCP
+          port: 5432
+    # Memorystore Redis — private IP in the VPC; allow TCP/6379
+    - ports:
+        - protocol: TCP
+          port: 6379

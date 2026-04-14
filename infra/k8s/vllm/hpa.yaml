@@ -1,32 +1,45 @@
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: vllm-llama3-8b-hpa
-  namespace: cloudach
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: vllm-llama3-8b
-  minReplicas: 1
-  maxReplicas: 4
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 70
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-        - type: Pods
-          value: 1
-          periodSeconds: 120
-    scaleUp:
-      stabilizationWindowSeconds: 60
-      policies:
-        - type: Pods
-          value: 1
-          periodSeconds: 60
+# DEPRECATED — this HPA is superseded by the KEDA ScaledObject at
+# infra/k8s/autoscaling/keda-scaledobject.yaml, which scales from 0 → N
+# based on vLLM queue depth (vllm:num_requests_waiting) rather than CPU.
+#
+# DO NOT apply both — KEDA creates its own HPA internally, and having two
+# HPAs targeting the same Deployment will cause a conflict.
+#
+# To migrate:
+#   kubectl delete hpa vllm-llama3-8b-hpa -n cloudach
+#   kubectl apply -f infra/k8s/autoscaling/keda-scaledobject.yaml
+#
+# Keeping this file for reference only. Remove once KEDA is confirmed live.
+
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: vllm-llama3-8b-hpa
+#   namespace: cloudach
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: vllm-llama3-8b
+#   minReplicas: 1
+#   maxReplicas: 4
+#   metrics:
+#     - type: Resource
+#       resource:
+#         name: cpu
+#         target:
+#           type: Utilization
+#           averageUtilization: 70
+#   behavior:
+#     scaleDown:
+#       stabilizationWindowSeconds: 300
+#       policies:
+#         - type: Pods
+#           value: 1
+#           periodSeconds: 120
+#     scaleUp:
+#       stabilizationWindowSeconds: 60
+#       policies:
+#         - type: Pods
+#           value: 1
+#           periodSeconds: 60
