@@ -48,7 +48,7 @@ export default function Footer() {
         <div className="foot-bar-links">
           <Link href="/privacy">Privacy policy</Link>
           <Link href="/terms">Terms of service</Link>
-          <Link href="/privacy#cookies">Cookies</Link>
+          <Link href="/acceptable-use">Acceptable use</Link>
         </div>
       </div>
     </footer>
