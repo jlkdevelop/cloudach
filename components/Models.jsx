@@ -1,12 +1,84 @@
 const models = [
-  { badge: 'mb-os', label: 'Open source', name: 'Llama 3 8B / 70B', sub: 'Meta · General purpose' },
-  { badge: 'mb-os', label: 'Open source', name: 'Mistral 7B', sub: 'Mistral AI · Efficient' },
-  { badge: 'mb-os', label: 'Open source', name: 'Mixtral 8×7B', sub: 'Mistral AI · MoE' },
-  { badge: 'mb-os', label: 'Open source', name: 'Qwen 2.5 72B', sub: 'Alibaba · Multilingual' },
-  { badge: 'mb-os', label: 'Open source', name: 'Gemma 2B / 7B', sub: 'Google · Lightweight' },
-  { badge: 'mb-os', label: 'Open source', name: 'Phi-3 Mini / Medium', sub: 'Microsoft · Compact' },
-  { badge: 'mb-cu', label: 'Custom', name: 'HuggingFace import', sub: 'Any public or private repo' },
-  { badge: 'mb-cu', label: 'Custom', name: 'Upload your weights', sub: 'GGUF · safetensors · bin' },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'Llama 3.1 8B',
+    sub: 'Meta · 128K ctx',
+    ttft: '68 ms',
+    tps: '1,380 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'Llama 3.1 70B',
+    sub: 'Meta · 128K ctx',
+    ttft: '210 ms',
+    tps: '360 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'Mistral 7B',
+    sub: 'Mistral AI · 32K ctx',
+    ttft: '55 ms',
+    tps: '1,560 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'Mixtral 8×7B',
+    sub: 'Mistral AI · MoE · 32K ctx',
+    ttft: '145 ms',
+    tps: '820 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'DeepSeek R1 7B',
+    sub: 'DeepSeek · Reasoning · 64K ctx',
+    ttft: '72 ms',
+    tps: '1,290 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'Qwen 2.5 72B',
+    sub: 'Alibaba · Multilingual · 128K ctx',
+    ttft: '205 ms',
+    tps: '355 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'Phi-3 Mini',
+    sub: 'Microsoft · Compact · 4K ctx',
+    ttft: '28 ms',
+    tps: '2,450 tok/s',
+  },
+  {
+    badge: 'mb-os',
+    label: 'Open source',
+    name: 'CodeLlama 13B',
+    sub: 'Meta · Code · 16K ctx',
+    ttft: '88 ms',
+    tps: '1,050 tok/s',
+  },
+  {
+    badge: 'mb-cu',
+    label: 'Custom',
+    name: 'HuggingFace import',
+    sub: 'Any public or private repo',
+    ttft: null,
+    tps: null,
+  },
+  {
+    badge: 'mb-cu',
+    label: 'Custom',
+    name: 'Upload your weights',
+    sub: 'GGUF · safetensors · bin',
+    ttft: null,
+    tps: null,
+  },
 ]
 
 export default function Models() {
@@ -26,6 +98,12 @@ export default function Models() {
               <span className={`mbadge ${m.badge}`}>{m.label}</span>
               <h4>{m.name}</h4>
               <p>{m.sub}</p>
+              {m.ttft && (
+                <div className="mbench">
+                  <span title="Time to First Token p50">⚡ {m.ttft} TTFT</span>
+                  <span title="Throughput tokens/sec">🚀 {m.tps}</span>
+                </div>
+              )}
             </div>
           ))}
         </div>

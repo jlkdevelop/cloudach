@@ -1,0 +1,21 @@
+# vLLM configuration — codellama-34b
+# Model: codellama/CodeLlama-34b-Instruct-hf
+# Hardware target: 2× NVIDIA A100 80 GB
+
+model: codellama/CodeLlama-34b-Instruct-hf
+served_model_name: codellama-34b
+tokenizer: codellama/CodeLlama-34b-Instruct-hf
+tokenizer_mode: auto
+
+tensor_parallel_size: 2
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+max_model_len: 16384
+max_num_batched_tokens: 4096
+max_num_seqs: 128
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

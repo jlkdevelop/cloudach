@@ -1,0 +1,23 @@
+# vLLM configuration — deepseek-r1-7b
+# Model: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+# Hardware target: 1× NVIDIA L4 (24 GB VRAM)
+# Note: R1 uses extended chain-of-thought; generation lengths are longer than typical chat models.
+#       max_num_seqs is set lower to avoid OOM on long reasoning traces.
+
+model: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+served_model_name: deepseek-r1-7b
+tokenizer: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+tokenizer_mode: auto
+
+tensor_parallel_size: 1
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 128
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning
