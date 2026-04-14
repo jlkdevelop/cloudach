@@ -25,7 +25,7 @@ export default function Contact() {
       <Nav />
       <main style={{ maxWidth: 560, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Contact</div>
-        <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1.5, color: '#0D0F1A', margin: '16px 0 12px' }}>Get in touch</h1>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 12px' }}>Get in touch</h1>
         <p style={{ fontSize: 15, color: '#6B7280', lineHeight: 1.7, marginBottom: 40 }}>
           For enterprise sales, partnerships, or general inquiries — fill out the form and we'll get back to you within one business day.
         </p>

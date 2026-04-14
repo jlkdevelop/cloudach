@@ -432,8 +432,8 @@
   border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
-  background: #EEF2FF;
-  color: #4338CA;
+  background: #EEF1FF;
+  color: #3730A3;
   letter-spacing: 0.2px;
 }
 
@@ -627,7 +627,7 @@
 
 .db-bar {
   width: 100%;
-  background: #EEF2FF;
+  background: #EEF1FF;
   border-radius: 4px 4px 0 0;
   min-height: 4px;
   transition: background 0.15s;

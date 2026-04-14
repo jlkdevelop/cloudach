@@ -106,6 +106,22 @@ button {
   cursor: pointer;
 }
 
+/* Focus states — WCAG AA keyboard accessibility */
+:focus-visible {
+  outline: 2px solid #4F6EF7;
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #4F6EF7;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Nav */
 .nav {
   display: flex;

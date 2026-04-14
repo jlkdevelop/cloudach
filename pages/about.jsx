@@ -18,16 +18,16 @@ export default function About() {
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">About</div>
-        <h1 style={{ fontSize: 44, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.1, color: '#0D0F1A', margin: '16px 0 24px' }}>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 24px' }}>
           We make open-source LLMs production-ready.
         </h1>
-        <p style={{ fontSize: 17, color: '#6B7280', lineHeight: 1.8, marginBottom: 24 }}>
+        <p style={{ fontSize: 16, color: '#6B7280', lineHeight: 1.75, marginBottom: 24 }}>
           Cloudach is a developer-focused cloud platform for deploying, scaling, and fine-tuning open-source language models. We believe every developer and company should have access to powerful AI infrastructure — without managing GPUs, configuring vLLM, or building their own serving stack.
         </p>
-        <p style={{ fontSize: 17, color: '#6B7280', lineHeight: 1.8, marginBottom: 24 }}>
+        <p style={{ fontSize: 16, color: '#6B7280', lineHeight: 1.75, marginBottom: 24 }}>
           We built Cloudach because the gap between "I want to run Llama 3" and "I have a production-grade API endpoint" was too wide. Our platform closes that gap in under 60 seconds.
         </p>
-        <p style={{ fontSize: 17, color: '#6B7280', lineHeight: 1.8, marginBottom: 48 }}>
+        <p style={{ fontSize: 16, color: '#6B7280', lineHeight: 1.75, marginBottom: 48 }}>
           We're a team of engineers and operators who have worked on large-scale ML infrastructure. We're building the platform we always wanted to use.
         </p>
         <div style={{ display: 'flex', gap: 12 }}>

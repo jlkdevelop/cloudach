@@ -42,7 +42,7 @@ export default function Blog() {
       <Nav />
       <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Blog</div>
-        <h1 style={{ fontSize: 44, fontWeight: 700, letterSpacing: -1.5, color: '#0D0F1A', margin: '16px 0 52px' }}>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 52px' }}>
           From the team
         </h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#E5E7EB', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>

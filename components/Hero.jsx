@@ -55,7 +55,7 @@ export default function Hero() {
           <span className="ci"><span className="cd">↳ Provisioning GPU       </span><span className="cok">✓ done</span></span>
           <span className="ci"><span className="cd">↳ Configuring vLLM       </span><span className="cok">✓ done</span></span>
           <span className="ci"><span className="cd">↳ Health check           </span><span className="cok">✓ passed</span></span>
-          <span className="ci" style={{ marginTop: 12 }} className="live">✦  Live → api.cloudach.com/llama-3-8b</span>
+          <span className="ci live" style={{ marginTop: 12 }}>✦  Live → api.cloudach.com/llama-3-8b</span>
         </div>
         <div className="code-footer">
           <div className="status-dot" />

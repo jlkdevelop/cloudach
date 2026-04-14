@@ -17,7 +17,7 @@ export default function Privacy() {
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Legal</div>
-        <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1.5, color: '#0D0F1A', margin: '16px 0 8px' }}>Privacy Policy</h1>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 8px' }}>Privacy Policy</h1>
         <p style={{ fontSize: 13, color: '#9CA3AF', marginBottom: 40 }}>Last updated: April 2026</p>
 
         {[
