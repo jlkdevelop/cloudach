@@ -70,7 +70,9 @@ export default function DashboardLayout({ children, user }) {
 
       <nav className="db-nav">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const active = router.pathname === href;
+          const active = href === '/dashboard'
+            ? router.pathname === href
+            : router.pathname === href || router.pathname.startsWith(href + '/');
           return (
             <Link
               key={href}

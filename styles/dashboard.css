@@ -1209,3 +1209,58 @@
   animation: db-shimmer 1.4s infinite linear;
   min-height: 4px;
 }
+
+/* ---- Team / select / role styles ---- */
+.db-select {
+  width: 100%;
+  padding: 9px 13px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  color: #0D0F1A;
+  background: #fff;
+  transition: border-color 0.12s, box-shadow 0.12s;
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+}
+
+.db-select:focus {
+  border-color: #4F6EF7;
+  box-shadow: 0 0 0 3px rgba(79,110,247,0.15);
+}
+
+.db-select--sm {
+  padding: 5px 9px;
+  font-size: 12.5px;
+  border-radius: 6px;
+  width: auto;
+}
+
+.db-role-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(79, 110, 247, 0.1);
+  color: var(--role-color, #4F6EF7);
+  border: 1px solid rgba(79, 110, 247, 0.2);
+}
+
+.db-field-hint {
+  display: block;
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 5px;
+}
+
+.db-field-error {
+  font-size: 13px;
+  color: #DC2626;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  padding: 9px 13px;
+}
