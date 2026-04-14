@@ -59,9 +59,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # Both migrations run in order on first boot
+      # Migrations run in order on first boot
       - ./infra/db/init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
       - ./infra/db/002_add_auth.sql:/docker-entrypoint-initdb.d/002_add_auth.sql:ro
+      - ./infra/db/003_api_key_scoping.sql:/docker-entrypoint-initdb.d/003_api_key_scoping.sql:ro
+      - ./infra/db/004_billing.sql:/docker-entrypoint-initdb.d/004_billing.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cloudach}"]
       interval: 5s

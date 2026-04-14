@@ -120,6 +120,11 @@ export default function DashboardOverview() {
             sub="Cumulative"
           />
           <StatCard
+            label="Est. Cost This Month"
+            value={loading ? '—' : formatCost(stats?.estimatedCostThisMonth)}
+            sub={stats?.billingPeriod ? `${stats.billingPeriod.start} – ${stats.billingPeriod.end}` : 'Current billing period'}
+          />
+          <StatCard
             label="Active Models"
             value={loading ? '—' : stats?.activeDeployments}
             sub="Running endpoints"
@@ -196,4 +201,10 @@ function formatTokens(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
   return String(n);
+}
+
+function formatCost(n) {
+  if (n == null) return '—';
+  if (n < 0.01) return n === 0 ? '$0.00' : `<$0.01`;
+  return `$${n.toFixed(2)}`;
 }

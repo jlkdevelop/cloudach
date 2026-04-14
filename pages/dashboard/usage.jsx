@@ -30,6 +30,7 @@ export default function UsagePage() {
 
   const totalTokens = daily.reduce((s, d) => s + parseInt(d.tokens || 0, 10), 0);
   const totalReqs = daily.reduce((s, d) => s + parseInt(d.requests || 0, 10), 0);
+  const totalCost = daily.reduce((s, d) => s + parseFloat(d.cost || 0), 0);
   const maxTokens = Math.max(...daily.map(d => parseInt(d.tokens || 0, 10)), 1);
 
   return (
@@ -42,7 +43,7 @@ export default function UsagePage() {
         </div>
 
         {/* Summary stats */}
-        <div className="db-stats-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', maxWidth: 600, marginBottom: 24 }}>
+        <div className="db-stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', maxWidth: 800, marginBottom: 24 }}>
           <div className="db-stat-card">
             <div className="db-stat-label">Requests (7d)</div>
             <div className="db-stat-value">{totalReqs.toLocaleString()}</div>
@@ -50,6 +51,10 @@ export default function UsagePage() {
           <div className="db-stat-card">
             <div className="db-stat-label">Tokens (7d)</div>
             <div className="db-stat-value">{formatTokens(totalTokens)}</div>
+          </div>
+          <div className="db-stat-card">
+            <div className="db-stat-label">Est. Cost (7d)</div>
+            <div className="db-stat-value">{formatCost(totalCost)}</div>
           </div>
           <div className="db-stat-card">
             <div className="db-stat-label">Avg tokens/req</div>
@@ -68,8 +73,9 @@ export default function UsagePage() {
                 const tokens = parseInt(d.tokens || 0, 10);
                 const pct = Math.max((tokens / maxTokens) * 100, 5);
                 const day = new Date(d.day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const cost = parseFloat(d.cost || 0);
                 return (
-                  <div key={d.day} className="db-bar-wrap" title={`${tokens.toLocaleString()} tokens · ${d.requests} reqs`}>
+                  <div key={d.day} className="db-bar-wrap" title={`${tokens.toLocaleString()} tokens · ${d.requests} reqs · ${formatCost(cost)}`}>
                     <div className="db-bar" style={{ height: `${pct}%` }} />
                     <span className="db-bar-label">{day}</span>
                   </div>
@@ -103,6 +109,7 @@ export default function UsagePage() {
                     <th>Prompt</th>
                     <th>Completion</th>
                     <th>Total</th>
+                    <th>Cost</th>
                     <th>Latency</th>
                     <th>Status</th>
                     <th>Key</th>
@@ -118,6 +125,7 @@ export default function UsagePage() {
                       <td>{l.prompt_tokens?.toLocaleString()}</td>
                       <td>{l.completion_tokens?.toLocaleString()}</td>
                       <td><strong>{l.total_tokens?.toLocaleString()}</strong></td>
+                      <td style={{ color: '#6B7280', fontSize: 12 }}>{formatCost(l.estimated_cost)}</td>
                       <td>{l.latency_ms != null ? `${l.latency_ms}ms` : '—'}</td>
                       <td>
                         <span className={`db-badge db-badge--${l.status_code < 400 ? 'active' : 'revoked'}`}>
@@ -141,4 +149,11 @@ function formatTokens(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
   return String(n);
+}
+
+function formatCost(n) {
+  if (n == null || isNaN(n)) return '—';
+  if (n === 0) return '$0.00';
+  if (n < 0.01) return '<$0.01';
+  return `$${n.toFixed(4)}`;
 }
