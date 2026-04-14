@@ -12,6 +12,20 @@ const posts = [
     slug: '/blog/new-models-llama31-command-r-plus-dbrx',
   },
   {
+    date: 'Apr 14, 2026',
+    tag: 'ML',
+    title: 'Fine-tune Llama 3 on your own data with Cloudach',
+    desc: 'A practical guide to fine-tuning Llama 3 with LoRA on Cloudach. Why fine-tuning beats prompting for domain tasks, how LoRA works under the hood, and how to get from raw data to a deployed model.',
+    slug: '/blog/fine-tune-llama3-cloudach',
+  },
+  {
+    date: 'Apr 14, 2026',
+    tag: 'ML',
+    title: 'How to choose the right open-source LLM',
+    desc: 'A practical decision framework for picking the right open-source LLM. Decision tree, use case matrix, benchmark comparisons, and cost tradeoffs for Mistral, Llama 3, Mixtral, and more.',
+    slug: '/blog/how-to-choose-open-source-llm',
+  },
+  {
     date: 'Apr 10, 2026',
     tag: 'Engineering',
     title: 'How we achieve sub-100ms TTFT on Llama 3 with vLLM',
