@@ -1,0 +1,106 @@
+{
+  "_comment": "Locked API surface for /api/v1/*. Run `node scripts/check-api-contracts.js --update` to regenerate after intentional changes. CI fails if this diverges.",
+  "_version": "2026-04-14",
+  "_updatedAt": "2026-04-14T08:52:38.724Z",
+  "endpoints": {
+    "/api/admin/api-keys": [
+      "GET"
+    ],
+    "/api/admin/requests": [
+      "GET"
+    ],
+    "/api/admin/users": [
+      "GET",
+      "PATCH"
+    ],
+    "/api/auth/login": [
+      "POST"
+    ],
+    "/api/auth/logout": [
+      "POST"
+    ],
+    "/api/auth/me": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "POST",
+      "PUT"
+    ],
+    "/api/auth/register": [
+      "POST"
+    ],
+    "/api/dashboard/api-keys/[keyId]/revoke": [
+      "POST"
+    ],
+    "/api/dashboard/api-keys": [
+      "GET",
+      "POST"
+    ],
+    "/api/dashboard/billing": [
+      "GET"
+    ],
+    "/api/dashboard/models/[modelId]/stop": [
+      "POST"
+    ],
+    "/api/dashboard/models": [
+      "GET",
+      "POST"
+    ],
+    "/api/dashboard/stats": [
+      "GET"
+    ],
+    "/api/dashboard/team/index": [
+      "GET",
+      "POST"
+    ],
+    "/api/dashboard/team/invites/[inviteId]": [
+      "DELETE"
+    ],
+    "/api/dashboard/team/invites/index": [
+      "GET",
+      "POST"
+    ],
+    "/api/dashboard/team/members/[memberId]": [
+      "DELETE",
+      "PATCH"
+    ],
+    "/api/dashboard/team/members/index": [
+      "GET"
+    ],
+    "/api/dashboard/team/settings": [
+      "PATCH"
+    ],
+    "/api/dashboard/team/usage": [
+      "GET"
+    ],
+    "/api/dashboard/usage": [
+      "GET"
+    ],
+    "/api/dashboard/webhooks/[id]/deliveries": [
+      "GET"
+    ],
+    "/api/dashboard/webhooks/[id]/test": [
+      "POST"
+    ],
+    "/api/dashboard/webhooks/[id]": [
+      "DELETE",
+      "PATCH"
+    ],
+    "/api/dashboard/webhooks": [
+      "GET",
+      "POST"
+    ],
+    "/api/health": [
+      "GET"
+    ],
+    "/api/status": [
+      "GET"
+    ],
+    "/api/team/join/[token]": [
+      "POST"
+    ],
+    "/api/v1/version": [
+      "GET"
+    ]
+  }
+}

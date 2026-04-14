@@ -56,6 +56,21 @@ jobs:
       - name: Test
         run: npm test --if-present
 
+  api-contracts:
+    name: API Contract Compatibility Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Check API contracts
+        run: node scripts/check-api-contracts.js
+
   dependency-audit:
     name: Dependency Security Audit
     runs-on: ubuntu-latest

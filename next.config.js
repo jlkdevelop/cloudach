@@ -7,6 +7,9 @@ const securityHeaders = [
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
 ];
 
+// Current stable API version — update when a new version is released.
+const API_VERSION = '2026-04-14';
+
 const nextConfig = {
   reactStrictMode: true,
   compress: true,
@@ -29,6 +32,26 @@ const nextConfig = {
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
+      },
+      {
+        // Inject API versioning headers on all API responses.
+        // /api/v1/* routes are handled via rewrites below; /api/* are legacy paths.
+        source: '/api/:path*',
+        headers: [
+          { key: 'Cloudach-Version', value: API_VERSION },
+          { key: 'X-API-Version', value: 'v1' },
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      // Expose all existing /api/* handlers under the /api/v1/* namespace.
+      // File-system routes under pages/api/v1/ take precedence over these rewrites,
+      // so version-specific overrides can be added there without conflicts.
+      {
+        source: '/api/v1/:path*',
+        destination: '/api/:path*',
       },
     ];
   },
