@@ -1,10 +1,14 @@
 import bcrypt from 'bcryptjs';
 import { getDb } from '../../../lib/db';
-import { signToken, setSessionCookie, addRateLimitHeaders } from '../../../lib/auth';
+import { signToken, setSessionCookie, createAuthRateLimiter } from '../../../lib/auth';
 import { logAuditEvent, getClientIp } from '../../../lib/audit';
 
+// 20 requests per 60 s per IP — enforced in-process
+const checkRateLimit = createAuthRateLimiter(20, 60_000);
+
 export default async function handler(req, res) {
-  addRateLimitHeaders(res, { limit: 20, window: 60 });
+  const ip = getClientIp(req) || 'unknown';
+  if (checkRateLimit(ip, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { email, password } = req.body || {};
