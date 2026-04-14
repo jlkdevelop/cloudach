@@ -2,6 +2,7 @@
 
 const { Router } = require('express');
 const { proxyToVllm } = require('../lib/vllmProxy');
+const { logUsage } = require('../lib/usageLogger');
 
 const completionsRouter = Router();
 
@@ -36,10 +37,22 @@ completionsRouter.post('/', async (req, res) => {
     });
   }
 
+  const startMs = Date.now();
   try {
     const { usage } = await proxyToVllm(req, res, '/v1/completions');
-    if (usage && req.trackTokens) {
-      await req.trackTokens(usage.prompt_tokens ?? 0, usage.completion_tokens ?? 0);
+    const latencyMs = Date.now() - startMs;
+
+    if (usage) {
+      if (req.trackTokens) await req.trackTokens(usage.prompt_tokens ?? 0, usage.completion_tokens ?? 0);
+      logUsage({
+        userId: req.userId,
+        apiKeyId: req.apiKeyId,
+        model,
+        promptTokens: usage.prompt_tokens,
+        completionTokens: usage.completion_tokens,
+        latencyMs,
+        statusCode: res.statusCode,
+      });
     }
   } catch (err) {
     req.log.error({ err }, 'completions: proxy error');
