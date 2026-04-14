@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const MODELS = [
   { id: 'llama3-8b',      name: 'Llama 3 8B',      ctx: '8K',   best: 'Fast chat, Q&A, summarization' },
@@ -69,6 +69,7 @@ export default function DocsPage() {
                 ['#fine-tuning-lora', '↳ LoRA Adapters'],
                 ['#fine-tuning-models', '↳ Supported Models'],
                 ['#tutorials', 'Tutorials'],
+                ['#playground', 'API Playground'],
                 ['#faq', 'FAQ'],
               ].map(([href, label]) => (
                 <a
@@ -905,6 +906,11 @@ curl https://api.cloudach.com/v1/chat/completions \\
               </div>
             </Section>
 
+            {/* ── API Playground ── */}
+            <Section id="playground" title="API Playground">
+              <ApiPlayground />
+            </Section>
+
             {/* ── FAQ ── */}
             <Section id="faq" title="FAQ">
               {[
@@ -1090,4 +1096,330 @@ const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12 };
 const h4 = { fontSize: 14, fontWeight: 600, marginTop: 16, marginBottom: 8, color: '#374151' };
 const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
 const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
+
+// ── API Playground ────────────────────────────────────────────────────────────
+
+function ApiPlayground() {
+  const [apiKey, setApiKey] = useState('');
+  const [model, setModel] = useState('llama3-8b');
+  const [systemPrompt, setSystemPrompt] = useState('You are a helpful assistant.');
+  const [userMessage, setUserMessage] = useState('Hello! Tell me about yourself.');
+  const [temperature, setTemperature] = useState(0.7);
+  const [maxTokens, setMaxTokens] = useState(256);
+  const [codeLang, setCodeLang] = useState('curl');
+  const [response, setResponse] = useState('');
+  const [streaming, setStreaming] = useState(false);
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+  const abortRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('cloudach_api_key');
+      if (stored) setApiKey(stored);
+    } catch {}
+  }, []);
+
+  function buildMessages() {
+    const msgs = [];
+    if (systemPrompt.trim()) msgs.push({ role: 'system', content: systemPrompt });
+    msgs.push({ role: 'user', content: userMessage || 'Hello!' });
+    return msgs;
+  }
+
+  function generateCode(lang) {
+    const key = apiKey || 'sk-cloudach-YOUR_KEY';
+    const messages = buildMessages();
+    if (lang === 'curl') {
+      return `curl https://api.cloudach.com/v1/chat/completions \\
+  -H "Authorization: Bearer ${key}" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "${model}",
+    "messages": ${JSON.stringify(messages, null, 4).replace(/\n/g, '\n    ')},
+    "temperature": ${temperature},
+    "max_tokens": ${maxTokens},
+    "stream": true
+  }'`;
+    }
+    if (lang === 'python') {
+      const msgsStr = JSON.stringify(messages, null, 4);
+      return `from openai import OpenAI
+
+client = OpenAI(
+    api_key="${key}",
+    base_url="https://api.cloudach.com/v1"
+)
+
+stream = client.chat.completions.create(
+    model="${model}",
+    messages=${msgsStr},
+    temperature=${temperature},
+    max_tokens=${maxTokens},
+    stream=True,
+)
+for chunk in stream:
+    print(chunk.choices[0].delta.content or "", end="", flush=True)`;
+    }
+    if (lang === 'node') {
+      const msgsStr = JSON.stringify(messages, null, 2);
+      return `import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: "${key}",
+  baseURL: "https://api.cloudach.com/v1",
+});
+
+const stream = await client.chat.completions.create({
+  model: "${model}",
+  messages: ${msgsStr},
+  temperature: ${temperature},
+  max_tokens: ${maxTokens},
+  stream: true,
+});
+for await (const chunk of stream) {
+  process.stdout.write(chunk.choices[0]?.delta?.content ?? "");
+}`;
+    }
+    return '';
+  }
+
+  async function run() {
+    if (!apiKey.trim()) { setError('Enter an API key to run the request.'); return; }
+    if (!userMessage.trim()) { setError('Enter a user message.'); return; }
+    setError('');
+    setResponse('');
+    setStreaming(true);
+
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    try {
+      const res = await fetch('https://api.cloudach.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model,
+          messages: buildMessages(),
+          temperature: parseFloat(temperature),
+          max_tokens: parseInt(maxTokens, 10),
+          stream: true,
+        }),
+        signal: controller.signal,
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setError(err?.error?.message || `HTTP ${res.status} — check your API key and parameters.`);
+        setStreaming(false);
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buf = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop() || '';
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6).trim();
+          if (data === '[DONE]') continue;
+          try {
+            const json = JSON.parse(data);
+            const delta = json.choices?.[0]?.delta?.content;
+            if (delta) setResponse(r => r + delta);
+          } catch {}
+        }
+      }
+    } catch (e) {
+      if (e.name !== 'AbortError') setError(e.message);
+    } finally {
+      setStreaming(false);
+    }
+  }
+
+  function stop() {
+    abortRef.current?.abort();
+    setStreaming(false);
+  }
+
+  function copyResponse() {
+    navigator.clipboard.writeText(response).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
+
+  return (
+    <div>
+      <p style={p}>
+        Try the API directly from your browser — no terminal needed. Fill in the inputs, click <strong>Run</strong>, and watch the response stream in real time. The code panel stays in sync as you type.
+      </p>
+
+      {/* Responsive two-column grid: inputs left, generated code right */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 24 }}>
+        {/* Left — Inputs */}
+        <div>
+          <label style={pgLabel}>API Key</label>
+          <input
+            type="password"
+            value={apiKey}
+            onChange={e => setApiKey(e.target.value)}
+            placeholder="sk-cloudach-..."
+            style={pgInput}
+            autoComplete="off"
+          />
+          <p style={pgHint}>
+            {apiKey
+              ? <span style={{ color: '#059669' }}>✓ Key loaded</span>
+              : <><a href="/dashboard/api-keys" style={{ color: '#4F6EF7' }}>Create a key</a> in your dashboard — it is pre-filled if you are already signed in.</>}
+          </p>
+
+          <label style={pgLabel}>Model</label>
+          <select value={model} onChange={e => setModel(e.target.value)} style={pgInput}>
+            {MODELS.map(m => (
+              <option key={m.id} value={m.id}>{m.name} — {m.best}</option>
+            ))}
+          </select>
+
+          <label style={pgLabel}>System Prompt</label>
+          <textarea
+            value={systemPrompt}
+            onChange={e => setSystemPrompt(e.target.value)}
+            rows={3}
+            style={{ ...pgInput, resize: 'vertical', fontFamily: 'monospace', fontSize: 13 }}
+          />
+
+          <label style={pgLabel}>User Message</label>
+          <textarea
+            value={userMessage}
+            onChange={e => setUserMessage(e.target.value)}
+            rows={3}
+            style={{ ...pgInput, resize: 'vertical', fontFamily: 'monospace', fontSize: 13 }}
+          />
+
+          <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+            <div style={{ flex: 1 }}>
+              <label style={pgLabel}>
+                Temperature{' '}
+                <span style={{ color: '#9CA3AF', fontWeight: 400 }}>{temperature}</span>
+              </label>
+              <input
+                type="range"
+                min={0} max={2} step={0.1}
+                value={temperature}
+                onChange={e => setTemperature(parseFloat(e.target.value))}
+                style={{ width: '100%', marginTop: 4 }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={pgLabel}>Max Tokens</label>
+              <input
+                type="number"
+                min={1} max={4096}
+                value={maxTokens}
+                onChange={e => setMaxTokens(Math.max(1, parseInt(e.target.value, 10) || 256))}
+                style={{ ...pgInput, marginTop: 0 }}
+              />
+            </div>
+          </div>
+
+          <button
+            onClick={streaming ? stop : run}
+            style={{
+              marginTop: 16,
+              padding: '10px 0',
+              width: '100%',
+              background: streaming ? '#EF4444' : '#4F6EF7',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 8,
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: 'pointer',
+              letterSpacing: '0.01em',
+            }}
+          >
+            {streaming ? '■  Stop' : '▶  Run'}
+          </button>
+
+          {error && (
+            <div style={{ marginTop: 10, padding: '10px 14px', background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 6, fontSize: 13, color: '#DC2626' }}>
+              {error}
+            </div>
+          )}
+        </div>
+
+        {/* Right — Generated code */}
+        <div>
+          <p style={{ ...pgLabel, marginBottom: 4 }}>Generated Code</p>
+          <p style={pgHint}>Updates live as you change inputs.</p>
+          <LangTabs lang={codeLang} onLang={setCodeLang} />
+          <CodeBlock>{generateCode(codeLang)}</CodeBlock>
+        </div>
+      </div>
+
+      {/* Response panel */}
+      {(response || streaming) && (
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>
+              Response{' '}
+              {streaming && (
+                <span style={{ color: '#4F6EF7', animation: 'none' }}>●</span>
+              )}
+            </span>
+            {response && (
+              <button
+                onClick={copyResponse}
+                style={{ fontSize: 12, padding: '3px 10px', background: copied ? '#22C55E' : '#374151', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            )}
+          </div>
+          <pre style={{
+            background: '#0D1117',
+            color: '#C9D1D9',
+            padding: '16px 20px',
+            borderRadius: 8,
+            fontSize: 14,
+            lineHeight: 1.7,
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            minHeight: 80,
+            margin: 0,
+            overflowX: 'auto',
+          }}>
+            {response || (streaming ? '…' : '')}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const pgLabel = { display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6, marginTop: 14 };
+const pgHint  = { fontSize: 12, color: '#9CA3AF', marginTop: 4, marginBottom: 0 };
+const pgInput = {
+  display: 'block',
+  width: '100%',
+  padding: '8px 12px',
+  border: '1px solid #E5E7EB',
+  borderRadius: 6,
+  fontSize: 14,
+  color: '#0D0F1A',
+  background: '#FAFAFA',
+  boxSizing: 'border-box',
+  outline: 'none',
+  fontFamily: 'inherit',
+};
 const link = { color: '#4F6EF7', textDecoration: 'none' };
