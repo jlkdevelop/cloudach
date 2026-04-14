@@ -7,8 +7,8 @@ on:
     branches: [main, develop]
 
 jobs:
-  lint-and-test:
-    name: Lint & Test
+  lint-and-test-frontend:
+    name: Frontend — Lint, Type-check & Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,22 +23,63 @@ jobs:
         run: npm ci
 
       - name: Lint
-        run: npm run lint --if-present
+        run: npm run lint
 
       - name: Type check
         run: npm run type-check --if-present
 
-      - name: Test
-        run: npm test --if-present -- --passWithNoTests
-
       - name: Build
         run: npm run build
+
+  lint-and-test-api-gateway:
+    name: API Gateway — Lint & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/api-gateway
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: services/api-gateway/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test --if-present
+
+  dependency-audit:
+    name: Dependency Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Audit frontend dependencies
+        run: npm audit --audit-level=high
+
+      - name: Audit api-gateway dependencies
+        working-directory: services/api-gateway
+        run: npm audit --audit-level=high
 
   docker-build:
     name: Docker Build (Backend Services)
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: lint-and-test
+    needs: [lint-and-test-frontend, lint-and-test-api-gateway]
     strategy:
       matrix:
         service: [api-gateway]
@@ -56,3 +97,20 @@ jobs:
           tags: cloudach/${{ matrix.service }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          load: true
+
+      - name: Scan Docker image for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: cloudach/${{ matrix.service }}:${{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-${{ matrix.service }}.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          ignore-unfixed: true
+
+      - name: Upload Trivy scan results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-${{ matrix.service }}.sarif'

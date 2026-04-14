@@ -1,0 +1,100 @@
+---
+# ConfigMap provisioned as a Grafana dashboard via sidecar.
+# Assumes grafana-sc-dashboard sidecar with label: grafana_dashboard: "1"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudach-dashboards
+  namespace: cloudach
+  labels:
+    grafana_dashboard: "1"
+data:
+  cloudach-overview.json: |
+    {
+      "title": "Cloudach — Overview",
+      "uid": "cloudach-overview",
+      "version": 1,
+      "schemaVersion": 38,
+      "refresh": "30s",
+      "tags": ["cloudach", "infrastructure"],
+      "panels": [
+        {
+          "type": "stat",
+          "title": "API Gateway — Request Rate (req/s)",
+          "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+          "targets": [{
+            "expr": "sum(rate(http_requests_total{namespace=\"cloudach\", app=\"api-gateway\"}[5m]))",
+            "legendFormat": "req/s"
+          }]
+        },
+        {
+          "type": "stat",
+          "title": "API Gateway — 5xx Error Rate",
+          "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+          "targets": [{
+            "expr": "sum(rate(http_requests_total{namespace=\"cloudach\", app=\"api-gateway\", status=~\"5..\"}[5m])) / sum(rate(http_requests_total{namespace=\"cloudach\", app=\"api-gateway\"}[5m]))",
+            "legendFormat": "error rate"
+          }]
+        },
+        {
+          "type": "stat",
+          "title": "API Gateway — p99 Latency (s)",
+          "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+          "targets": [{
+            "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{namespace=\"cloudach\", app=\"api-gateway\"}[5m])) by (le))",
+            "legendFormat": "p99"
+          }]
+        },
+        {
+          "type": "stat",
+          "title": "vLLM — GPU KV Cache Usage",
+          "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0},
+          "targets": [{
+            "expr": "vllm:gpu_cache_usage_perc{namespace=\"cloudach\"}",
+            "legendFormat": "kv cache %"
+          }]
+        },
+        {
+          "type": "timeseries",
+          "title": "Request Rate by Status Code",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+          "targets": [{
+            "expr": "sum by (status) (rate(http_requests_total{namespace=\"cloudach\", app=\"api-gateway\"}[5m]))",
+            "legendFormat": "{{ status }}"
+          }]
+        },
+        {
+          "type": "timeseries",
+          "title": "vLLM — Requests Waiting in Queue",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+          "targets": [{
+            "expr": "vllm:num_requests_waiting{namespace=\"cloudach\"}",
+            "legendFormat": "waiting"
+          }]
+        },
+        {
+          "type": "timeseries",
+          "title": "vLLM — Time to First Token (p50/p99)",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(vllm:time_to_first_token_seconds_bucket{namespace=\"cloudach\"}[5m])) by (le, model_name))",
+              "legendFormat": "p50 {{ model_name }}"
+            },
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(vllm:time_to_first_token_seconds_bucket{namespace=\"cloudach\"}[5m])) by (le, model_name))",
+              "legendFormat": "p99 {{ model_name }}"
+            }
+          ]
+        },
+        {
+          "type": "timeseries",
+          "title": "Pod Restarts",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12},
+          "targets": [{
+            "expr": "sum by (pod) (kube_pod_container_status_restarts_total{namespace=\"cloudach\"})",
+            "legendFormat": "{{ pod }}"
+          }]
+        }
+      ]
+    }
