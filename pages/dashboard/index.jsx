@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
 
 const OnboardingChecklist = lazy(() => import('../../components/dashboard/OnboardingChecklist'));
+const OnboardingWizard = lazy(() => import('../../components/dashboard/OnboardingWizard'));
 
 export default function DashboardOverview() {
   const router = useRouter();
@@ -66,6 +67,11 @@ export default function DashboardOverview() {
         </div>
 
         {error && <ErrorBanner message={error} />}
+
+        {/* Onboarding wizard — shown to new signups until wizard is completed */}
+        <Suspense fallback={null}>
+          <OnboardingWizard />
+        </Suspense>
 
         {/* Persistent onboarding checklist — lazy-loaded, shown until all steps complete or dismissed */}
         <Suspense fallback={null}>
