@@ -60,6 +60,8 @@ curl https://api.cloudach.com/v1/models/llama3-8b \
 - **Code generation:** `codellama-13b`
 - **Long context (up to 32K tokens):** `mistral-7b` or `mixtral-8x7b`
 
+For a full decision tree, use case matrix, benchmark comparisons, and cost-performance tradeoffs, see the **[Model Selection Guide](./model-selection-guide.md)**.
+
 ---
 
 ## Fine-tuning support
