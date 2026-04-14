@@ -1,0 +1,22 @@
+# vLLM configuration — qwen25-7b
+# Model: Qwen/Qwen2.5-7B-Instruct
+# Hardware target: 1× NVIDIA L4 (24 GB VRAM)
+
+model: Qwen/Qwen2.5-7B-Instruct
+served_model_name: qwen25-7b
+tokenizer: Qwen/Qwen2.5-7B-Instruct
+tokenizer_mode: auto
+
+tensor_parallel_size: 1
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.90
+# Full context is 131072; clamp for L4 cost control
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 256
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

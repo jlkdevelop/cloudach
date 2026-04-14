@@ -8,6 +8,7 @@ export default function SettingsPage() {
   const [user, setUser] = useState(null);
   const [billing, setBilling] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     async function init() {
@@ -24,7 +25,11 @@ export default function SettingsPage() {
     init();
   }, [router]);
 
-  if (!user) return null;
+  if (!user) return (
+    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
+    </div>
+  );
 
   return (
     <>
@@ -115,7 +120,7 @@ export default function SettingsPage() {
               <div style={{ marginTop: 8, padding: 12, background: '#F9FAFB', borderRadius: 8, fontSize: 13, color: '#6B7280' }}>
                 <strong style={{ color: '#374151' }}>Upgrade to Startup or Business</strong> for higher rate limits, priority support, and SLA guarantees.
                 Pricing starts at $0.08/1M input tokens.{' '}
-                <span style={{ color: '#6366F1', cursor: 'pointer' }}>Contact sales →</span>
+                <a href="mailto:sales@cloudach.com" style={{ color: '#6366F1' }}>Contact sales →</a>
               </div>
             </div>
           )}
@@ -131,11 +136,34 @@ export default function SettingsPage() {
           </div>
           <button
             className="db-btn db-btn--danger"
-            onClick={() => alert('Please contact support@cloudach.com to delete your account.')}
+            onClick={() => setShowDeleteModal(true)}
           >
             Delete account
           </button>
         </div>
+
+        {showDeleteModal && (
+          <div className="db-modal-backdrop" onClick={() => setShowDeleteModal(false)}>
+            <div className="db-modal" onClick={e => e.stopPropagation()}>
+              <div className="db-modal-title">Delete account?</div>
+              <div className="db-modal-sub">
+                This action is permanent and cannot be undone. All API keys, usage data, and model
+                deployments will be removed.
+              </div>
+              <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 8, padding: '12px 16px', fontSize: 13, color: '#991B1B', marginBottom: 20 }}>
+                To delete your account, email{' '}
+                <a href="mailto:support@cloudach.com" style={{ color: '#991B1B', fontWeight: 600 }}>support@cloudach.com</a>
+                {' '}from your registered address.
+              </div>
+              <div className="db-modal-actions">
+                <button className="db-btn db-btn--ghost" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                <a href="mailto:support@cloudach.com?subject=Delete%20my%20account" className="db-btn db-btn--danger">
+                  Email support
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </DashboardLayout>
     </>
   );

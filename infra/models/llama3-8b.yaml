@@ -1,0 +1,30 @@
+# vLLM configuration — llama3-8b
+# Model: meta-llama/Meta-Llama-3-8B-Instruct
+# Hardware target: 1× NVIDIA L4 (24 GB VRAM)
+
+model: meta-llama/Meta-Llama-3-8B-Instruct
+served_model_name: llama3-8b
+tokenizer: meta-llama/Meta-Llama-3-8B-Instruct
+tokenizer_mode: auto
+
+# Parallelism
+tensor_parallel_size: 1
+pipeline_parallel_size: 1
+
+# Memory & performance
+gpu_memory_utilization: 0.90
+max_model_len: 8192
+max_num_batched_tokens: 4096
+max_num_seqs: 256
+enable_chunked_prefill: true
+
+# Quantisation (optional — uncomment for fp8 on Ada/Hopper GPUs)
+# quantization: fp8
+
+# Server
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning
+
+# Auth (token injected via k8s secret)
+# api_key: $VLLM_API_KEY

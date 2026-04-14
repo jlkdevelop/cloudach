@@ -1,0 +1,23 @@
+# vLLM configuration — phi3-medium
+# Model: microsoft/Phi-3-medium-4k-instruct
+# Hardware target: 1× NVIDIA L4 (24 GB VRAM)
+
+model: microsoft/Phi-3-medium-4k-instruct
+served_model_name: phi3-medium
+tokenizer: microsoft/Phi-3-medium-4k-instruct
+tokenizer_mode: auto
+
+tensor_parallel_size: 1
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.85
+max_model_len: 4096
+max_num_batched_tokens: 4096
+max_num_seqs: 256
+enable_chunked_prefill: true
+
+trust_remote_code: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

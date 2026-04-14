@@ -1,0 +1,21 @@
+# vLLM configuration — deepseek-r1-70b
+# Model: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
+# Hardware target: 4× NVIDIA A100 80 GB
+
+model: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
+served_model_name: deepseek-r1-70b
+tokenizer: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
+tokenizer_mode: auto
+
+tensor_parallel_size: 4
+pipeline_parallel_size: 1
+
+gpu_memory_utilization: 0.92
+max_model_len: 32768
+max_num_batched_tokens: 4096
+max_num_seqs: 64
+enable_chunked_prefill: true
+
+host: "0.0.0.0"
+port: 8000
+uvicorn_log_level: warning

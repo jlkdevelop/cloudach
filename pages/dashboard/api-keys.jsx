@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import { useToast } from '../../components/dashboard/useToast';
 
 export default function ApiKeysPage() {
   const router = useRouter();
@@ -15,6 +16,8 @@ export default function ApiKeysPage() {
   const [createError, setCreateError] = useState('');
   const [newRawKey, setNewRawKey] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [revokeConfirmId, setRevokeConfirmId] = useState(null);
+  const [toastEl, showToast] = useToast();
 
   useEffect(() => {
     async function init() {
@@ -61,12 +64,18 @@ export default function ApiKeysPage() {
     setNewKeyName('');
     setNewRateLimitRpm('');
     setCreating(false);
+    showToast('API key created. Copy it now — it won\'t be shown again.');
     await loadKeys();
   }
 
   async function revokeKey(keyId) {
-    if (!confirm('Revoke this key? This cannot be undone.')) return;
-    await fetch(`/api/dashboard/api-keys/${keyId}/revoke`, { method: 'POST' });
+    const res = await fetch(`/api/dashboard/api-keys/${keyId}/revoke`, { method: 'POST' });
+    setRevokeConfirmId(null);
+    if (res.ok) {
+      showToast('API key revoked.');
+    } else {
+      showToast('Failed to revoke key. Please try again.', 'error');
+    }
     await loadKeys();
   }
 
@@ -77,7 +86,11 @@ export default function ApiKeysPage() {
     });
   }
 
-  if (!user) return null;
+  if (!user) return (
+    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
+    </div>
+  );
 
   return (
     <>
@@ -145,9 +158,17 @@ export default function ApiKeysPage() {
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         {!k.revoked_at && (
-                          <button className="db-btn db-btn--danger db-btn--sm" onClick={() => revokeKey(k.id)}>
-                            Revoke
-                          </button>
+                          revokeConfirmId === k.id ? (
+                            <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+                              <span style={{ fontSize: 12, color: '#6B7280' }}>Revoke?</span>
+                              <button className="db-btn db-btn--danger db-btn--sm" onClick={() => revokeKey(k.id)}>Yes</button>
+                              <button className="db-btn db-btn--ghost db-btn--sm" onClick={() => setRevokeConfirmId(null)}>No</button>
+                            </span>
+                          ) : (
+                            <button className="db-btn db-btn--danger db-btn--sm" onClick={() => setRevokeConfirmId(k.id)}>
+                              Revoke
+                            </button>
+                          )
                         )}
                       </td>
                     </tr>
@@ -168,6 +189,8 @@ export default function ApiKeysPage() {
   -d '{"model":"llama3-8b","messages":[{"role":"user","content":"Hello!"}]}'`}</code>
           </pre>
         </div>
+
+        {toastEl}
 
         {/* Create key modal */}
         {showCreate && (
