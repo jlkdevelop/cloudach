@@ -64,6 +64,7 @@ services:
       - ./infra/db/002_add_auth.sql:/docker-entrypoint-initdb.d/002_add_auth.sql:ro
       - ./infra/db/003_api_key_scoping.sql:/docker-entrypoint-initdb.d/003_api_key_scoping.sql:ro
       - ./infra/db/004_billing.sql:/docker-entrypoint-initdb.d/004_billing.sql:ro
+      - ./infra/db/005_admin_role.sql:/docker-entrypoint-initdb.d/005_admin_role.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cloudach}"]
       interval: 5s
