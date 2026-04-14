@@ -240,8 +240,8 @@ curl https://api.cloudach.com/v1/chat/completions \\
           <p style={{ fontSize: 13, fontWeight: 600, color: '#9CA3AF', marginBottom: 4 }}>Related</p>
           {[
             { href: '/tutorials/fine-tuning-llama3', title: 'Tutorial: Fine-tune Llama 3 step by step', badge: 'Tutorial' },
-            { href: '/docs/fine-tuning', title: 'Fine-Tuning API Reference', badge: 'Docs' },
-            { href: '/docs/data-preparation', title: 'Data Preparation Guide', badge: 'Guide' },
+            { href: '/docs#fine-tuning', title: 'Fine-Tuning API Reference', badge: 'Docs' },
+            { href: '/docs#fine-tuning-quickstart', title: 'Data Preparation Guide', badge: 'Guide' },
           ].map(t => (
             <Link key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '14px 18px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: '#0D0F1A', flex: 1 }}>{t.title}</span>

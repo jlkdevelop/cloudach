@@ -25,13 +25,13 @@ export default function Footer() {
             <a href="#models">Model library</a>
             <a href="#models">Custom weights</a>
             <a href="#models">HuggingFace</a>
-            <Link href="/docs#benchmarks">Benchmarks</Link>
+            <Link href="/docs">Benchmarks</Link>
           </div>
           <div className="fcol">
             <h5>Developers</h5>
             <Link href="/docs">Documentation</Link>
-            <Link href="/docs#api-reference">API reference</Link>
-            <Link href="/docs#cli">CLI</Link>
+            <Link href="/docs#authentication">API reference</Link>
+            <Link href="/docs#sdks">CLI</Link>
             <Link href="/status">Status</Link>
           </div>
           <div className="fcol">

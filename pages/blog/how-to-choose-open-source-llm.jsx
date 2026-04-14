@@ -193,7 +193,7 @@ export default function HowToChooseOpenSourceLLM() {
         <p style={{ ...p, fontSize: 13, color: '#9CA3AF' }}>
           MMLU = 5-shot accuracy. HumanEval = pass@1 (Python). MT-Bench = GPT-4-as-judge, 1–10 scale.
           Full methodology in the{' '}
-          <Link href="/docs/benchmark-report-2026-04" style={linkStyle}>April 2026 benchmark report</Link>.
+          <Link href="/docs" style={linkStyle}>April 2026 benchmark report</Link>.
         </p>
 
         <h2 style={h2}>The 7B vs 70B question</h2>
@@ -242,7 +242,7 @@ export default function HowToChooseOpenSourceLLM() {
         </p>
         <p style={p}>
           Cloudach supports full fine-tuning and LoRA for all major model families.
-          See the <Link href="/docs/fine-tuning" style={linkStyle}>Fine-Tuning Guide</Link> for
+          See the <Link href="/docs#fine-tuning" style={linkStyle}>Fine-Tuning Guide</Link> for
           a walkthrough from dataset to deployed adapter in under 30 minutes.
         </p>
 

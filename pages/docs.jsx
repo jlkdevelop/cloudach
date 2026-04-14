@@ -913,10 +913,10 @@ curl https://api.cloudach.com/v1/chat/completions \\
               />
 
               <p style={p}>
-                Full reference: <a href="/docs/fine-tuning" style={link}>Fine-Tuning API Reference</a> —
+                Full reference: <a href="/docs#fine-tuning" style={link}>Fine-Tuning API Reference</a> —
                 all endpoints, parameters, error codes, and pricing.
                 See also the <a href="/tutorials/fine-tuning-llama3" style={link}>step-by-step tutorial</a> and
-                the <a href="/docs/data-preparation" style={link}>Data Preparation Guide</a>.
+                the <a href="/docs#fine-tuning-quickstart" style={link}>Data Preparation Guide</a>.
               </p>
             </Section>
 

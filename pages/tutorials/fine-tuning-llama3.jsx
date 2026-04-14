@@ -155,7 +155,7 @@ export default function FineTuningTutorial() {
 
               <Callout>
                 Aim for at least 200–500 examples for meaningful domain adaptation. See the{' '}
-                <a href="/docs/data-preparation" style={linkStyle}>Data Preparation Guide</a> for collection
+                <a href="/docs#fine-tuning-quickstart" style={linkStyle}>Data Preparation Guide</a> for collection
                 and cleaning tips.
               </Callout>
             </Section>
@@ -299,13 +299,13 @@ export default function FineTuningTutorial() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[
                   {
-                    href: '/docs/fine-tuning',
+                    href: '/docs#fine-tuning',
                     title: 'Fine-Tuning API Reference',
                     desc: 'Full documentation for all fine-tuning endpoints, parameters, and error codes.',
                     badge: 'Reference',
                   },
                   {
-                    href: '/docs/data-preparation',
+                    href: '/docs#fine-tuning-quickstart',
                     title: 'Data Preparation Guide',
                     desc: 'Best practices for collecting, cleaning, and formatting training data.',
                     badge: 'Guide',
