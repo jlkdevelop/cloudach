@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
@@ -148,8 +148,8 @@ export default function ApiKeysPage() {
                 </thead>
                 <tbody>
                   {keys.map((k) => (
-                    <>
-                      <tr key={k.id}>
+                    <React.Fragment key={k.id}>
+                      <tr>
                         <td><strong>{k.name}</strong></td>
                         <td>{fmtDate(k.created_at)}</td>
                         <td>{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
@@ -177,7 +177,7 @@ export default function ApiKeysPage() {
                         </td>
                       </tr>
                       {revokeTarget === k.id && (
-                        <tr key={`${k.id}-confirm`}>
+                        <tr>
                           <td colSpan={6} style={{ padding: '0 14px 12px' }}>
                             <div className="db-inline-confirm">
                               <span>Revoke <strong>{k.name}</strong>? This cannot be undone.</span>
@@ -201,7 +201,7 @@ export default function ApiKeysPage() {
                           </td>
                         </tr>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
                 </tbody>
               </table>
