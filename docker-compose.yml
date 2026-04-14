@@ -1,0 +1,75 @@
+version: '3.9'
+
+# Local development environment for Cloudach backend services.
+# The frontend (Next.js) is run separately via `npm run dev`.
+
+services:
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - VLLM_BASE_URL=http://vllm-mock:8000
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=local-dev-secret-change-in-prod
+      - DB_URL=postgresql://cloudach:cloudach@postgres:5432/cloudach
+      - NODE_ENV=development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./services/api-gateway/src:/app/src
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=cloudach
+      - POSTGRES_PASSWORD=cloudach
+      - POSTGRES_DB=cloudach
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cloudach"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # vLLM mock for local dev — real GPU inference runs in K8s
+  vllm-mock:
+    image: node:20-alpine
+    working_dir: /app
+    command: >
+      sh -c "npm install -g json-server &&
+             echo '{\"models\": [{\"id\": \"llama3-8b\", \"object\": \"model\"}]}' > db.json &&
+             json-server --watch db.json --port 8000 --routes routes.json"
+    ports:
+      - "8001:8000"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
