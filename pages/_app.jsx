@@ -1,10 +1,17 @@
 import '../styles/globals.css'
 import '../styles/dashboard.css'
 import Head from 'next/head'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export default function App({ Component, pageProps }) {
   return (
-    <>
+    <div className={inter.variable}>
       <Head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/favicon.svg" />
@@ -16,6 +23,6 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:image" content="https://cloudach.com/og-default.png" />
       </Head>
       <Component {...pageProps} />
-    </>
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Font loaded via next/font/google in _app.jsx — no external @import needed */
 
 /* ============================================================
    Design Tokens — single source of truth for colors, etc.
@@ -89,7 +89,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #0D0F1A;
   background: #ffffff;
   -webkit-font-smoothing: antialiased;
@@ -102,7 +102,7 @@ a {
 }
 
 button {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   cursor: pointer;
 }
 

@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
-import OnboardingChecklist from '../../components/dashboard/OnboardingChecklist';
+
+const OnboardingChecklist = lazy(() => import('../../components/dashboard/OnboardingChecklist'));
 
 export default function DashboardOverview() {
   const router = useRouter();
@@ -66,8 +67,10 @@ export default function DashboardOverview() {
 
         {error && <ErrorBanner message={error} />}
 
-        {/* Persistent onboarding checklist — shown until all steps complete or dismissed */}
-        <OnboardingChecklist stats={stats} />
+        {/* Persistent onboarding checklist — lazy-loaded, shown until all steps complete or dismissed */}
+        <Suspense fallback={null}>
+          <OnboardingChecklist stats={stats} />
+        </Suspense>
 
         {/* Stats */}
         <div className="db-stats-grid">
