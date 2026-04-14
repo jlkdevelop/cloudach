@@ -33,6 +33,15 @@ export default function Blog() {
       <Head>
         <title>Blog — Cloudach</title>
         <meta name="description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
+        <meta property="og:title" content="Blog — Cloudach" />
+        <meta property="og:description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
+        <meta property="og:image" content="https://cloudach.com/og-image.png" />
+        <meta property="og:url" content="https://cloudach.com/blog" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Blog — Cloudach" />
+        <meta name="twitter:description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
+        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
       <Nav />
       <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px' }}>

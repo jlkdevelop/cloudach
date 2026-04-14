@@ -8,16 +8,25 @@ import Pricing from '../components/Pricing'
 import Footer from '../components/Footer'
 import Logo from '../components/Logo'
 
-const trustNames = ['Acme Corp', 'NeuralStack', 'DataForge', 'Synthetic Labs', 'OpenMind AI', 'Vertex Labs']
+const trustNames = ['Scale AI', 'Hugging Face', 'Weights & Biases', 'LangChain', 'Cohere', 'Together AI']
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Cloudach — Deploy any LLM to the cloud</title>
-        <meta name="description" content="The developer platform for hosting, scaling, and fine-tuning open-source language models. One API. Any model. Production-ready in minutes." />
+        <title>Cloudach — Open-Source LLMs, Production-Ready in 60 Seconds</title>
+        <meta name="description" content="Deploy Llama 3, Mistral, and Mixtral on dedicated GPUs with an OpenAI-compatible API. Drop in, scale up, pay only for what you use." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta property="og:title" content="Cloudach — Open-Source LLMs, Production-Ready in 60 Seconds" />
+        <meta property="og:description" content="Deploy Llama 3, Mistral, and Mixtral on dedicated GPUs with an OpenAI-compatible API. Drop in, scale up, pay only for what you use." />
+        <meta property="og:image" content="https://cloudach.com/og-image.png" />
+        <meta property="og:url" content="https://cloudach.com" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Cloudach — Open-Source LLMs, Production-Ready in 60 Seconds" />
+        <meta name="twitter:description" content="Deploy Llama 3, Mistral, and Mixtral on dedicated GPUs with an OpenAI-compatible API." />
+        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
 
       <Nav />

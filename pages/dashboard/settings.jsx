@@ -1,30 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
 
 export default function SettingsPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [billing, setBilling] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
   useEffect(() => {
     async function init() {
-      const meRes = await fetch('/api/auth/me');
-      if (!meRes.ok) { router.replace('/login'); return; }
-      const { user } = await meRes.json();
-      setUser(user);
+      try {
+        const meRes = await fetch('/api/auth/me');
+        if (!meRes.ok) { router.replace('/login'); return; }
+        const { user } = await meRes.json();
+        setUser(user);
 
-      const billingRes = await fetch('/api/dashboard/billing');
-      if (billingRes.ok) setBilling(await billingRes.json());
-
-      setLoading(false);
+        const billingRes = await fetch('/api/dashboard/billing');
+        if (billingRes.ok) setBilling(await billingRes.json());
+        else setError('Failed to load billing info.');
+      } catch {
+        setError('Network error. Please refresh.');
+      } finally {
+        setLoading(false);
+      }
     }
     init();
   }, [router]);
 
-  if (!user) return null;
+  if (loading || !user) return <PageLoader />;
 
   return (
     <>
@@ -34,6 +42,8 @@ export default function SettingsPage() {
           <h1 className="db-page-title">Settings</h1>
           <p className="db-page-subtitle">Account settings and billing information.</p>
         </div>
+
+        {error && <ErrorBanner message={error} />}
 
         {/* Account */}
         <div className="db-card" style={{ marginBottom: 20 }}>
@@ -58,28 +68,22 @@ export default function SettingsPage() {
             <span className="db-card-title">Billing</span>
             <span className="db-badge db-badge--active">Developer — Free</span>
           </div>
-          {loading ? (
-            <p style={{ color: '#9CA3AF', fontSize: 14 }}>Loading billing info…</p>
-          ) : (
+          {billing ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
                 <div>
                   <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Current period</div>
-                  <div style={{ fontSize: 14 }}>
-                    {billing ? `${billing.period.start} – ${billing.period.end}` : '—'}
-                  </div>
+                  <div style={{ fontSize: 14 }}>{billing.period.start} – {billing.period.end}</div>
                 </div>
                 <div>
                   <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Estimated cost this month</div>
                   <div style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>
-                    {billing ? formatCost(billing.estimatedCost) : '—'}
+                    {formatCost(billing.estimatedCost)}
                   </div>
                 </div>
                 <div>
                   <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Tokens this month</div>
-                  <div style={{ fontSize: 14 }}>
-                    {billing ? formatTokens(billing.totalTokens) : '—'}
-                  </div>
+                  <div style={{ fontSize: 14 }}>{formatTokens(billing.totalTokens)}</div>
                 </div>
               </div>
 
@@ -115,9 +119,13 @@ export default function SettingsPage() {
               <div style={{ marginTop: 8, padding: 12, background: '#F9FAFB', borderRadius: 8, fontSize: 13, color: '#6B7280' }}>
                 <strong style={{ color: '#374151' }}>Upgrade to Startup or Business</strong> for higher rate limits, priority support, and SLA guarantees.
                 Pricing starts at $0.08/1M input tokens.{' '}
-                <span style={{ color: '#6366F1', cursor: 'pointer' }}>Contact sales →</span>
+                <a href="mailto:sales@cloudach.com" style={{ color: '#6366F1', textDecoration: 'none' }}>
+                  Contact sales →
+                </a>
               </div>
             </div>
+          ) : (
+            <div style={{ color: '#9CA3AF', fontSize: 14 }}>No billing data available.</div>
           )}
         </div>
 
@@ -131,11 +139,51 @@ export default function SettingsPage() {
           </div>
           <button
             className="db-btn db-btn--danger"
-            onClick={() => alert('Please contact support@cloudach.com to delete your account.')}
+            onClick={() => { setDeleteConfirmText(''); setShowDeleteModal(true); }}
           >
             Delete account
           </button>
         </div>
+
+        {/* Delete confirm modal */}
+        {showDeleteModal && (
+          <div className="db-modal-backdrop" onClick={() => setShowDeleteModal(false)}>
+            <div className="db-modal" onClick={e => e.stopPropagation()}>
+              <div className="db-modal-title" style={{ color: '#DC2626' }}>Delete account?</div>
+              <p style={{ fontSize: 14, color: '#374151', margin: '12px 0 16px', lineHeight: 1.6 }}>
+                This action is <strong>permanent and cannot be undone</strong>. All your API keys, usage history, and model deployments will be deleted immediately.
+              </p>
+              <div className="db-field">
+                <label className="db-label">
+                  Type <code style={{ fontFamily: 'monospace', background: '#F3F4F6', padding: '1px 5px', borderRadius: 4, fontSize: 12 }}>delete my account</code> to confirm
+                </label>
+                <input
+                  className="db-input"
+                  placeholder="delete my account"
+                  value={deleteConfirmText}
+                  onChange={e => setDeleteConfirmText(e.target.value)}
+                  autoFocus
+                />
+              </div>
+              <div className="db-modal-actions">
+                <button type="button" className="db-btn db-btn--ghost" onClick={() => setShowDeleteModal(false)}>
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="db-btn db-btn--danger"
+                  disabled={deleteConfirmText !== 'delete my account'}
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    window.location.href = 'mailto:support@cloudach.com?subject=Account%20Deletion%20Request&body=Please%20delete%20my%20account%3A%20' + encodeURIComponent(user.email);
+                  }}
+                >
+                  Delete account
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </DashboardLayout>
     </>
   );

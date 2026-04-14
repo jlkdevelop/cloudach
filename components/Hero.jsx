@@ -8,10 +8,10 @@ export default function Hero() {
           <div className="eyebrow-dot" />
           LLM cloud infrastructure
         </div>
-        <h1>Deploy any<br />LLM.<br /><em>Ship faster.</em></h1>
+        <h1>Open-source LLMs,<br />production-ready<br /><em>in 60 seconds.</em></h1>
         <p className="hero-sub">
-          The developer platform for hosting, scaling, and fine-tuning open-source language
-          models. One API. Any model. Production-ready in minutes.
+          Deploy Llama 3, Mistral, and Mixtral on dedicated GPUs with an OpenAI-compatible API.
+          Drop in, scale up, and pay only for what you use.
         </p>
         <div className="hero-btns">
           <Link href="/signup"><button className="btn-cta">Start deploying free</button></Link>

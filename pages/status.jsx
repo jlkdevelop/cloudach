@@ -27,6 +27,10 @@ export default function Status() {
       <Head>
         <title>System Status — Cloudach</title>
         <meta name="description" content="Live status of Cloudach infrastructure and services." />
+        <meta property="og:title" content="System Status — Cloudach" />
+        <meta property="og:description" content="Live status of Cloudach infrastructure and services." />
+        <meta property="og:url" content="https://cloudach.com/status" />
+        <meta property="og:type" content="website" />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>

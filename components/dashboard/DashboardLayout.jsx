@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Logo from '../Logo';
@@ -10,54 +11,125 @@ const NAV_ITEMS = [
   { href: '/dashboard/settings', label: 'Settings', icon: IconSettings },
 ];
 
+export function PageLoader() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+      <div style={{ textAlign: 'center', color: '#9CA3AF' }}>
+        <div style={{
+          width: 32, height: 32, borderRadius: '50%',
+          border: '3px solid #E5E7EB', borderTopColor: '#4F6EF7',
+          animation: 'db-spin 0.7s linear infinite', margin: '0 auto 12px'
+        }} />
+        <div style={{ fontSize: 13 }}>Loading…</div>
+      </div>
+    </div>
+  );
+}
+
+export function ErrorBanner({ message }) {
+  return (
+    <div style={{
+      background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 10,
+      padding: '14px 18px', marginBottom: 24, color: '#991B1B', fontSize: 13.5,
+      display: 'flex', alignItems: 'center', gap: 10
+    }}>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+        <circle cx="8" cy="8" r="7" stroke="#DC2626" strokeWidth="1.5"/>
+        <path d="M8 5v3.5M8 11h.01" stroke="#DC2626" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+      {message || 'Something went wrong. Please refresh the page.'}
+    </div>
+  );
+}
+
 export default function DashboardLayout({ children, user }) {
   const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   async function handleLogout() {
     await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/login');
   }
 
+  const sidebar = (
+    <aside className={`db-sidebar${sidebarOpen ? ' db-sidebar--open' : ''}`}>
+      <div className="db-sidebar-logo">
+        <Logo size={22} />
+        <span className="db-sidebar-brand">cloud<span>ach</span></span>
+        <button
+          className="db-sidebar-close"
+          onClick={() => setSidebarOpen(false)}
+          aria-label="Close menu"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav className="db-nav">
+        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+          const active = router.pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`db-nav-item${active ? ' db-nav-item--active' : ''}`}
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Icon />
+              <span>{label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="db-sidebar-footer">
+        <div className="db-user-chip">
+          <div className="db-user-avatar">{user?.email?.[0]?.toUpperCase() || 'U'}</div>
+          <span className="db-user-email" title={user?.email}>{user?.email || 'User'}</span>
+        </div>
+        <button className="db-logout-btn" onClick={handleLogout} title="Sign out">
+          <IconLogout />
+        </button>
+      </div>
+    </aside>
+  );
+
   return (
     <div className="db-shell">
-      {/* Sidebar */}
-      <aside className="db-sidebar">
-        <div className="db-sidebar-logo">
-          <Logo size={22} />
-          <span className="db-sidebar-brand">cloud<span>ach</span></span>
-        </div>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="db-sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden
+        />
+      )}
 
-        <nav className="db-nav">
-          {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-            const active = router.pathname === href;
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`db-nav-item${active ? ' db-nav-item--active' : ''}`}
-              >
-                <Icon />
-                <span>{label}</span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="db-sidebar-footer">
-          <div className="db-user-chip">
-            <div className="db-user-avatar">{user?.email?.[0]?.toUpperCase() || 'U'}</div>
-            <span className="db-user-email">{user?.email || 'User'}</span>
-          </div>
-          <button className="db-logout-btn" onClick={handleLogout} title="Sign out">
-            <IconLogout />
-          </button>
-        </div>
-      </aside>
+      {sidebar}
 
       {/* Main content */}
       <main className="db-main">
+        {/* Mobile top bar */}
+        <div className="db-mobile-topbar">
+          <button
+            className="db-hamburger"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <span className="db-mobile-brand">cloud<span>ach</span></span>
+        </div>
         {children}
       </main>
+
+      <style>{`
+        @keyframes db-spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }

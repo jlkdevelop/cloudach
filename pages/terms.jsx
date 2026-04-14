@@ -7,6 +7,11 @@ export default function Terms() {
     <>
       <Head>
         <title>Terms of Service — Cloudach</title>
+        <meta name="description" content="Cloudach Terms of Service — usage rules, permitted activities, and platform policies." />
+        <meta property="og:title" content="Terms of Service — Cloudach" />
+        <meta property="og:description" content="Cloudach Terms of Service — usage rules, permitted activities, and platform policies." />
+        <meta property="og:url" content="https://cloudach.com/terms" />
+        <meta property="og:type" content="website" />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
