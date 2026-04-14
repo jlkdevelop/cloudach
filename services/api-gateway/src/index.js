@@ -8,6 +8,7 @@ const { healthRouter } = require('./routes/health');
 const { modelsRouter } = require('./routes/models');
 const { chatRouter } = require('./routes/chat');
 const { completionsRouter } = require('./routes/completions');
+const { batchRouter } = require('./routes/batch');
 const { authenticate } = require('./middleware/auth');
 const { rateLimiter } = require('./middleware/rateLimiter');
 const { db } = require('./lib/db');
@@ -29,6 +30,7 @@ apiRouter.use(rateLimiter);
 apiRouter.use('/models', modelsRouter);
 apiRouter.use('/chat/completions', chatRouter);
 apiRouter.use('/completions', completionsRouter);
+apiRouter.use('/batches', batchRouter);
 
 app.use('/v1', apiRouter);
 
