@@ -12,8 +12,8 @@ export default function Nav() {
         <a href="#platform">Platform</a>
         <a href="#models">Models</a>
         <a href="#pricing">Pricing</a>
-        <a href="#">Docs</a>
-        <a href="#">Enterprise</a>
+        <Link href="/docs">Docs</Link>
+        <Link href="/enterprise">Enterprise</Link>
       </div>
       <div className="nav-right">
         <Link href="/login">

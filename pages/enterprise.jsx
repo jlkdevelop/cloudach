@@ -1,0 +1,81 @@
+import Head from 'next/head'
+import Link from 'next/link'
+import Nav from '../components/Nav'
+import Footer from '../components/Footer'
+import Logo from '../components/Logo'
+
+const features = [
+  { icon: '🔒', title: 'Private VPC Deployment', desc: 'Your models run in an isolated network. No shared compute, no shared data. Full air-gap mode available.' },
+  { icon: '⚡', title: 'Dedicated GPU Instances', desc: 'Reserved capacity on A100 and H100 nodes. Guaranteed throughput with no noisy neighbors.' },
+  { icon: '📋', title: 'Compliance Ready', desc: 'HIPAA-adjacent, SOC 2 Type II, and GDPR-ready infrastructure. Audit logs for every request.' },
+  { icon: '🌍', title: 'Multi-Region Deployment', desc: 'Deploy to any AWS or GCP region. Data residency controls for EU, US, and APAC requirements.' },
+  { icon: '🛠️', title: 'Dedicated Support', desc: 'A dedicated solutions engineer assigned to your account. SLA-backed response times.' },
+  { icon: '📊', title: '99.9% Uptime SLA', desc: 'Contractual uptime guarantee backed by redundant infrastructure and automatic failover.' },
+]
+
+export default function Enterprise() {
+  return (
+    <>
+      <Head>
+        <title>Enterprise — Cloudach</title>
+        <meta name="description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
+      </Head>
+
+      <Nav />
+
+      <main>
+        {/* Hero */}
+        <section style={{ maxWidth: 1180, margin: '0 auto', padding: '88px 48px 72px', textAlign: 'center' }}>
+          <div className="eyebrow" style={{ justifyContent: 'center', margin: '0 auto 24px' }}>
+            <div className="eyebrow-dot" />
+            Enterprise
+          </div>
+          <h1 style={{ fontSize: 52, fontWeight: 700, letterSpacing: -2, lineHeight: 1.07, color: '#0D0F1A', marginBottom: 20 }}>
+            Private AI infrastructure<br />built for the enterprise.
+          </h1>
+          <p style={{ fontSize: 17, color: '#6B7280', lineHeight: 1.75, maxWidth: 560, margin: '0 auto 40px' }}>
+            Deploy open-source LLMs inside your own VPC. Isolated compute, compliance controls, and a dedicated team — so your data never leaves your environment.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+            <Link href="/contact">
+              <button className="btn-cta">Talk to sales</button>
+            </Link>
+            <Link href="/docs">
+              <button className="btn-cta-ghost">View docs</button>
+            </Link>
+          </div>
+        </section>
+
+        {/* Features grid */}
+        <section style={{ background: '#F9FAFB', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB' }}>
+          <div style={{ maxWidth: 1180, margin: '0 auto', padding: '72px 48px' }}>
+            <div className="sec-tag" style={{ textAlign: 'center' }}>What you get</div>
+            <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 52 }}>Everything a serious enterprise needs</h2>
+            <div className="feat-grid">
+              {features.map(f => (
+                <div className="feat" key={f.title}>
+                  <div style={{ fontSize: 24, marginBottom: 14 }}>{f.icon}</div>
+                  <h3>{f.title}</h3>
+                  <p>{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing note */}
+        <section style={{ maxWidth: 720, margin: '0 auto', padding: '72px 48px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: 36, fontWeight: 700, letterSpacing: -1, marginBottom: 16, color: '#0D0F1A' }}>Custom pricing.<br />Volume discounts.</h2>
+          <p style={{ fontSize: 16, color: '#6B7280', lineHeight: 1.75, marginBottom: 36 }}>
+            Enterprise plans are scoped to your usage, team size, and compliance requirements. Most teams start at $2,000/month. Volume discounts available above $10,000/month.
+          </p>
+          <Link href="/contact">
+            <button className="btn-cta">Contact sales</button>
+          </Link>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  )
+}

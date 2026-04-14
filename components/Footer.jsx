@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Logo from './Logo'
 
 export default function Footer() {
@@ -14,40 +15,40 @@ export default function Footer() {
         <div className="flinks">
           <div className="fcol">
             <h5>Platform</h5>
-            <a href="#">Deploy</a>
-            <a href="#">Fine-tuning</a>
-            <a href="#">Autoscaling</a>
-            <a href="#">Private VPC</a>
+            <a href="#platform">Deploy</a>
+            <a href="#platform">Fine-tuning</a>
+            <a href="#platform">Autoscaling</a>
+            <Link href="/enterprise">Private VPC</Link>
           </div>
           <div className="fcol">
             <h5>Models</h5>
-            <a href="#">Model library</a>
-            <a href="#">Custom weights</a>
-            <a href="#">HuggingFace</a>
-            <a href="#">Benchmarks</a>
+            <a href="#models">Model library</a>
+            <a href="#models">Custom weights</a>
+            <a href="#models">HuggingFace</a>
+            <Link href="/docs#benchmarks">Benchmarks</Link>
           </div>
           <div className="fcol">
             <h5>Developers</h5>
-            <a href="#">Documentation</a>
-            <a href="#">API reference</a>
-            <a href="#">CLI</a>
-            <a href="#">Status</a>
+            <Link href="/docs">Documentation</Link>
+            <Link href="/docs#api-reference">API reference</Link>
+            <Link href="/docs#cli">CLI</Link>
+            <Link href="/status">Status</Link>
           </div>
           <div className="fcol">
             <h5>Company</h5>
-            <a href="#">About</a>
-            <a href="#">Blog</a>
-            <a href="#">Careers</a>
-            <a href="#">Contact</a>
+            <Link href="/about">About</Link>
+            <Link href="/blog">Blog</Link>
+            <Link href="/enterprise">Enterprise</Link>
+            <Link href="/contact">Contact</Link>
           </div>
         </div>
       </div>
       <div className="foot-bar">
         <p>© 2026 Cloudach, Inc. All rights reserved.</p>
         <div className="foot-bar-links">
-          <a href="#">Privacy policy</a>
-          <a href="#">Terms of service</a>
-          <a href="#">Cookies</a>
+          <Link href="/privacy">Privacy policy</Link>
+          <Link href="/terms">Terms of service</Link>
+          <Link href="/privacy#cookies">Cookies</Link>
         </div>
       </div>
     </footer>
