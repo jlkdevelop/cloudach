@@ -90,6 +90,9 @@ export default function DocsPage() {
                   {label}
                 </a>
               ))}
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #F3F4F6' }}>
+                <Link href="/changelog" style={{ display: 'block', padding: '6px 0', fontSize: 13, color: '#374151', textDecoration: 'none', lineHeight: 1.4 }}>Changelog</Link>
+              </div>
             </nav>
           </aside>
 
@@ -1036,10 +1039,12 @@ curl https://api.cloudach.com/v1/chat/completions \\
             </Section>
 
             {/* Footer */}
-            <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid #E5E7EB', display: 'flex', gap: 24, fontSize: 13, color: '#9CA3AF' }}>
+            <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid #E5E7EB', display: 'flex', gap: 24, flexWrap: 'wrap', fontSize: 13, color: '#9CA3AF' }}>
               <a href="mailto:support@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>support@cloudach.com</a>
               <a href="mailto:sales@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>sales@cloudach.com</a>
               <Link href="/dashboard" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Dashboard</Link>
+              <Link href="/changelog" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Changelog</Link>
+              <a href="/api/changelog/rss" style={{ color: '#9CA3AF', textDecoration: 'none' }}>RSS</a>
             </div>
           </main>
         </div>

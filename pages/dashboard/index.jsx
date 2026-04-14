@@ -74,6 +74,17 @@ export default function DashboardOverview() {
           <p className="db-page-subtitle">Welcome back, {user.email}</p>
         </div>
 
+        {/* What's new banner */}
+        <Link href="/changelog" style={{ textDecoration: 'none', display: 'block' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#EEF2FF', border: '1px solid #C7D2FE', borderRadius: 10, padding: '10px 16px', marginBottom: 20, cursor: 'pointer' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#6366F1', background: '#fff', border: '1px solid #C7D2FE', borderRadius: 4, padding: '1px 8px', flexShrink: 0 }}>NEW</span>
+            <span style={{ fontSize: 14, color: '#3730A3', fontWeight: 500, flex: 1 }}>
+              Cloudach v1.0 is GA — GPU cost optimization, usage alerts, spending limits, and more.
+            </span>
+            <span style={{ fontSize: 13, color: '#6366F1', fontWeight: 500, flexShrink: 0 }}>See changelog →</span>
+          </div>
+        </Link>
+
         {error && <ErrorBanner message={error} />}
 
         {/* Persistent onboarding checklist — lazy-loaded, shown until all steps complete or dismissed */}

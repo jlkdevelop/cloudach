@@ -4,6 +4,36 @@ import Link from 'next/link';
 const ENTRIES = [
   {
     date: 'Apr 2026',
+    version: 'v1.0',
+    tag: 'GA Release',
+    color: '#6366F1',
+    bg: '#EEF2FF',
+    items: [
+      'GPU cost optimization engine: spot instance scheduling, preemption handling, automatic fallback to on-demand',
+      'Autoscaling policies: time-based, load-based, and budget-aware scaling rules',
+      'Batch pricing tier: up to 40% discount on asynchronous workloads',
+      'Usage alerts: configurable thresholds (50/75/90/100%) with email and webhook delivery',
+      'Spending limits dashboard: monthly budget caps, real-time burn-rate progress bar',
+      'Alert history log with status tracking (sent, acknowledged, resolved)',
+    ],
+  },
+  {
+    date: 'Apr 2026',
+    version: 'v0.9.5',
+    tag: 'Developer Experience',
+    color: '#059669',
+    bg: '#ECFDF5',
+    items: [
+      'Webhook system: subscribe to inference.completed, usage.threshold, and billing.invoice events',
+      'Webhook signatures: HMAC-SHA256 on every payload — verify with the X-Cloudach-Signature header',
+      'Onboarding email sequence: 7-touch drip campaign triggered on signup',
+      'Model selection guide and use-case matrix published to /docs',
+      'Interactive API playground embedded in /docs — run live requests without leaving the page',
+      'Improved dashboard error states with actionable recovery suggestions',
+    ],
+  },
+  {
+    date: 'Mar 2026',
     version: 'v0.9',
     tag: 'Security',
     color: '#DC2626',
@@ -17,25 +47,53 @@ const ENTRIES = [
     ],
   },
   {
-    date: 'Apr 2026',
-    version: 'v0.8',
-    tag: 'Infrastructure',
+    date: 'Mar 2026',
+    version: 'v0.8.5',
+    tag: 'Enterprise',
     color: '#0891B2',
     bg: '#ECFEFF',
+    items: [
+      'Enterprise page redesigned: SLA table, compliance badges, dedicated support callout',
+      'Team management dashboard: invite members, assign roles (admin/developer/viewer), revoke access',
+      'Fine-tuning workflow: LoRA adapter training, dataset upload, job queue, deployed adapter endpoints',
+      'E2E test suite (Playwright): 18 critical-path tests covering auth, API keys, models, and billing',
+      'SDK packages: official cloudach-python and cloudach-node on PyPI and npm',
+    ],
+  },
+  {
+    date: 'Mar 2026',
+    version: 'v0.8',
+    tag: 'Infrastructure',
+    color: '#7C3AED',
+    bg: '#F5F3FF',
     items: [
       'Autoscaling from zero: GPU pods scale to 0 when idle, cold-start in ~30s',
       'Tenant isolation: per-tenant Kubernetes namespaces and network policies',
       'CI/CD pipeline: GitHub Actions → Docker build → GKE deploy on every merge to main',
       'Observability: Prometheus metrics, Grafana dashboards, PagerDuty alerting',
-      'Cost model: per-tenant billing aggregation, token counting middleware',
+      'Multi-region deployment: US-east, EU-west routing with CDN edge caching',
     ],
   },
   {
-    date: 'Mar 2026',
+    date: 'Feb 2026',
+    version: 'v0.7.5',
+    tag: 'Performance',
+    color: '#D97706',
+    bg: '#FFFBEB',
+    items: [
+      'Dashboard performance: self-hosted fonts, HTTP caching headers, lazy-loaded charts',
+      'CLI v0.1: cloudach chat, cloudach models list, cloudach keys create/revoke',
+      'Monitoring and alerting: structured JSON logs, Datadog integration, custom dashboards',
+      'API error reference: all error codes documented with causes and remediation steps',
+      'Rate limit docs expanded: per-tier limits, burst budgets, and backoff examples',
+    ],
+  },
+  {
+    date: 'Feb 2026',
     version: 'v0.7',
     tag: 'Dashboard',
-    color: '#7C3AED',
-    bg: '#F5F3FF',
+    color: '#374151',
+    bg: '#F9FAFB',
     items: [
       'API Keys page: create, name, copy, and revoke keys with one click',
       'Usage page: daily token consumption charts, per-model breakdown',
@@ -45,7 +103,7 @@ const ENTRIES = [
     ],
   },
   {
-    date: 'Mar 2026',
+    date: 'Feb 2026',
     version: 'v0.6',
     tag: 'API',
     color: '#059669',
@@ -62,8 +120,8 @@ const ENTRIES = [
     date: 'Feb 2026',
     version: 'v0.5',
     tag: 'Models',
-    color: '#D97706',
-    bg: '#FFFBEB',
+    color: '#0891B2',
+    bg: '#ECFEFF',
     items: [
       'Llama 3 8B deployed on vLLM — 8K context, sub-100ms median TTFT',
       'Llama 3 70B available on dedicated GPU tier',
@@ -73,7 +131,7 @@ const ENTRIES = [
     ],
   },
   {
-    date: 'Feb 2026',
+    date: 'Jan 2026',
     version: 'v0.4',
     tag: 'Platform',
     color: '#6366F1',
@@ -115,6 +173,7 @@ export default function ChangelogPage() {
         <meta name="twitter:title" content="Changelog — Cloudach" />
         <meta name="twitter:description" content="Everything we've shipped: new models, API features, platform improvements, and security updates." />
         <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
+        <link rel="alternate" type="application/rss+xml" title="Cloudach Changelog RSS" href="/api/changelog/rss" />
       </Head>
 
       <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#0D0F1A' }}>
@@ -135,9 +194,18 @@ export default function ChangelogPage() {
         </nav>
 
         <div style={{ maxWidth: 760, margin: '0 auto', padding: '56px 24px' }}>
-          <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: -1, marginBottom: 8 }}>Changelog</h1>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8, flexWrap: 'wrap', gap: 12 }}>
+            <h1 style={{ fontSize: 36, fontWeight: 700, letterSpacing: -1, margin: 0 }}>Changelog</h1>
+            <a
+              href="/api/changelog/rss"
+              title="Subscribe via RSS"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#D97706', fontWeight: 500, textDecoration: 'none', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 6, padding: '5px 12px', marginTop: 8 }}
+            >
+              <RssIcon /> RSS Feed
+            </a>
+          </div>
           <p style={{ fontSize: 16, color: '#6B7280', marginBottom: 56, lineHeight: 1.6 }}>
-            Everything we've shipped — models, API features, platform improvements, and security hardening.
+            Everything we&apos;ve shipped — models, API features, platform improvements, and security hardening.
             Subscribe to <a href="/blog" style={{ color: '#6366F1', textDecoration: 'none' }}>the blog</a> for major announcements.
           </p>
 
@@ -146,7 +214,7 @@ export default function ChangelogPage() {
             <div style={{ position: 'absolute', left: 0, top: 8, bottom: 8, width: 2, background: '#E5E7EB' }} />
 
             {ENTRIES.map((entry, i) => (
-              <div key={i} style={{ display: 'flex', gap: 32, marginBottom: 48, position: 'relative' }}>
+              <div key={i} id={`v${entry.version.replace('.', '-')}`} style={{ display: 'flex', gap: 32, marginBottom: 48, position: 'relative' }}>
                 {/* Dot */}
                 <div style={{ width: 12, height: 12, borderRadius: '50%', background: entry.color, marginTop: 6, flexShrink: 0, zIndex: 1, marginLeft: -5 }} />
 
@@ -172,10 +240,19 @@ export default function ChangelogPage() {
             <Link href="/docs" style={{ color: '#9CA3AF', textDecoration: 'none' }}>API Docs</Link>
             <Link href="/blog" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Blog</Link>
             <Link href="/status" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Status</Link>
+            <a href="/api/changelog/rss" style={{ color: '#9CA3AF', textDecoration: 'none' }}>RSS</a>
             <a href="mailto:support@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>support@cloudach.com</a>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+function RssIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path d="M3.75 3a.75.75 0 0 0 0 1.5A11.75 11.75 0 0 1 15.5 16.25a.75.75 0 0 0 1.5 0A13.25 13.25 0 0 0 3.75 3ZM3.75 7.5a.75.75 0 0 0 0 1.5A7.25 7.25 0 0 1 11 16.25a.75.75 0 0 0 1.5 0A8.75 8.75 0 0 0 3.75 7.5ZM5 15a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+    </svg>
   );
 }
