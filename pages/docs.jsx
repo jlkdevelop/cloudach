@@ -17,19 +17,28 @@ export default function DocsPage() {
       <Head>
         <title>API Documentation — Cloudach</title>
         <meta name="description" content="Cloudach API documentation — OpenAI-compatible LLM API. Quickstart, authentication, endpoints, and code examples." />
+        <meta property="og:title" content="API Documentation — Cloudach" />
+        <meta property="og:description" content="OpenAI-compatible API for Llama 3, Mistral, and Mixtral. Drop-in replacement for the OpenAI SDK." />
+        <meta property="og:image" content="https://cloudach.com/og-image.png" />
+        <meta property="og:url" content="https://cloudach.com/docs" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="API Documentation — Cloudach" />
+        <meta name="twitter:description" content="OpenAI-compatible API for Llama 3, Mistral, and Mixtral. Drop-in replacement for the OpenAI SDK." />
+        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
 
       <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#0D0F1A' }}>
         {/* Nav */}
-        <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
+        <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 64 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: '#6366F1' }}>Cloudach</span>
+            <span style={{ fontWeight: 700, fontSize: 17, color: '#0D0F1A', letterSpacing: '-0.5px' }}>Cloudach<span style={{ color: '#4F6EF7' }}>.</span></span>
           </Link>
-          <Link href="/docs" style={{ fontSize: 14, fontWeight: 500, color: '#6366F1', textDecoration: 'none' }}>Docs</Link>
+          <Link href="/docs" style={{ fontSize: 14, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
           <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
-            <button style={{ background: '#6366F1', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+            <button className="btn-solid">
               Get started free
             </button>
           </Link>
@@ -44,11 +53,14 @@ export default function DocsPage() {
                 ['#authentication', 'Authentication'],
                 ['#endpoints', 'Endpoints'],
                 ['#chat-completions', '↳ Chat Completions'],
+                ['#streaming', '↳ Streaming'],
                 ['#text-completions', '↳ Text Completions'],
                 ['#models-list', '↳ Models List'],
                 ['#rate-limits', 'Rate Limits'],
                 ['#errors', 'Error Codes'],
                 ['#sdks', 'SDK Compatibility'],
+                ['#tutorials', 'Tutorials'],
+                ['#faq', 'FAQ'],
               ].map(([href, label]) => (
                 <a
                   key={href}
@@ -206,7 +218,7 @@ console.log(resp.choices[0].message.content);`}</CodeBlock>
   "usage": {"prompt_tokens": 22, "completion_tokens": 8, "total_tokens": 30}
 }`}</CodeBlock>
 
-              <h4 style={h4}>Streaming (SSE)</h4>
+              <h4 style={h4} id="streaming">Streaming (SSE)</h4>
               <p style={p}>Set <Code>{'"stream": true'}</Code>. Response is a stream of <Code>data: ...</Code> lines, ending with <Code>data: [DONE]</Code>.</p>
               <CodeBlock>{`data: {"id":"chatcmpl-abc","choices":[{"delta":{"role":"assistant","content":""},"index":0}]}
 
@@ -349,6 +361,70 @@ for await (const chunk of stream) {
 }`}</CodeBlock>
             </Section>
 
+            {/* ── Tutorials ── */}
+            <Section id="tutorials" title="Tutorials">
+              <p style={p}>Step-by-step guides for common use cases.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {[
+                  {
+                    href: '/tutorials/customer-support-bot',
+                    title: 'Build a customer support bot with Llama 3',
+                    desc: 'Stream responses, handle context, deploy to production.',
+                    badge: 'Intermediate',
+                  },
+                ].map(t => (
+                  <a key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
+                  </a>
+                ))}
+              </div>
+            </Section>
+
+            {/* ── FAQ ── */}
+            <Section id="faq" title="FAQ">
+              {[
+                {
+                  q: 'Is Cloudach fully OpenAI-compatible?',
+                  a: 'Yes. Cloudach implements the OpenAI REST API spec for chat completions, text completions, and model listing. Any SDK or tool that targets OpenAI works with Cloudach by changing the base URL and API key.',
+                },
+                {
+                  q: 'Do I need to change my code to switch from OpenAI?',
+                  a: 'No. Set base_url to https://api.cloudach.com/v1 and swap your API key. That\'s it. All request/response shapes are identical.',
+                },
+                {
+                  q: 'What are the current rate limits?',
+                  a: '60 requests per minute and 1,000,000 tokens per day per API key on the free tier. Contact sales@cloudach.com for enterprise limits.',
+                },
+                {
+                  q: 'What happens when I exceed the token quota?',
+                  a: 'Requests will return a 429 with code rate_limit_exceeded and a Retry-After header. Tokens reset at midnight UTC. You can upgrade or purchase additional token packs from the dashboard.',
+                },
+                {
+                  q: 'Can I use Cloudach in production?',
+                  a: 'Yes. Cloudach is production-ready with 99.9% uptime SLA on paid plans, sub-100ms median TTFT, and autoscaling infrastructure. See the Status page for live metrics.',
+                },
+                {
+                  q: 'Is my data private?',
+                  a: 'Cloudach does not log prompt or completion content. Request metadata (token counts, model, timestamp) is stored for billing. Your data is never used to train models.',
+                },
+                {
+                  q: 'Which models are available?',
+                  a: 'Llama 3 8B, Llama 3 70B, Mistral 7B, and Mixtral 8×7B are available today. New models are announced on the blog.',
+                },
+              ].map(({ q, a }) => (
+                <details key={q} style={{ borderBottom: '1px solid #F3F4F6', padding: '14px 0', cursor: 'pointer' }}>
+                  <summary style={{ fontWeight: 600, fontSize: 15, color: '#0D0F1A', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    {q} <span style={{ fontSize: 18, color: '#9CA3AF' }}>+</span>
+                  </summary>
+                  <p style={{ marginTop: 10, fontSize: 14, color: '#6B7280', lineHeight: 1.7 }}>{a}</p>
+                </details>
+              ))}
+            </Section>
+
             {/* Footer */}
             <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid #E5E7EB', display: 'flex', gap: 24, fontSize: 13, color: '#9CA3AF' }}>
               <a href="mailto:support@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>support@cloudach.com</a>
@@ -455,7 +531,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: '#EEF2FF', borderLeft: '3px solid #6366F1', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#3730A3', marginBottom: 16 }}>
+    <div style={{ background: '#EEF1FF', borderLeft: '3px solid #4F6EF7', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#3730A3', marginBottom: 16 }}>
       {children}
     </div>
   );
@@ -493,4 +569,4 @@ const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12 };
 const h4 = { fontSize: 14, fontWeight: 600, marginTop: 16, marginBottom: 8, color: '#374151' };
 const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
 const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
-const link = { color: '#6366F1', textDecoration: 'none' };
+const link = { color: '#4F6EF7', textDecoration: 'none' };

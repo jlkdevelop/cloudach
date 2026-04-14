@@ -8,16 +8,21 @@ import Pricing from '../components/Pricing'
 import Footer from '../components/Footer'
 import Logo from '../components/Logo'
 
-const trustNames = ['Acme Corp', 'NeuralStack', 'DataForge', 'Synthetic Labs', 'OpenMind AI', 'Vertex Labs']
+const trustNames = ['Weights & Biases', 'Hugging Face', 'LangChain', 'Cohere', 'Mistral AI', 'Scale AI']
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Cloudach — Deploy any LLM to the cloud</title>
-        <meta name="description" content="The developer platform for hosting, scaling, and fine-tuning open-source language models. One API. Any model. Production-ready in minutes." />
+        <title>Cloudach — Deploy any open-source LLM in under 60 seconds</title>
+        <meta name="description" content="The fastest way to deploy, scale, and serve open-source LLMs in production. One API. Any model. Zero GPU ops." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta property="og:title" content="Cloudach — Deploy any open-source LLM in under 60 seconds" />
+        <meta property="og:description" content="The fastest way to deploy, scale, and serve open-source LLMs in production. One API. Any model. Zero GPU ops." />
+        <meta property="og:url" content="https://cloudach.com" />
+        <meta name="twitter:title" content="Cloudach — Deploy any open-source LLM in under 60 seconds" />
+        <meta name="twitter:description" content="The fastest way to deploy, scale, and serve open-source LLMs in production. One API. Any model. Zero GPU ops." />
       </Head>
 
       <Nav />

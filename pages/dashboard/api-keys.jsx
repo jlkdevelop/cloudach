@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import { useToast } from '../../components/dashboard/useToast';
+import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
 
 export default function ApiKeysPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [keys, setKeys] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [showCreate, setShowCreate] = useState(false);
   const [newKeyName, setNewKeyName] = useState('');
   const [newRateLimitRpm, setNewRateLimitRpm] = useState('');
@@ -16,16 +16,21 @@ export default function ApiKeysPage() {
   const [createError, setCreateError] = useState('');
   const [newRawKey, setNewRawKey] = useState(null);
   const [copied, setCopied] = useState(false);
-  const [revokeConfirmId, setRevokeConfirmId] = useState(null);
-  const [toastEl, showToast] = useToast();
+  const [revokeTarget, setRevokeTarget] = useState(null); // keyId pending revoke
+  const [revoking, setRevoking] = useState(null);
 
   useEffect(() => {
     async function init() {
-      const meRes = await fetch('/api/auth/me');
-      if (!meRes.ok) { router.replace('/login'); return; }
-      setUser((await meRes.json()).user);
-      await loadKeys();
-      setLoading(false);
+      try {
+        const meRes = await fetch('/api/auth/me');
+        if (!meRes.ok) { router.replace('/login'); return; }
+        setUser((await meRes.json()).user);
+        await loadKeys();
+      } catch {
+        setError('Network error. Please refresh.');
+      } finally {
+        setLoading(false);
+      }
     }
     init();
   }, [router]);
@@ -33,6 +38,7 @@ export default function ApiKeysPage() {
   async function loadKeys() {
     const res = await fetch('/api/dashboard/api-keys');
     if (res.ok) setKeys((await res.json()).keys);
+    else setError('Failed to load API keys.');
   }
 
   async function createKey(e) {
@@ -64,18 +70,15 @@ export default function ApiKeysPage() {
     setNewKeyName('');
     setNewRateLimitRpm('');
     setCreating(false);
-    showToast('API key created. Copy it now — it won\'t be shown again.');
     await loadKeys();
   }
 
-  async function revokeKey(keyId) {
+  async function confirmRevoke(keyId) {
+    setRevoking(keyId);
     const res = await fetch(`/api/dashboard/api-keys/${keyId}/revoke`, { method: 'POST' });
-    setRevokeConfirmId(null);
-    if (res.ok) {
-      showToast('API key revoked.');
-    } else {
-      showToast('Failed to revoke key. Please try again.', 'error');
-    }
+    if (!res.ok) setError('Failed to revoke key. Please try again.');
+    setRevokeTarget(null);
+    setRevoking(null);
     await loadKeys();
   }
 
@@ -86,11 +89,7 @@ export default function ApiKeysPage() {
     });
   }
 
-  if (!user) return (
-    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
-    </div>
-  );
+  if (loading || !user) return <PageLoader />;
 
   return (
     <>
@@ -106,6 +105,8 @@ export default function ApiKeysPage() {
           </button>
         </div>
 
+        {error && <ErrorBanner message={error} />}
+
         {/* New key reveal */}
         {newRawKey && (
           <div className="db-key-reveal">
@@ -119,13 +120,18 @@ export default function ApiKeysPage() {
 
         {/* Keys table */}
         <div className="db-card">
-          {loading ? (
-            <p style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</p>
-          ) : keys.length === 0 ? (
+          {keys.length === 0 ? (
             <div className="db-empty">
-              <div className="db-empty-icon">🔑</div>
+              <IconKeyEmpty />
               <div className="db-empty-title">No API keys yet</div>
-              <div className="db-empty-desc">Create a key to start making requests.</div>
+              <div className="db-empty-desc">Create a key to authenticate requests to the Cloudach API.</div>
+              <button
+                className="db-btn db-btn--primary db-btn--sm"
+                style={{ marginTop: 16 }}
+                onClick={() => { setShowCreate(true); setCreateError(''); setNewRawKey(null); }}
+              >
+                + Create your first key
+              </button>
             </div>
           ) : (
             <div className="db-table-wrap">
@@ -142,36 +148,60 @@ export default function ApiKeysPage() {
                 </thead>
                 <tbody>
                   {keys.map((k) => (
-                    <tr key={k.id}>
-                      <td><strong>{k.name}</strong></td>
-                      <td>{fmtDate(k.created_at)}</td>
-                      <td>{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
-                      <td>
-                        {k.rate_limit_rpm
-                          ? <span style={{ fontSize: 12 }}>{k.rate_limit_rpm} rpm</span>
-                          : <span style={{ color: '#9CA3AF', fontSize: 12 }}>Unlimited</span>}
-                      </td>
-                      <td>
-                        {k.revoked_at
-                          ? <span className="db-badge db-badge--revoked">Revoked</span>
-                          : <span className="db-badge db-badge--active">Active</span>}
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        {!k.revoked_at && (
-                          revokeConfirmId === k.id ? (
-                            <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
-                              <span style={{ fontSize: 12, color: '#6B7280' }}>Revoke?</span>
-                              <button className="db-btn db-btn--danger db-btn--sm" onClick={() => revokeKey(k.id)}>Yes</button>
-                              <button className="db-btn db-btn--ghost db-btn--sm" onClick={() => setRevokeConfirmId(null)}>No</button>
-                            </span>
-                          ) : (
-                            <button className="db-btn db-btn--danger db-btn--sm" onClick={() => setRevokeConfirmId(k.id)}>
-                              Revoke
-                            </button>
-                          )
-                        )}
-                      </td>
-                    </tr>
+                    <>
+                      <tr key={k.id}>
+                        <td><strong>{k.name}</strong></td>
+                        <td>{fmtDate(k.created_at)}</td>
+                        <td>{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
+                        <td>
+                          {k.rate_limit_rpm
+                            ? <span style={{ fontSize: 12 }}>{k.rate_limit_rpm} rpm</span>
+                            : <span style={{ color: '#9CA3AF', fontSize: 12 }}>Unlimited</span>}
+                        </td>
+                        <td>
+                          {k.revoked_at
+                            ? <span className="db-badge db-badge--revoked">Revoked</span>
+                            : <span className="db-badge db-badge--active">Active</span>}
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          {!k.revoked_at && (
+                            revokeTarget === k.id ? null : (
+                              <button
+                                className="db-btn db-btn--danger db-btn--sm"
+                                onClick={() => setRevokeTarget(k.id)}
+                              >
+                                Revoke
+                              </button>
+                            )
+                          )}
+                        </td>
+                      </tr>
+                      {revokeTarget === k.id && (
+                        <tr key={`${k.id}-confirm`}>
+                          <td colSpan={6} style={{ padding: '0 14px 12px' }}>
+                            <div className="db-inline-confirm">
+                              <span>Revoke <strong>{k.name}</strong>? This cannot be undone.</span>
+                              <div className="db-inline-confirm-actions">
+                                <button
+                                  className="db-btn db-btn--ghost db-btn--sm"
+                                  onClick={() => setRevokeTarget(null)}
+                                  disabled={revoking === k.id}
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  className="db-btn db-btn--danger db-btn--sm"
+                                  onClick={() => confirmRevoke(k.id)}
+                                  disabled={revoking === k.id}
+                                >
+                                  {revoking === k.id ? 'Revoking…' : 'Yes, revoke'}
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </>
                   ))}
                 </tbody>
               </table>
@@ -189,8 +219,6 @@ export default function ApiKeysPage() {
   -d '{"model":"llama3-8b","messages":[{"role":"user","content":"Hello!"}]}'`}</code>
           </pre>
         </div>
-
-        {toastEl}
 
         {/* Create key modal */}
         {showCreate && (
@@ -238,4 +266,21 @@ export default function ApiKeysPage() {
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function IconKeyEmpty() {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      style={{ margin: '0 auto 12px', display: 'block', color: '#D1D5DB' }}
+    >
+      <circle cx="16" cy="18" r="9" stroke="currentColor" strokeWidth="2" opacity="0.6" />
+      <circle cx="16" cy="18" r="4" fill="currentColor" opacity="0.3" />
+      <path d="M23 23l10 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M29 28l3 -3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
 }

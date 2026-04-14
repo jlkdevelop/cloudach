@@ -27,11 +27,16 @@ export default function Status() {
       <Head>
         <title>System Status — Cloudach</title>
         <meta name="description" content="Live status of Cloudach infrastructure and services." />
+        <meta property="og:title" content="System Status — Cloudach" />
+        <meta property="og:description" content="Live status of Cloudach infrastructure and services." />
+        <meta property="og:url" content="https://cloudach.com/status" />
+        <meta name="twitter:title" content="System Status — Cloudach" />
+        <meta name="twitter:description" content="Live status of Cloudach infrastructure and services." />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Status</div>
-        <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1.5, color: '#0D0F1A', margin: '16px 0 8px' }}>System status</h1>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 8px' }}>System status</h1>
 
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,

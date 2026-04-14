@@ -1,0 +1,106 @@
+# vLLM deployment for Meta-Llama-3.1-8B-Instruct
+# GPU: 1x NVIDIA L4 (24GB VRAM)
+# Optimal settings: flash-attention-2, continuous batching, chunked prefill
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-llama31-8b
+  namespace: cloudach
+  labels:
+    app: vllm-llama31-8b
+    model: llama31-8b
+    component: inference
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm-llama31-8b
+  template:
+    metadata:
+      labels:
+        app: vllm-llama31-8b
+        model: llama31-8b
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-l4
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:v0.4.2
+          args:
+            - "--model"
+            - "meta-llama/Meta-Llama-3.1-8B-Instruct"
+            - "--served-model-name"
+            - "llama31-8b"
+            - "--tensor-parallel-size"
+            - "1"
+            - "--max-model-len"
+            - "131072"
+            - "--port"
+            - "8000"
+            - "--host"
+            - "0.0.0.0"
+            - "--gpu-memory-utilization"
+            - "0.90"
+            - "--enable-chunked-prefill"
+            - "--max-num-batched-tokens"
+            - "4096"
+          env:
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            requests:
+              cpu: "4"
+              memory: 16Gi
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "8"
+              memory: 32Gi
+              nvidia.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          volumeMounts:
+            - name: model-cache
+              mountPath: /root/.cache/huggingface
+      volumes:
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: model-cache-pvc
+      terminationGracePeriodSeconds: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-llama31-8b
+  namespace: cloudach
+  labels:
+    app: vllm-llama31-8b
+    model: llama31-8b
+spec:
+  selector:
+    app: vllm-llama31-8b
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: http
+  type: ClusterIP

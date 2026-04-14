@@ -1,0 +1,267 @@
+# Per-tenant namespace template — strong GPU + network isolation.
+#
+# Usage: substitute TENANT_ID with the customer's slug (e.g. "acme", "hooli").
+#
+#   TENANT=acme envsubst < infra/k8s/tenancy/namespace-template.yaml | kubectl apply -f -
+#
+# What this provides:
+#   - Dedicated namespace: ${TENANT_ID}-inference
+#   - Dedicated vLLM Deployment + Service (no shared pods with other tenants)
+#   - NetworkPolicy: pods in this namespace are invisible to all other namespaces
+#   - ResourceQuota: caps GPU/CPU/memory to prevent noisy-neighbour bleed
+#   - PodDisruptionBudget: keeps at least 1 replica during voluntary disruptions
+#
+# This is the production isolation model.  The shared `cloudach` namespace is
+# used for staging and shared infrastructure (api-gateway) only.
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${TENANT_ID}-inference
+  labels:
+    app.kubernetes.io/managed-by: kubectl
+    cloudach.com/tenant: "${TENANT_ID}"
+    environment: production
+
+---
+# Quota: each tenant gets 1 L4 GPU by default (upgradeable to 2 or 4).
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: tenant-quota
+  namespace: ${TENANT_ID}-inference
+spec:
+  hard:
+    requests.cpu: "8"
+    requests.memory: 32Gi
+    requests.nvidia.com/gpu: "1"
+    limits.cpu: "16"
+    limits.memory: 64Gi
+    limits.nvidia.com/gpu: "1"
+
+---
+# Default deny: no cross-tenant traffic, no lateral movement.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: ${TENANT_ID}-inference
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# Allow: api-gateway (in cloudach namespace) can reach this tenant's vLLM.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-gateway-ingress
+  namespace: ${TENANT_ID}-inference
+spec:
+  podSelector:
+    matchLabels:
+      component: inference
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: cloudach
+          podSelector:
+            matchLabels:
+              app: api-gateway
+      ports:
+        - protocol: TCP
+          port: 8000
+
+---
+# Allow: DNS + HuggingFace HTTPS egress for model download.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-inference-egress
+  namespace: ${TENANT_ID}-inference
+spec:
+  podSelector:
+    matchLabels:
+      component: inference
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - ports:
+        - protocol: TCP
+          port: 443
+
+---
+# Allow: Prometheus scrape from monitoring namespace.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scrape
+  namespace: ${TENANT_ID}-inference
+spec:
+  podSelector:
+    matchLabels:
+      component: inference
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - protocol: TCP
+          port: 8000
+
+---
+# Tenant-scoped vLLM Deployment — one pod per tenant by default.
+# KEDA ScaledObject (infra/k8s/autoscaling/keda-scaledobject.yaml) should
+# be templated the same way and deployed alongside this manifest.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-${TENANT_ID}
+  namespace: ${TENANT_ID}-inference
+  labels:
+    app: vllm-${TENANT_ID}
+    component: inference
+    cloudach.com/tenant: "${TENANT_ID}"
+    model: llama3-8b
+spec:
+  replicas: 0  # KEDA manages replica count; start at 0
+  selector:
+    matchLabels:
+      app: vllm-${TENANT_ID}
+  template:
+    metadata:
+      labels:
+        app: vllm-${TENANT_ID}
+        component: inference
+        cloudach.com/tenant: "${TENANT_ID}"
+        model: llama3-8b
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-l4
+        # Node label injected by tenant provisioner to pin to dedicated node pool
+        cloudach.com/tenant: "${TENANT_ID}"
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+        - key: cloudach.com/tenant
+          operator: Equal
+          value: "${TENANT_ID}"
+          effect: NoSchedule
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:v0.4.2
+          args:
+            - "--model"
+            - "meta-llama/Meta-Llama-3-8B-Instruct"
+            - "--served-model-name"
+            - "llama3-8b"
+            - "--tensor-parallel-size"
+            - "1"
+            - "--max-model-len"
+            - "8192"
+            - "--port"
+            - "8000"
+            - "--host"
+            - "0.0.0.0"
+            - "--gpu-memory-utilization"
+            - "0.90"
+          env:
+            - name: HUGGING_FACE_HUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            requests:
+              cpu: "4"
+              memory: 16Gi
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "8"
+              memory: 32Gi
+              nvidia.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          volumeMounts:
+            - name: model-cache
+              mountPath: /root/.cache/huggingface
+      volumes:
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: model-cache-${TENANT_ID}-pvc
+      terminationGracePeriodSeconds: 60
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-${TENANT_ID}
+  namespace: ${TENANT_ID}-inference
+  labels:
+    app: vllm-${TENANT_ID}
+    component: inference
+    cloudach.com/tenant: "${TENANT_ID}"
+    model: llama3-8b
+spec:
+  selector:
+    app: vllm-${TENANT_ID}
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: http
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache-${TENANT_ID}-pvc
+  namespace: ${TENANT_ID}-inference
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: premium-rwo
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: vllm-${TENANT_ID}-pdb
+  namespace: ${TENANT_ID}-inference
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: vllm-${TENANT_ID}

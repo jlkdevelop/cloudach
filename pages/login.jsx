@@ -38,6 +38,12 @@ export default function LoginPage() {
     <>
       <Head>
         <title>{mode === 'login' ? 'Sign in' : 'Create account'} — Cloudach</title>
+        <meta name="description" content="Sign in to your Cloudach account to manage your deployed LLMs." />
+        <meta property="og:title" content="Sign in — Cloudach" />
+        <meta property="og:description" content="Sign in to your Cloudach account to manage your deployed LLMs." />
+        <meta property="og:url" content="https://cloudach.com/login" />
+        <meta name="twitter:title" content="Sign in — Cloudach" />
+        <meta name="twitter:description" content="Sign in to your Cloudach account to manage your deployed LLMs." />
       </Head>
       <div className="db-login-shell">
         <div className="db-login-card">

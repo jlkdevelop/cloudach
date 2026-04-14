@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import DashboardLayout from '../../components/dashboard/DashboardLayout';
+import Link from 'next/link';
+import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
 
 export default function UsagePage() {
   const router = useRouter();
@@ -9,28 +10,32 @@ export default function UsagePage() {
   const [logs, setLogs] = useState([]);
   const [daily, setDaily] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function init() {
-      const meRes = await fetch('/api/auth/me');
-      if (!meRes.ok) { router.replace('/login'); return; }
-      setUser((await meRes.json()).user);
-      const res = await fetch('/api/dashboard/usage?limit=50');
-      if (res.ok) {
-        const data = await res.json();
-        setLogs(data.logs || []);
-        setDaily(data.daily || []);
+      try {
+        const meRes = await fetch('/api/auth/me');
+        if (!meRes.ok) { router.replace('/login'); return; }
+        setUser((await meRes.json()).user);
+        const res = await fetch('/api/dashboard/usage?limit=50');
+        if (res.ok) {
+          const data = await res.json();
+          setLogs(data.logs || []);
+          setDaily(data.daily || []);
+        } else {
+          setError('Failed to load usage data. Please refresh.');
+        }
+      } catch {
+        setError('Network error. Please check your connection and refresh.');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     init();
   }, [router]);
 
-  if (!user) return (
-    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
-    </div>
-  );
+  if (loading || !user) return <PageLoader />;
 
   const totalTokens = daily.reduce((s, d) => s + parseInt(d.tokens || 0, 10), 0);
   const totalReqs = daily.reduce((s, d) => s + parseInt(d.requests || 0, 10), 0);
@@ -45,6 +50,8 @@ export default function UsagePage() {
           <h1 className="db-page-title">Usage</h1>
           <p className="db-page-subtitle">Token consumption and request history for the last 7 days.</p>
         </div>
+
+        {error && <ErrorBanner message={error} />}
 
         {/* Summary stats */}
         <div className="db-stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', maxWidth: 800, marginBottom: 24 }}>
@@ -79,7 +86,7 @@ export default function UsagePage() {
                 const day = new Date(d.day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                 const cost = parseFloat(d.cost || 0);
                 return (
-                  <div key={d.day} className="db-bar-wrap" title={`${tokens.toLocaleString()} tokens · ${d.requests} reqs · ${formatCost(cost)}`}>
+                  <div key={d.day} className="db-bar-wrap" title={`${day}: ${tokens.toLocaleString()} tokens · ${d.requests} reqs · ${formatCost(cost)}`}>
                     <div className="db-bar" style={{ height: `${pct}%` }} />
                     <span className="db-bar-label">{day}</span>
                   </div>
@@ -95,13 +102,19 @@ export default function UsagePage() {
             <span className="db-card-title">Recent requests</span>
             <span style={{ fontSize: 13, color: '#9CA3AF' }}>Last 50</span>
           </div>
-          {loading ? (
-            <p style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</p>
-          ) : logs.length === 0 ? (
+          {logs.length === 0 ? (
             <div className="db-empty">
-              <div className="db-empty-icon">📡</div>
+              <IconRequestsEmpty />
               <div className="db-empty-title">No requests yet</div>
-              <div className="db-empty-desc">Make your first API call to see logs here.</div>
+              <div className="db-empty-desc">Deploy a model and make your first API call to see logs here.</div>
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 16 }}>
+                <Link href="/dashboard/models">
+                  <button className="db-btn db-btn--primary db-btn--sm">Deploy a model</button>
+                </Link>
+                <Link href="/dashboard/api-keys">
+                  <button className="db-btn db-btn--ghost db-btn--sm">Create API key</button>
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="db-table-wrap">
@@ -123,7 +136,7 @@ export default function UsagePage() {
                   {logs.map((l) => (
                     <tr key={l.id}>
                       <td style={{ whiteSpace: 'nowrap', color: '#6B7280', fontSize: 12 }}>
-                        {new Date(l.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        {fmtDateTime(l.created_at)}
                       </td>
                       <td><code style={{ fontSize: 12, background: '#F3F4F6', padding: '2px 6px', borderRadius: 4 }}>{l.model}</code></td>
                       <td>{l.prompt_tokens?.toLocaleString()}</td>
@@ -149,7 +162,32 @@ export default function UsagePage() {
   );
 }
 
+function IconRequestsEmpty() {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      style={{ margin: '0 auto 12px', display: 'block', color: '#D1D5DB' }}
+    >
+      <rect x="4" y="8" width="32" height="24" rx="4" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+      <path d="M4 14h32" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+      <path d="M12 20h6M12 25h10M12 25h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+      <circle cx="30" cy="25" r="6" fill="white" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M28 25l1.5 1.5L32 23" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
+    </svg>
+  );
+}
+
+function fmtDateTime(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
 function formatTokens(n) {
+  if (n == null) return '—';
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
   return String(n);

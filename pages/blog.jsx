@@ -9,21 +9,21 @@ const posts = [
     tag: 'Engineering',
     title: 'How we achieve sub-100ms TTFT on Llama 3 with vLLM',
     desc: 'A deep dive into our inference stack — continuous batching, flash attention, and tensor parallelism tuning.',
-    slug: '#',
+    slug: '/blog/sub-100ms-ttft-llama3-vllm',
   },
   {
     date: 'Apr 5, 2026',
     tag: 'Product',
     title: 'Cloudach is now in public beta',
     desc: 'We\'re opening up the platform to all developers. Deploy your first model free — no credit card required.',
-    slug: '#',
+    slug: '/blog/public-beta',
   },
   {
     date: 'Mar 28, 2026',
     tag: 'Engineering',
     title: 'Building an OpenAI-compatible API gateway from scratch',
     desc: 'How we designed our API layer to be a drop-in replacement for the OpenAI SDK with any open-source model.',
-    slug: '#',
+    slug: '/blog/openai-compatible-api-gateway',
   },
 ]
 
@@ -33,16 +33,21 @@ export default function Blog() {
       <Head>
         <title>Blog — Cloudach</title>
         <meta name="description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
+        <meta property="og:title" content="Blog — Cloudach" />
+        <meta property="og:description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
+        <meta property="og:url" content="https://cloudach.com/blog" />
+        <meta name="twitter:title" content="Blog — Cloudach" />
+        <meta name="twitter:description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
       </Head>
       <Nav />
       <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Blog</div>
-        <h1 style={{ fontSize: 44, fontWeight: 700, letterSpacing: -1.5, color: '#0D0F1A', margin: '16px 0 52px' }}>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 52px' }}>
           From the team
         </h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#E5E7EB', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>
           {posts.map(p => (
-            <a href={p.slug} key={p.title} style={{ background: '#fff', padding: '28px 32px', display: 'block', textDecoration: 'none', transition: 'background 0.1s' }}
+            <Link href={p.slug} key={p.title} style={{ background: '#fff', padding: '28px 32px', display: 'block', textDecoration: 'none', transition: 'background 0.1s' }}
               onMouseEnter={e => e.currentTarget.style.background='#F9FAFB'}
               onMouseLeave={e => e.currentTarget.style.background='#fff'}>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10 }}>
@@ -51,7 +56,7 @@ export default function Blog() {
               </div>
               <h2 style={{ fontSize: 17, fontWeight: 700, color: '#0D0F1A', letterSpacing: -0.3, marginBottom: 8 }}>{p.title}</h2>
               <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.65 }}>{p.desc}</p>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

@@ -2,15 +2,72 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
-import Logo from '../components/Logo'
+
+function IconLock() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="9" width="12" height="10" rx="2" />
+      <path d="M7 9V6a3 3 0 0 1 6 0v3" />
+    </svg>
+  )
+}
+
+function IconGpu() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="5" width="16" height="10" rx="2" />
+      <path d="M6 5V3M10 5V3M14 5V3M6 15v2M10 15v2M14 15v2" />
+      <rect x="5" y="8" width="3" height="4" rx="0.5" />
+      <rect x="9" y="8" width="3" height="4" rx="0.5" />
+    </svg>
+  )
+}
+
+function IconShield() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 2L3 5v5c0 4.418 3.134 8.207 7 9 3.866-.793 7-4.582 7-9V5l-7-3z" />
+      <path d="M7 10l2 2 4-4" />
+    </svg>
+  )
+}
+
+function IconGlobe() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="10" cy="10" r="8" />
+      <path d="M2 10h16M10 2a14 14 0 0 1 0 16M10 2a14 14 0 0 0 0 16" />
+    </svg>
+  )
+}
+
+function IconHeadset() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 10a7 7 0 0 1 14 0" />
+      <rect x="2" y="10" width="3" height="5" rx="1" />
+      <rect x="15" y="10" width="3" height="5" rx="1" />
+      <path d="M18 15v1a2 2 0 0 1-2 2h-2" />
+    </svg>
+  )
+}
+
+function IconUptime() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="2 12 6 8 9 11 13 6 18 10" />
+      <path d="M2 17h16" />
+    </svg>
+  )
+}
 
 const features = [
-  { icon: '🔒', title: 'Private VPC Deployment', desc: 'Your models run in an isolated network. No shared compute, no shared data. Full air-gap mode available.' },
-  { icon: '⚡', title: 'Dedicated GPU Instances', desc: 'Reserved capacity on A100 and H100 nodes. Guaranteed throughput with no noisy neighbors.' },
-  { icon: '📋', title: 'Compliance Ready', desc: 'HIPAA-adjacent, SOC 2 Type II, and GDPR-ready infrastructure. Audit logs for every request.' },
-  { icon: '🌍', title: 'Multi-Region Deployment', desc: 'Deploy to any AWS or GCP region. Data residency controls for EU, US, and APAC requirements.' },
-  { icon: '🛠️', title: 'Dedicated Support', desc: 'A dedicated solutions engineer assigned to your account. SLA-backed response times.' },
-  { icon: '📊', title: '99.9% Uptime SLA', desc: 'Contractual uptime guarantee backed by redundant infrastructure and automatic failover.' },
+  { Icon: IconLock, title: 'Private VPC Deployment', desc: 'Your models run in an isolated network. No shared compute, no shared data. Full air-gap mode available.' },
+  { Icon: IconGpu, title: 'Dedicated GPU Instances', desc: 'Reserved capacity on A100 and H100 nodes. Guaranteed throughput with no noisy neighbors.' },
+  { Icon: IconShield, title: 'Compliance Ready', desc: 'HIPAA-adjacent, SOC 2 Type II, and GDPR-ready infrastructure. Audit logs for every request.' },
+  { Icon: IconGlobe, title: 'Multi-Region Deployment', desc: 'Deploy to any AWS or GCP region. Data residency controls for EU, US, and APAC requirements.' },
+  { Icon: IconHeadset, title: 'Dedicated Support', desc: 'A dedicated solutions engineer assigned to your account. SLA-backed response times.' },
+  { Icon: IconUptime, title: '99.9% Uptime SLA', desc: 'Contractual uptime guarantee backed by redundant infrastructure and automatic failover.' },
 ]
 
 export default function Enterprise() {
@@ -19,6 +76,11 @@ export default function Enterprise() {
       <Head>
         <title>Enterprise — Cloudach</title>
         <meta name="description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
+        <meta property="og:title" content="Enterprise — Cloudach" />
+        <meta property="og:description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
+        <meta property="og:url" content="https://cloudach.com/enterprise" />
+        <meta name="twitter:title" content="Enterprise — Cloudach" />
+        <meta name="twitter:description" content="Private VPC, dedicated GPU infrastructure, compliance-ready LLM hosting for enterprise teams." />
       </Head>
 
       <Nav />
@@ -30,7 +92,7 @@ export default function Enterprise() {
             <div className="eyebrow-dot" />
             Enterprise
           </div>
-          <h1 style={{ fontSize: 52, fontWeight: 700, letterSpacing: -2, lineHeight: 1.07, color: '#0D0F1A', marginBottom: 20 }}>
+          <h1 style={{ fontSize: 52, fontWeight: 700, letterSpacing: -2.5, lineHeight: 1.07, color: '#0D0F1A', marginBottom: 20 }}>
             Private AI infrastructure<br />built for the enterprise.
           </h1>
           <p style={{ fontSize: 17, color: '#6B7280', lineHeight: 1.75, maxWidth: 560, margin: '0 auto 40px' }}>
@@ -54,7 +116,7 @@ export default function Enterprise() {
             <div className="feat-grid">
               {features.map(f => (
                 <div className="feat" key={f.title}>
-                  <div style={{ fontSize: 24, marginBottom: 14 }}>{f.icon}</div>
+                  <div style={{ color: '#4F6EF7', marginBottom: 14 }}><f.Icon /></div>
                   <h3>{f.title}</h3>
                   <p>{f.desc}</p>
                 </div>

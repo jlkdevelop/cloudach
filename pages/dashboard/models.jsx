@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import DashboardLayout from '../../components/dashboard/DashboardLayout';
-import { useToast } from '../../components/dashboard/useToast';
+import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
 
 export default function ModelsPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [deploying, setDeploying] = useState(null);
-  const [deployError, setDeployError] = useState(null);
-  const [toastEl, showToast] = useToast();
+  const [deployErrors, setDeployErrors] = useState({});
 
   useEffect(() => {
     async function init() {
-      const meRes = await fetch('/api/auth/me');
-      if (!meRes.ok) { router.replace('/login'); return; }
-      setUser((await meRes.json()).user);
-      await loadModels();
-      setLoading(false);
+      try {
+        const meRes = await fetch('/api/auth/me');
+        if (!meRes.ok) { router.replace('/login'); return; }
+        setUser((await meRes.json()).user);
+        await loadModels();
+      } catch {
+        setError('Network error. Please refresh.');
+      } finally {
+        setLoading(false);
+      }
     }
     init();
   }, [router]);
@@ -27,58 +31,58 @@ export default function ModelsPage() {
   async function loadModels() {
     const res = await fetch('/api/dashboard/models');
     if (res.ok) setModels((await res.json()).models);
+    else setError('Failed to load models.');
   }
 
   async function deploy(modelId) {
     setDeploying(modelId);
-    setDeployError(null);
-    const deployRes = await fetch('/api/dashboard/models', {
+    setDeployErrors(prev => ({ ...prev, [modelId]: '' }));
+
+    const res = await fetch('/api/dashboard/models', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ modelId }),
     });
-    if (!deployRes.ok) {
-      const data = await deployRes.json().catch(() => ({}));
-      setDeployError(data.error || 'Deploy request failed. Please try again.');
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setDeployErrors(prev => ({ ...prev, [modelId]: data.error || 'Deploy failed. Please try again.' }));
       setDeploying(null);
       return;
     }
-    // Poll for active status
+
+    // Poll for active status (max 30s)
     let activated = false;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 30; i++) {
       await sleep(1000);
-      const res = await fetch('/api/dashboard/models');
-      if (res.ok) {
-        const { models: updated } = await res.json();
+      const pollRes = await fetch('/api/dashboard/models');
+      if (pollRes.ok) {
+        const { models: updated } = await pollRes.json();
         setModels(updated);
         const m = updated.find(m => m.model_id === modelId);
         if (m?.deploy_status === 'active') { activated = true; break; }
       }
     }
+
     if (!activated) {
-      setDeployError('Deploy timed out. The model may still be starting — refresh in a moment or contact support.');
-      showToast('Deploy timed out.', 'error', 5000);
-    } else {
-      showToast(`${modelId} is now active.`);
+      setDeployErrors(prev => ({
+        ...prev,
+        [modelId]: 'Deployment is taking longer than expected. Refresh the page to check status.'
+      }));
     }
     setDeploying(null);
   }
 
   async function stopModel(modelId) {
     const res = await fetch(`/api/dashboard/models/${modelId}/stop`, { method: 'POST' });
-    if (res.ok) {
-      showToast(`${modelId} stopped.`);
+    if (!res.ok) {
+      setDeployErrors(prev => ({ ...prev, [modelId]: 'Failed to stop model. Please try again.' }));
     } else {
-      showToast('Failed to stop model. Please try again.', 'error');
+      await loadModels();
     }
-    await loadModels();
   }
 
-  if (!user) return (
-    <div style={{ minHeight: '100vh', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</div>
-    </div>
-  );
+  if (loading || !user) return <PageLoader />;
 
   return (
     <>
@@ -89,27 +93,16 @@ export default function ModelsPage() {
           <p className="db-page-subtitle">Deploy open-source LLMs and get an OpenAI-compatible endpoint instantly.</p>
         </div>
 
-        {toastEl}
+        {error && <ErrorBanner message={error} />}
 
-        {deployError && (
-          <div className="db-error" style={{ marginBottom: 20 }}>
-            {deployError}
-            <button
-              onClick={() => setDeployError(null)}
-              style={{ marginLeft: 12, background: 'none', border: 'none', cursor: 'pointer', color: '#991B1B', fontWeight: 600, fontSize: 13 }}
-            >
-              Dismiss
-            </button>
-          </div>
-        )}
-
-        {loading ? (
-          <p style={{ color: '#9CA3AF', fontSize: 14 }}>Loading models…</p>
-        ) : models.length === 0 ? (
+        {models.length === 0 ? (
           <div className="db-empty">
-            <div className="db-empty-icon">🤖</div>
+            <IconModelsEmpty />
             <div className="db-empty-title">No models available</div>
             <div className="db-empty-desc">The model catalog is empty. Contact support if this is unexpected.</div>
+            <a href="mailto:support@cloudach.com" style={{ marginTop: 16, display: 'inline-block' }}>
+              <button className="db-btn db-btn--ghost db-btn--sm">Contact support</button>
+            </a>
           </div>
         ) : (
           <div className="db-model-grid">
@@ -120,6 +113,7 @@ export default function ModelsPage() {
                 onDeploy={() => deploy(m.model_id)}
                 onStop={() => stopModel(m.model_id)}
                 isDeploying={deploying === m.model_id}
+                deployError={deployErrors[m.model_id]}
               />
             ))}
           </div>
@@ -129,7 +123,7 @@ export default function ModelsPage() {
   );
 }
 
-function ModelCard({ model, onDeploy, onStop, isDeploying }) {
+function ModelCard({ model, onDeploy, onStop, isDeploying, deployError }) {
   const status = model.deploy_status;
   const [copied, setCopied] = useState(false);
 
@@ -194,6 +188,10 @@ function ModelCard({ model, onDeploy, onStop, isDeploying }) {
           </button>
         )}
       </div>
+
+      {deployError && (
+        <div className="db-deploy-error">{deployError}</div>
+      )}
     </div>
   );
 }
@@ -213,13 +211,31 @@ function StatusBadge({ status, isDeploying }) {
 
 function Spinner() {
   return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ animation: 'spin 0.8s linear infinite' }}>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ animation: 'db-spin 0.8s linear infinite' }}>
       <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="2" strokeDasharray="20 15" strokeLinecap="round"/>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </svg>
   );
 }
 
 function sleep(ms) {
   return new Promise(r => setTimeout(r, ms));
+}
+
+function IconModelsEmpty() {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      style={{ margin: '0 auto 12px', display: 'block', color: '#D1D5DB' }}
+    >
+      <circle cx="20" cy="20" r="8" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+      <circle cx="20" cy="6" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="20" cy="34" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="6" cy="20" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="34" cy="20" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="20" cy="20" r="3" fill="currentColor" opacity="0.3" />
+    </svg>
+  );
 }

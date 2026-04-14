@@ -1,0 +1,100 @@
+# KEDA ScaledObject — replaces the manual HPA in infra/k8s/vllm/hpa.yaml
+#
+# Scales vllm-llama3-8b from 0 → N replicas based on queue depth.
+# Requires KEDA v2.10+ installed in the cluster:
+#   helm repo add kedacore https://kedacore.github.io/charts
+#   helm install keda kedacore/keda --namespace keda --create-namespace
+#
+# IMPORTANT: Delete infra/k8s/vllm/hpa.yaml before applying this — KEDA
+# creates its own HPA internally, and two HPAs on the same Deployment conflict.
+#
+# Prometheus address: adjust to match your cluster's Prometheus service.
+# GKE Managed Prometheus uses a different endpoint — see comment below.
+
+---
+# TriggerAuthentication — no auth needed for in-cluster Prometheus.
+# If your Prometheus requires a bearer token, uncomment and fill the secret ref.
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: prometheus-trigger-auth
+  namespace: cloudach
+spec:
+  # secretTargetRef:
+  #   - parameter: bearerToken
+  #     name: prometheus-token-secret
+  #     key: token
+  podIdentity:
+    provider: none
+
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vllm-llama3-8b-scaledobject
+  namespace: cloudach
+  labels:
+    app: vllm-llama3-8b
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vllm-llama3-8b
+
+  # Scale to zero when idle; never exceed 4 GPU pods (matches node-pool quota)
+  minReplicaCount: 0
+  maxReplicaCount: 4
+
+  # Wait 5 minutes of idle (zero queue) before scaling to zero.
+  # GPU pods take ~90s to become ready after scale-up, so give users a grace
+  # period before cold-starting the next request.
+  cooldownPeriod: 300
+
+  # Scale up as soon as a single request arrives (0 → 1 activation threshold)
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Pods
+              value: 1
+              periodSeconds: 120
+        scaleUp:
+          stabilizationWindowSeconds: 30
+          policies:
+            - type: Pods
+              value: 1
+              periodSeconds: 60
+
+  triggers:
+    # Primary trigger: vLLM request queue depth from Prometheus.
+    # Scales 1 replica per 5 waiting requests (so 1 pod handles bursts up to 5,
+    # 2 pods for 6–10, etc.).
+    # activationThreshold=1 means any waiting request wakes from zero.
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
+        # GKE Managed Prometheus alternative:
+        #   serverAddress: https://monitoring.googleapis.com/
+        #   (requires TriggerAuthentication with GCP workload identity)
+        metricName: vllm_requests_waiting_total
+        query: sum(vllm:num_requests_waiting{namespace="cloudach"})
+        threshold: "5"
+        activationThreshold: "1"
+        ignoreNullValues: "true"
+      authenticationRef:
+        name: prometheus-trigger-auth
+
+    # Secondary trigger: GPU KV-cache utilization (>70% → add a replica).
+    # Prevents cache saturation and OOM errors under sustained load.
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
+        metricName: vllm_gpu_cache_usage
+        query: avg(vllm:gpu_cache_usage_perc{namespace="cloudach"})
+        threshold: "0.70"
+        activationThreshold: "0.50"
+        ignoreNullValues: "true"
+      authenticationRef:
+        name: prometheus-trigger-auth

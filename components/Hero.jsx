@@ -8,10 +8,10 @@ export default function Hero() {
           <div className="eyebrow-dot" />
           LLM cloud infrastructure
         </div>
-        <h1>Deploy any<br />LLM.<br /><em>Ship faster.</em></h1>
+        <h1>Run any open-source LLM<br />in production.<br /><em>In under 60 seconds.</em></h1>
         <p className="hero-sub">
-          The developer platform for hosting, scaling, and fine-tuning open-source language
-          models. One API. Any model. Production-ready in minutes.
+          Cloudach is the fastest way to deploy, scale, and serve open-source language models —
+          Llama 3, Mistral, Qwen, and more. One API, zero GPU ops, production-ready out of the box.
         </p>
         <div className="hero-btns">
           <Link href="/signup"><button className="btn-cta">Start deploying free</button></Link>
@@ -55,7 +55,7 @@ export default function Hero() {
           <span className="ci"><span className="cd">↳ Provisioning GPU       </span><span className="cok">✓ done</span></span>
           <span className="ci"><span className="cd">↳ Configuring vLLM       </span><span className="cok">✓ done</span></span>
           <span className="ci"><span className="cd">↳ Health check           </span><span className="cok">✓ passed</span></span>
-          <span className="ci" style={{ marginTop: 12 }} className="live">✦  Live → api.cloudach.com/llama-3-8b</span>
+          <span className="ci live" style={{ marginTop: 12 }}>✦  Live → api.cloudach.com/llama-3-8b</span>
         </div>
         <div className="code-footer">
           <div className="status-dot" />

@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { getDb } from '../../../lib/db';
-import { signToken, setSessionCookie } from '../../../lib/auth';
+import { signToken, setSessionCookie, addRateLimitHeaders } from '../../../lib/auth';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  addRateLimitHeaders(res, { limit: 10, window: 60 });
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { email, password } = req.body || {};
   if (!email || !password) {

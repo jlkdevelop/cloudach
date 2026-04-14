@@ -1,0 +1,83 @@
+---
+# ServiceMonitor — scrapes api-gateway /metrics endpoint.
+# Requires prometheus-operator CRDs installed in the cluster.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: api-gateway
+  namespace: cloudach
+  labels:
+    app: api-gateway
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+      scrapeTimeout: 10s
+
+---
+# PrometheusRule — alerting on api-gateway error rate, latency, and availability
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: api-gateway-alerts
+  namespace: cloudach
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: api-gateway.availability
+      interval: 30s
+      rules:
+        - alert: ApiGatewayDown
+          expr: |
+            up{job="api-gateway", namespace="cloudach"} == 0
+          for: 1m
+          labels:
+            severity: critical
+            team: infra
+          annotations:
+            summary: "API Gateway is down"
+            description: "No healthy api-gateway pod found in namespace cloudach."
+
+        - alert: ApiGatewayHighErrorRate
+          expr: |
+            sum(rate(http_requests_total{namespace="cloudach", app="api-gateway", status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total{namespace="cloudach", app="api-gateway"}[5m]))
+            > 0.05
+          for: 5m
+          labels:
+            severity: warning
+            team: infra
+          annotations:
+            summary: "API Gateway 5xx error rate > 5%"
+            description: "Error rate is {{ $value | humanizePercentage }} over the last 5 minutes."
+
+        - alert: ApiGatewayHighLatency
+          expr: |
+            histogram_quantile(0.99,
+              sum(rate(http_request_duration_seconds_bucket{namespace="cloudach", app="api-gateway"}[5m])) by (le)
+            ) > 2
+          for: 5m
+          labels:
+            severity: warning
+            team: infra
+          annotations:
+            summary: "API Gateway p99 latency > 2s"
+            description: "p99 request latency is {{ $value }}s."
+
+        - alert: ApiGatewayHighRejectionRate
+          expr: |
+            sum(rate(http_requests_total{namespace="cloudach", app="api-gateway", status="429"}[5m])) > 10
+          for: 3m
+          labels:
+            severity: warning
+            team: infra
+          annotations:
+            summary: "API Gateway rate-limiting > 10 req/s"
+            description: "{{ $value }} requests/s are being rate-limited (HTTP 429)."
