@@ -146,3 +146,37 @@ CREATE TABLE IF NOT EXISTS billing_periods (
 );
 
 CREATE INDEX IF NOT EXISTS billing_periods_user_idx ON billing_periods(user_id, period_start DESC);
+
+-- ─── Webhooks ────────────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS webhooks (
+    id          UUID      PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id     UUID      NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    url         TEXT      NOT NULL,
+    secret      TEXT      NOT NULL,
+    events      TEXT[]    NOT NULL DEFAULT '{}',
+    is_enabled  BOOLEAN   NOT NULL DEFAULT TRUE,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS webhooks_user_id_idx ON webhooks(user_id);
+
+-- ─── Webhook Deliveries ──────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS webhook_deliveries (
+    id              UUID      PRIMARY KEY DEFAULT gen_random_uuid(),
+    webhook_id      UUID      NOT NULL REFERENCES webhooks(id) ON DELETE CASCADE,
+    event_type      TEXT      NOT NULL,
+    payload         JSONB     NOT NULL DEFAULT '{}',
+    status          TEXT      NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'success', 'failed')),
+    attempts        INT       NOT NULL DEFAULT 0,
+    response_status INT,
+    response_body   TEXT,
+    error_message   TEXT,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+    delivered_at    TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS webhook_deliveries_webhook_id_idx  ON webhook_deliveries(webhook_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS webhook_deliveries_created_at_idx  ON webhook_deliveries(created_at DESC);

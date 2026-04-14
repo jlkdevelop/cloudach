@@ -62,6 +62,9 @@ export default function DocsPage() {
                 ['#models-list', '↳ Models List'],
                 ['#rate-limits', 'Rate Limits'],
                 ['#errors', 'Error Codes'],
+                ['#webhooks', 'Webhooks'],
+                ['#webhooks-events', '↳ Event Types'],
+                ['#webhooks-signatures', '↳ Verifying Signatures'],
                 ['#sdks', 'SDK Reference'],
                 ['#integrations', 'Integrations'],
                 ['#fine-tuning', 'Fine-Tuning'],
@@ -529,6 +532,86 @@ try {
               <p style={p}>
                 Network-level interruptions (TCP resets, proxy timeouts) surface as connection errors from the HTTP client,
                 not as API error JSON. Always wrap stream consumption in a try/catch and implement a retry strategy for the full request.
+              </p>
+            </Section>
+
+            {/* ── Webhooks ── */}
+            <Section id="webhooks" title="Webhooks">
+              <p style={p}>
+                Webhooks let you receive real-time HTTP POST notifications when events happen in your Cloudach account.
+                Register an endpoint URL in the{' '}
+                <a href="/dashboard/webhooks" style={{ color: '#4F6EF7' }}>dashboard</a> and subscribe to the event types you care about.
+              </p>
+
+              <h3 style={h3} id="webhooks-events">Event types</h3>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5, marginBottom: 24 }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid #E5E7EB', color: '#6B7280', fontSize: 12.5 }}>
+                    <th style={{ textAlign: 'left', padding: '6px 12px 6px 0', fontWeight: 500 }}>Event</th>
+                    <th style={{ textAlign: 'left', padding: '6px 12px 6px 0', fontWeight: 500 }}>When it fires</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['usage.threshold',  'Cumulative spend for the billing period crosses a threshold'],
+                    ['api_key.created',  'A new API key is created'],
+                    ['api_key.revoked',  'An API key is revoked'],
+                    ['request.failed',   'An API request returns a 4xx or 5xx status code'],
+                  ].map(([ev, desc]) => (
+                    <tr key={ev} style={{ borderBottom: '1px solid #F3F4F6' }}>
+                      <td style={{ padding: '9px 12px 9px 0', verticalAlign: 'top' }}>
+                        <Code>{ev}</Code>
+                      </td>
+                      <td style={{ padding: '9px 0', color: '#374151' }}>{desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <h3 style={h3} id="webhooks-signatures">Verifying signatures</h3>
+              <p style={p}>
+                Every delivery includes an <Code>X-Cloudach-Signature</Code> header formatted as{' '}
+                <Code>sha256=&lt;hex&gt;</Code>. Verify it by computing{' '}
+                <Code>HMAC-SHA256(secret, rawBody)</Code> with your webhook signing secret and comparing the result.
+                Reject requests where signatures do not match.
+              </p>
+
+              <CodeBlock>{`# Python
+import hmac, hashlib
+
+def verify(secret: str, body: bytes, header: str) -> bool:
+    expected = "sha256=" + hmac.new(
+        secret.encode(), body, hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected, header)`}</CodeBlock>
+
+              <CodeBlock>{`// Node.js
+const crypto = require('crypto');
+
+function verify(secret, rawBody, header) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(rawBody)
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(expected),
+    Buffer.from(header)
+  );
+}`}</CodeBlock>
+
+              <h3 style={h3}>Payload structure</h3>
+              <CodeBlock>{`{
+  "id": "evt_01abc...",
+  "event": "api_key.created",
+  "created": 1713100800,
+  "data": { ... }
+}`}</CodeBlock>
+
+              <h3 style={h3}>Retry policy</h3>
+              <p style={p}>
+                Non-2xx responses or timeouts (10 s) trigger up to <strong>3 retries</strong> with
+                exponential back-off (0.5 s → 1 s → 2 s). View delivery history in the{' '}
+                <a href="/dashboard/webhooks" style={{ color: '#4F6EF7' }}>Webhooks dashboard</a>.
               </p>
             </Section>
 
