@@ -1,0 +1,11 @@
+{
+  "name": "cloudach-cli",
+  "version": "0.1.0",
+  "description": "Cloudach CLI — deploy models, view logs, manage API keys",
+  "bin": {
+    "cloudach": "./cloudach.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
