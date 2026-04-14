@@ -96,7 +96,7 @@ export default function UsagePage() {
           </div>
         )}
 
-        {/* Request log */}
+        {/* Request log — consolidated to 7 columns for better density */}
         <div className="db-card">
           <div className="db-card-header">
             <span className="db-card-title">Recent requests</span>
@@ -123,11 +123,9 @@ export default function UsagePage() {
                   <tr>
                     <th>Time</th>
                     <th>Model</th>
-                    <th>Prompt</th>
-                    <th>Completion</th>
-                    <th>Total</th>
-                    <th>Cost</th>
-                    <th>Latency</th>
+                    <th className="db-col-num">Tokens</th>
+                    <th className="db-col-num">Cost</th>
+                    <th className="db-col-num">Latency</th>
                     <th>Status</th>
                     <th>Key</th>
                   </tr>
@@ -138,12 +136,25 @@ export default function UsagePage() {
                       <td style={{ whiteSpace: 'nowrap', color: '#6B7280', fontSize: 12 }}>
                         {fmtDateTime(l.created_at)}
                       </td>
-                      <td><code style={{ fontSize: 12, background: '#F3F4F6', padding: '2px 6px', borderRadius: 4 }}>{l.model}</code></td>
-                      <td>{l.prompt_tokens?.toLocaleString()}</td>
-                      <td>{l.completion_tokens?.toLocaleString()}</td>
-                      <td><strong>{l.total_tokens?.toLocaleString()}</strong></td>
-                      <td style={{ color: '#6B7280', fontSize: 12 }}>{formatCost(l.estimated_cost)}</td>
-                      <td>{l.latency_ms != null ? `${l.latency_ms}ms` : '—'}</td>
+                      <td>
+                        <code style={{ fontSize: 12, background: '#F3F4F6', padding: '2px 6px', borderRadius: 4 }}>
+                          {l.model}
+                        </code>
+                      </td>
+                      <td className="db-col-num">
+                        <span style={{ fontWeight: 600 }}>{l.total_tokens?.toLocaleString() ?? '—'}</span>
+                        {l.prompt_tokens != null && (
+                          <span style={{ display: 'block', fontSize: 11, color: '#9CA3AF' }}>
+                            {l.prompt_tokens.toLocaleString()}+{l.completion_tokens?.toLocaleString() ?? 0}
+                          </span>
+                        )}
+                      </td>
+                      <td className="db-col-num" style={{ color: '#6B7280', fontSize: 12 }}>
+                        {formatCost(l.estimated_cost)}
+                      </td>
+                      <td className="db-col-num" style={{ fontSize: 12 }}>
+                        {l.latency_ms != null ? `${l.latency_ms}ms` : '—'}
+                      </td>
                       <td>
                         <span className={`db-badge db-badge--${l.status_code < 400 ? 'active' : 'revoked'}`}>
                           {l.status_code ?? '—'}

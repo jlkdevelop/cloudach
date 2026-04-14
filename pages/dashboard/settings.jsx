@@ -50,14 +50,14 @@ export default function SettingsPage() {
           <div className="db-card-header">
             <span className="db-card-title">Account</span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '4px 0' }}>
-            <div>
-              <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Email address</div>
-              <div style={{ fontSize: 14, fontWeight: 500 }}>{user.email}</div>
+          <div className="db-settings-account-fields">
+            <div className="db-settings-field">
+              <span className="db-settings-field-label">Email address</span>
+              <span className="db-settings-field-value">{user.email}</span>
             </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Account ID</div>
-              <div style={{ fontSize: 12, fontFamily: 'monospace', color: '#6B7280' }}>{user.id}</div>
+            <div className="db-settings-field">
+              <span className="db-settings-field-label">Account ID</span>
+              <span className="db-settings-field-value--mono">{user.id}</span>
             </div>
           </div>
         </div>
@@ -70,27 +70,27 @@ export default function SettingsPage() {
           </div>
           {billing ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-                <div>
-                  <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Current period</div>
-                  <div style={{ fontSize: 14 }}>{billing.period.start} – {billing.period.end}</div>
+              <div className="db-settings-billing-row">
+                <div className="db-settings-field">
+                  <span className="db-settings-field-label">Current period</span>
+                  <span className="db-settings-field-value">{billing.period.start} – {billing.period.end}</span>
                 </div>
-                <div>
-                  <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Estimated cost this month</div>
-                  <div style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>
+                <div className="db-settings-field">
+                  <span className="db-settings-field-label">Estimated cost this month</span>
+                  <span style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>
                     {formatCost(billing.estimatedCost)}
-                  </div>
+                  </span>
                 </div>
-                <div>
-                  <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>Tokens this month</div>
-                  <div style={{ fontSize: 14 }}>{formatTokens(billing.totalTokens)}</div>
+                <div className="db-settings-field">
+                  <span className="db-settings-field-label">Tokens this month</span>
+                  <span className="db-settings-field-value">{formatTokens(billing.totalTokens)}</span>
                 </div>
               </div>
 
               {/* Per-model cost breakdown */}
               {billing?.byModel?.length > 0 && (
                 <div>
-                  <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 8 }}>Cost by model this month</div>
+                  <div className="db-settings-field-label" style={{ marginBottom: 8 }}>Cost by model this month</div>
                   <div className="db-table-wrap">
                     <table className="db-table">
                       <thead>
@@ -116,27 +116,25 @@ export default function SettingsPage() {
                 </div>
               )}
 
-              <div style={{ marginTop: 8, padding: 12, background: '#F9FAFB', borderRadius: 8, fontSize: 13, color: '#6B7280' }}>
+              <div className="db-upgrade-callout">
                 <strong style={{ color: '#374151' }}>Upgrade to Startup or Business</strong> for higher rate limits, priority support, and SLA guarantees.
                 Pricing starts at $0.08/1M input tokens.{' '}
-                <a href="mailto:sales@cloudach.com" style={{ color: '#6366F1', textDecoration: 'none' }}>
-                  Contact sales →
-                </a>
+                <a href="mailto:sales@cloudach.com">Contact sales →</a>
               </div>
             </div>
           ) : (
-            <div style={{ color: '#9CA3AF', fontSize: 14 }}>No billing data available.</div>
+            <p className="db-settings-field-label">No billing data available.</p>
           )}
         </div>
 
         {/* Danger zone */}
-        <div className="db-card" style={{ borderColor: '#FCA5A5' }}>
+        <div className="db-card db-card--danger">
           <div className="db-card-header">
-            <span className="db-card-title" style={{ color: '#DC2626' }}>Danger zone</span>
+            <span className="db-card-title db-card-title--danger">Danger zone</span>
           </div>
-          <div style={{ fontSize: 14, color: '#6B7280', marginBottom: 16 }}>
+          <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 16 }}>
             Deleting your account is permanent. All API keys, usage data, and model deployments will be removed.
-          </div>
+          </p>
           <button
             className="db-btn db-btn--danger"
             onClick={() => { setDeleteConfirmText(''); setShowDeleteModal(true); }}

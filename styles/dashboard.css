@@ -70,13 +70,30 @@
 }
 
 .db-nav-item--active {
+  background: rgba(79,110,247,0.15);
+  color: #818CF8;
+  box-shadow: inset 3px 0 0 #4F6EF7;
+}
+
+.db-nav-item--active:hover {
   background: rgba(79,110,247,0.2);
   color: #818CF8;
 }
 
-.db-nav-item--active:hover {
-  background: rgba(79,110,247,0.25);
-  color: #818CF8;
+/* ---- Sidebar section divider ---- */
+.db-nav-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 8px 12px;
+}
+
+.db-nav-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  padding: 8px 12px 4px;
 }
 
 .db-sidebar-footer {
@@ -175,6 +192,12 @@
   border: 1px solid #E5E7EB;
   border-radius: 12px;
   padding: 20px 24px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.db-stat-card:hover {
+  border-color: #C7D2FE;
+  box-shadow: 0 2px 12px rgba(79,110,247,0.07);
 }
 
 .db-stat-label {
@@ -243,6 +266,7 @@
   letter-spacing: 0.4px;
   border-bottom: 1px solid #E5E7EB;
   background: #F9FAFB;
+  white-space: nowrap;
 }
 
 .db-table th:first-child { border-radius: 8px 0 0 0; }
@@ -261,6 +285,12 @@
 
 .db-table tr:hover td {
   background: #FAFAFA;
+}
+
+/* Numeric columns right-align */
+.db-table th.db-col-num,
+.db-table td.db-col-num {
+  text-align: right;
 }
 
 /* ---- Badges / Status ---- */
@@ -613,6 +643,26 @@
   margin-bottom: 8px;
   padding-top: 8px;
   border-top: 1px solid #F3F4F6;
+  position: relative;
+}
+
+/* Subtle horizontal gridlines at 25% / 50% / 75% */
+.db-chart::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #F3F4F6 0,
+    #F3F4F6 1px,
+    transparent 1px,
+    transparent 25%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .db-bar-wrap {
@@ -623,6 +673,8 @@
   gap: 4px;
   height: 100%;
   justify-content: flex-end;
+  position: relative;
+  z-index: 1;
 }
 
 .db-bar {
@@ -640,6 +692,70 @@
 .db-bar-label {
   font-size: 10px;
   color: #9CA3AF;
+}
+
+/* ---- Settings page ---- */
+.db-settings-account-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.db-settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.db-settings-field-label {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.db-settings-field-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0D0F1A;
+}
+
+.db-settings-field-value--mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.db-settings-billing-row {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.db-upgrade-callout {
+  margin-top: 8px;
+  padding: 12px;
+  background: #F9FAFB;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #6B7280;
+}
+
+.db-upgrade-callout a {
+  color: #4F6EF7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.db-upgrade-callout a:hover {
+  text-decoration: underline;
+}
+
+.db-card--danger {
+  border-color: #FCA5A5;
+}
+
+.db-card-title--danger {
+  color: #DC2626;
 }
 
 /* ---- Login page ---- */
@@ -828,10 +944,6 @@
   white-space: pre;
   margin: 0;
   line-height: 1.65;
-}
-
-.db-login-brand span {
-  color: #4F6EF7;
 }
 
 /* ---- Mobile sidebar & hamburger ---- */
