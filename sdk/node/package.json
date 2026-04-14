@@ -1,0 +1,44 @@
+{
+  "name": "cloudach",
+  "version": "0.1.0",
+  "description": "Official Node.js SDK for the Cloudach inference API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "cloudach",
+    "llm",
+    "ai",
+    "inference",
+    "openai-compatible"
+  ],
+  "author": "Cloudach <support@cloudach.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jlkdevelop/cloudach.git",
+    "directory": "sdk/node"
+  },
+  "homepage": "https://cloudach.com",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

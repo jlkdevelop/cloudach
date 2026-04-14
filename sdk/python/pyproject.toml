@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "cloudach"
+version = "0.1.0"
+description = "Official Python SDK for the Cloudach inference API"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "Cloudach", email = "support@cloudach.com" }]
+keywords = ["cloudach", "llm", "ai", "inference", "openai-compatible"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["httpx>=0.25.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "pytest-httpx>=0.21", "mypy>=1.0", "ruff"]
+
+[project.urls]
+Homepage = "https://cloudach.com"
+Documentation = "https://cloudach.com/docs"
+Repository = "https://github.com/jlkdevelop/cloudach"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cloudach*"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.mypy]
+strict = true
