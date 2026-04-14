@@ -1,25 +1,26 @@
+# vLLM deployment for Mistral-7B-Instruct-v0.3
+# GPU: 1x NVIDIA L4 (24GB VRAM) — fits comfortably, no tensor parallelism needed
+# Optimal settings: flash-attention-2, continuous batching, sliding window attention
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vllm-llama3-8b
+  name: vllm-mistral-7b
   namespace: cloudach
   labels:
-    app: vllm-llama3-8b
-    model: llama3-8b
+    app: vllm-mistral-7b
+    model: mistral-7b
     component: inference
 spec:
-  replicas: 0  # KEDA ScaledObject manages replicas (infra/k8s/autoscaling/)
+  replicas: 1
   selector:
     matchLabels:
-      app: vllm-llama3-8b
+      app: vllm-mistral-7b
   template:
     metadata:
       labels:
-        app: vllm-llama3-8b
-        model: llama3-8b
-        component: inference  # required by NetworkPolicy selectors
+        app: vllm-mistral-7b
+        model: mistral-7b
     spec:
-      # Prefer GPU nodes
       nodeSelector:
         cloud.google.com/gke-accelerator: nvidia-l4
       tolerations:
@@ -31,13 +32,13 @@ spec:
           image: vllm/vllm-openai:v0.4.2
           args:
             - "--model"
-            - "meta-llama/Meta-Llama-3-8B-Instruct"
+            - "mistralai/Mistral-7B-Instruct-v0.3"
             - "--served-model-name"
-            - "llama3-8b"
+            - "mistral-7b"
             - "--tensor-parallel-size"
             - "1"
             - "--max-model-len"
-            - "8192"
+            - "32768"
             - "--port"
             - "8000"
             - "--host"
@@ -90,29 +91,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vllm-llama3-8b
+  name: vllm-mistral-7b
   namespace: cloudach
   labels:
-    app: vllm-llama3-8b
-    model: llama3-8b
+    app: vllm-mistral-7b
+    model: mistral-7b
 spec:
   selector:
-    app: vllm-llama3-8b
+    app: vllm-mistral-7b
   ports:
     - port: 8000
       targetPort: 8000
       name: http
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: model-cache-pvc
-  namespace: cloudach
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: premium-rwo

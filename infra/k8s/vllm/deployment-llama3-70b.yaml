@@ -1,25 +1,26 @@
+# vLLM deployment for Meta-Llama-3-70B-Instruct
+# GPU: 4x NVIDIA L4 (tensor-parallel-size=4, ~96GB VRAM total)
+# Optimal settings: flash-attention-2, continuous batching, chunked prefill
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vllm-llama3-8b
+  name: vllm-llama3-70b
   namespace: cloudach
   labels:
-    app: vllm-llama3-8b
-    model: llama3-8b
+    app: vllm-llama3-70b
+    model: llama3-70b
     component: inference
 spec:
-  replicas: 0  # KEDA ScaledObject manages replicas (infra/k8s/autoscaling/)
+  replicas: 1
   selector:
     matchLabels:
-      app: vllm-llama3-8b
+      app: vllm-llama3-70b
   template:
     metadata:
       labels:
-        app: vllm-llama3-8b
-        model: llama3-8b
-        component: inference  # required by NetworkPolicy selectors
+        app: vllm-llama3-70b
+        model: llama3-70b
     spec:
-      # Prefer GPU nodes
       nodeSelector:
         cloud.google.com/gke-accelerator: nvidia-l4
       tolerations:
@@ -31,11 +32,11 @@ spec:
           image: vllm/vllm-openai:v0.4.2
           args:
             - "--model"
-            - "meta-llama/Meta-Llama-3-8B-Instruct"
+            - "meta-llama/Meta-Llama-3-70B-Instruct"
             - "--served-model-name"
-            - "llama3-8b"
+            - "llama3-70b"
             - "--tensor-parallel-size"
-            - "1"
+            - "4"
             - "--max-model-len"
             - "8192"
             - "--port"
@@ -43,7 +44,7 @@ spec:
             - "--host"
             - "0.0.0.0"
             - "--gpu-memory-utilization"
-            - "0.90"
+            - "0.92"
             - "--enable-chunked-prefill"
             - "--max-num-batched-tokens"
             - "4096"
@@ -58,61 +59,54 @@ spec:
               name: http
           resources:
             requests:
-              cpu: "4"
-              memory: 16Gi
-              nvidia.com/gpu: "1"
+              cpu: "16"
+              memory: 64Gi
+              nvidia.com/gpu: "4"
             limits:
-              cpu: "8"
-              memory: 32Gi
-              nvidia.com/gpu: "1"
+              cpu: "32"
+              memory: 128Gi
+              nvidia.com/gpu: "4"
           readinessProbe:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 60
+            initialDelaySeconds: 180
             periodSeconds: 10
             failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /health
               port: 8000
-            initialDelaySeconds: 120
+            initialDelaySeconds: 240
             periodSeconds: 30
           volumeMounts:
             - name: model-cache
               mountPath: /root/.cache/huggingface
+            - name: shm
+              mountPath: /dev/shm
       volumes:
         - name: model-cache
           persistentVolumeClaim:
             claimName: model-cache-pvc
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 8Gi
       terminationGracePeriodSeconds: 60
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vllm-llama3-8b
+  name: vllm-llama3-70b
   namespace: cloudach
   labels:
-    app: vllm-llama3-8b
-    model: llama3-8b
+    app: vllm-llama3-70b
+    model: llama3-70b
 spec:
   selector:
-    app: vllm-llama3-8b
+    app: vllm-llama3-70b
   ports:
     - port: 8000
       targetPort: 8000
       name: http
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: model-cache-pvc
-  namespace: cloudach
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: premium-rwo
