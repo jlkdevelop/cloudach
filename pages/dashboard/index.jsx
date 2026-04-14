@@ -11,6 +11,7 @@ export default function DashboardOverview() {
   const [stats, setStats] = useState(null);
   const [daily, setDaily] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -27,7 +28,9 @@ export default function DashboardOverview() {
         if (!meRes.ok) { router.replace('/login'); return; }
         const { user } = await meRes.json();
         setUser(user);
+        setLoading(false);
 
+        // Load stats separately so the page shell renders immediately
         const [statsRes, usageRes] = await Promise.all([
           fetch('/api/dashboard/stats'),
           fetch('/api/dashboard/usage?limit=7'),
@@ -40,8 +43,9 @@ export default function DashboardOverview() {
         }
       } catch {
         setError('Network error. Please check your connection and refresh.');
-      } finally {
         setLoading(false);
+      } finally {
+        setStatsLoading(false);
       }
     }
     init();
@@ -67,36 +71,12 @@ export default function DashboardOverview() {
 
         {/* Stats */}
         <div className="db-stats-grid">
-          <StatCard
-            label="Requests Today"
-            value={stats?.requestsToday?.toLocaleString()}
-            sub="API calls in the last 24h"
-          />
-          <StatCard
-            label="Total Requests"
-            value={stats?.totalRequests?.toLocaleString()}
-            sub="All time"
-          />
-          <StatCard
-            label="Tokens Used"
-            value={formatTokens(stats?.totalTokens)}
-            sub="Cumulative"
-          />
-          <StatCard
-            label="Est. Cost This Month"
-            value={formatCost(stats?.estimatedCostThisMonth)}
-            sub={stats?.billingPeriod ? `${stats.billingPeriod.start} – ${stats.billingPeriod.end}` : 'Current billing period'}
-          />
-          <StatCard
-            label="Active Models"
-            value={stats?.activeDeployments}
-            sub="Running endpoints"
-          />
-          <StatCard
-            label="API Keys"
-            value={stats?.apiKeyCount}
-            sub="Active (not revoked)"
-          />
+          <StatCard loading={statsLoading} label="Requests Today" value={stats?.requestsToday?.toLocaleString()} sub="API calls in the last 24h" />
+          <StatCard loading={statsLoading} label="Total Requests" value={stats?.totalRequests?.toLocaleString()} sub="All time" />
+          <StatCard loading={statsLoading} label="Tokens Used" value={formatTokens(stats?.totalTokens)} sub="Cumulative" />
+          <StatCard loading={statsLoading} label="Est. Cost This Month" value={formatCost(stats?.estimatedCostThisMonth)} sub={stats?.billingPeriod ? `${stats.billingPeriod.start} – ${stats.billingPeriod.end}` : 'Current billing period'} />
+          <StatCard loading={statsLoading} label="Active Models" value={stats?.activeDeployments} sub="Running endpoints" />
+          <StatCard loading={statsLoading} label="API Keys" value={stats?.apiKeyCount} sub="Active (not revoked)" />
         </div>
 
         {/* Usage chart */}
@@ -104,7 +84,13 @@ export default function DashboardOverview() {
           <div className="db-card-header">
             <span className="db-card-title">Token usage — last 7 days</span>
           </div>
-          {daily.length === 0 ? (
+          {statsLoading ? (
+            <div className="db-chart-skeleton">
+              {[60, 80, 45, 90, 55, 70, 40].map((h, i) => (
+                <div key={i} className="db-skeleton-bar" style={{ height: `${h}%` }} />
+              ))}
+            </div>
+          ) : daily.length === 0 ? (
             <div className="db-empty">
               <IconChartEmpty />
               <div className="db-empty-title">No usage yet</div>
@@ -154,12 +140,21 @@ export default function DashboardOverview() {
   );
 }
 
-function StatCard({ label, value, sub }) {
+function StatCard({ label, value, sub, loading }) {
   return (
     <div className="db-stat-card">
       <div className="db-stat-label">{label}</div>
-      <div className="db-stat-value">{value ?? '—'}</div>
-      {sub && <div className="db-stat-sub">{sub}</div>}
+      {loading ? (
+        <>
+          <div className="db-skeleton db-skeleton--value" />
+          <div className="db-skeleton db-skeleton--sub" />
+        </>
+      ) : (
+        <>
+          <div className="db-stat-value">{value ?? '—'}</div>
+          {sub && <div className="db-stat-sub">{sub}</div>}
+        </>
+      )}
     </div>
   );
 }

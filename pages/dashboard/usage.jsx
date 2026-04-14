@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
 
 export default function UsagePage() {
@@ -103,9 +104,17 @@ export default function UsagePage() {
           </div>
           {logs.length === 0 ? (
             <div className="db-empty">
-              <div className="db-empty-icon">📡</div>
+              <IconRequestsEmpty />
               <div className="db-empty-title">No requests yet</div>
-              <div className="db-empty-desc">Make your first API call to see logs here.</div>
+              <div className="db-empty-desc">Deploy a model and make your first API call to see logs here.</div>
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 16 }}>
+                <Link href="/dashboard/models">
+                  <button className="db-btn db-btn--primary db-btn--sm">Deploy a model</button>
+                </Link>
+                <Link href="/dashboard/api-keys">
+                  <button className="db-btn db-btn--ghost db-btn--sm">Create API key</button>
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="db-table-wrap">
@@ -150,6 +159,24 @@ export default function UsagePage() {
         </div>
       </DashboardLayout>
     </>
+  );
+}
+
+function IconRequestsEmpty() {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      style={{ margin: '0 auto 12px', display: 'block', color: '#D1D5DB' }}
+    >
+      <rect x="4" y="8" width="32" height="24" rx="4" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+      <path d="M4 14h32" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+      <path d="M12 20h6M12 25h10M12 25h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
+      <circle cx="30" cy="25" r="6" fill="white" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M28 25l1.5 1.5L32 23" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
+    </svg>
   );
 }
 

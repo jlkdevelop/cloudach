@@ -97,9 +97,12 @@ export default function ModelsPage() {
 
         {models.length === 0 ? (
           <div className="db-empty">
-            <div className="db-empty-icon">🤖</div>
+            <IconModelsEmpty />
             <div className="db-empty-title">No models available</div>
             <div className="db-empty-desc">The model catalog is empty. Contact support if this is unexpected.</div>
+            <a href="mailto:support@cloudach.com" style={{ marginTop: 16, display: 'inline-block' }}>
+              <button className="db-btn db-btn--ghost db-btn--sm">Contact support</button>
+            </a>
           </div>
         ) : (
           <div className="db-model-grid">
@@ -216,4 +219,23 @@ function Spinner() {
 
 function sleep(ms) {
   return new Promise(r => setTimeout(r, ms));
+}
+
+function IconModelsEmpty() {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      style={{ margin: '0 auto 12px', display: 'block', color: '#D1D5DB' }}
+    >
+      <circle cx="20" cy="20" r="8" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+      <circle cx="20" cy="6" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="20" cy="34" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="6" cy="20" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="34" cy="20" r="3.5" fill="currentColor" opacity="0.4" />
+      <circle cx="20" cy="20" r="3" fill="currentColor" opacity="0.3" />
+    </svg>
+  );
 }

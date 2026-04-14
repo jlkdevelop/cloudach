@@ -122,9 +122,16 @@ export default function ApiKeysPage() {
         <div className="db-card">
           {keys.length === 0 ? (
             <div className="db-empty">
-              <div className="db-empty-icon">🔑</div>
+              <IconKeyEmpty />
               <div className="db-empty-title">No API keys yet</div>
-              <div className="db-empty-desc">Create a key to start making requests.</div>
+              <div className="db-empty-desc">Create a key to authenticate requests to the Cloudach API.</div>
+              <button
+                className="db-btn db-btn--primary db-btn--sm"
+                style={{ marginTop: 16 }}
+                onClick={() => { setShowCreate(true); setCreateError(''); setNewRawKey(null); }}
+              >
+                + Create your first key
+              </button>
             </div>
           ) : (
             <div className="db-table-wrap">
@@ -259,4 +266,21 @@ export default function ApiKeysPage() {
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function IconKeyEmpty() {
+  return (
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+      style={{ margin: '0 auto 12px', display: 'block', color: '#D1D5DB' }}
+    >
+      <circle cx="16" cy="18" r="9" stroke="currentColor" strokeWidth="2" opacity="0.6" />
+      <circle cx="16" cy="18" r="4" fill="currentColor" opacity="0.3" />
+      <path d="M23 23l10 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M29 28l3 -3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
 }
