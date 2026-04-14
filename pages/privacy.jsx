@@ -7,6 +7,12 @@ export default function Privacy() {
     <>
       <Head>
         <title>Privacy Policy — Cloudach</title>
+        <meta name="description" content="Cloudach privacy policy — how we collect, use, and protect your data." />
+        <meta property="og:title" content="Privacy Policy — Cloudach" />
+        <meta property="og:description" content="Cloudach privacy policy — how we collect, use, and protect your data." />
+        <meta property="og:url" content="https://cloudach.com/privacy" />
+        <meta name="twitter:title" content="Privacy Policy — Cloudach" />
+        <meta name="twitter:description" content="Cloudach privacy policy — how we collect, use, and protect your data." />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>

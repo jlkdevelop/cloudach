@@ -39,6 +39,11 @@ export default function SignupPage() {
       <Head>
         <title>Create account — Cloudach</title>
         <meta name="description" content="Create your free Cloudach account and deploy your first LLM in minutes." />
+        <meta property="og:title" content="Create account — Cloudach" />
+        <meta property="og:description" content="Create your free Cloudach account and deploy your first LLM in minutes." />
+        <meta property="og:url" content="https://cloudach.com/signup" />
+        <meta name="twitter:title" content="Create account — Cloudach" />
+        <meta name="twitter:description" content="Create your free Cloudach account and deploy your first LLM in minutes." />
       </Head>
       <div className="db-login-shell">
         <div className="db-login-card">

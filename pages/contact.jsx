@@ -16,6 +16,11 @@ export default function Contact() {
       <Head>
         <title>Contact — Cloudach</title>
         <meta name="description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
+        <meta property="og:title" content="Contact — Cloudach" />
+        <meta property="og:description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
+        <meta property="og:url" content="https://cloudach.com/contact" />
+        <meta name="twitter:title" content="Contact — Cloudach" />
+        <meta name="twitter:description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
       </Head>
       <Nav />
       <main style={{ maxWidth: 560, margin: '0 auto', padding: '88px 48px' }}>

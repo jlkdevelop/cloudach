@@ -9,6 +9,11 @@ export default function About() {
       <Head>
         <title>About — Cloudach</title>
         <meta name="description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
+        <meta property="og:title" content="About — Cloudach" />
+        <meta property="og:description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
+        <meta property="og:url" content="https://cloudach.com/about" />
+        <meta name="twitter:title" content="About — Cloudach" />
+        <meta name="twitter:description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>

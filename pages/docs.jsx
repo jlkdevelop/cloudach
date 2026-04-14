@@ -17,6 +17,11 @@ export default function DocsPage() {
       <Head>
         <title>API Documentation — Cloudach</title>
         <meta name="description" content="Cloudach API documentation — OpenAI-compatible LLM API. Quickstart, authentication, endpoints, and code examples." />
+        <meta property="og:title" content="API Documentation — Cloudach" />
+        <meta property="og:description" content="Cloudach API documentation — OpenAI-compatible LLM API. Quickstart, authentication, endpoints, and code examples." />
+        <meta property="og:url" content="https://cloudach.com/docs" />
+        <meta name="twitter:title" content="API Documentation — Cloudach" />
+        <meta name="twitter:description" content="Cloudach API documentation — OpenAI-compatible LLM API. Quickstart, authentication, endpoints, and code examples." />
       </Head>
 
       <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#0D0F1A' }}>
