@@ -1,0 +1,187 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import DashboardLayout from '../../components/dashboard/DashboardLayout';
+
+export default function ApiKeysPage() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [keys, setKeys] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showCreate, setShowCreate] = useState(false);
+  const [newKeyName, setNewKeyName] = useState('');
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState('');
+  const [newRawKey, setNewRawKey] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    async function init() {
+      const meRes = await fetch('/api/auth/me');
+      if (!meRes.ok) { router.replace('/login'); return; }
+      setUser((await meRes.json()).user);
+      await loadKeys();
+      setLoading(false);
+    }
+    init();
+  }, [router]);
+
+  async function loadKeys() {
+    const res = await fetch('/api/dashboard/api-keys');
+    if (res.ok) setKeys((await res.json()).keys);
+  }
+
+  async function createKey(e) {
+    e.preventDefault();
+    if (!newKeyName.trim()) { setCreateError('Name is required.'); return; }
+    setCreating(true);
+    setCreateError('');
+    const res = await fetch('/api/dashboard/api-keys', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newKeyName.trim() }),
+    });
+    const data = await res.json();
+    if (!res.ok) { setCreateError(data.error || 'Failed to create key.'); setCreating(false); return; }
+    setNewRawKey(data.rawKey);
+    setShowCreate(false);
+    setNewKeyName('');
+    setCreating(false);
+    await loadKeys();
+  }
+
+  async function revokeKey(keyId) {
+    if (!confirm('Revoke this key? This cannot be undone.')) return;
+    await fetch(`/api/dashboard/api-keys/${keyId}/revoke`, { method: 'POST' });
+    await loadKeys();
+  }
+
+  function copyKey() {
+    navigator.clipboard.writeText(newRawKey).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
+
+  if (!user) return null;
+
+  return (
+    <>
+      <Head><title>API Keys — Cloudach</title></Head>
+      <DashboardLayout user={user}>
+        <div className="db-page-header" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+          <div>
+            <h1 className="db-page-title">API Keys</h1>
+            <p className="db-page-subtitle">Create keys to authenticate requests to Cloudach endpoints.</p>
+          </div>
+          <button className="db-btn db-btn--primary" onClick={() => { setShowCreate(true); setCreateError(''); setNewRawKey(null); }}>
+            + New key
+          </button>
+        </div>
+
+        {/* New key reveal */}
+        {newRawKey && (
+          <div className="db-key-reveal">
+            <p><strong>Key created.</strong> Copy it now — it won&apos;t be shown again.</p>
+            <div className="db-key-value">
+              <span style={{ fontFamily: 'monospace', fontSize: 12 }}>{newRawKey}</span>
+              <button className="db-copy-btn" onClick={copyKey}>{copied ? 'Copied!' : 'Copy'}</button>
+            </div>
+          </div>
+        )}
+
+        {/* Keys table */}
+        <div className="db-card">
+          {loading ? (
+            <p style={{ color: '#9CA3AF', fontSize: 14 }}>Loading…</p>
+          ) : keys.length === 0 ? (
+            <div className="db-empty">
+              <div className="db-empty-icon">🔑</div>
+              <div className="db-empty-title">No API keys yet</div>
+              <div className="db-empty-desc">Create a key to start making requests.</div>
+            </div>
+          ) : (
+            <div className="db-table-wrap">
+              <table className="db-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Created</th>
+                    <th>Last used</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {keys.map((k) => (
+                    <tr key={k.id}>
+                      <td><strong>{k.name}</strong></td>
+                      <td>{fmtDate(k.created_at)}</td>
+                      <td>{k.last_used_at ? fmtDate(k.last_used_at) : <span style={{ color: '#9CA3AF' }}>Never</span>}</td>
+                      <td>
+                        {k.revoked_at
+                          ? <span className="db-badge db-badge--revoked">Revoked</span>
+                          : <span className="db-badge db-badge--active">Active</span>}
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        {!k.revoked_at && (
+                          <button className="db-btn db-btn--danger db-btn--sm" onClick={() => revokeKey(k.id)}>
+                            Revoke
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Auth docs hint */}
+        <div className="db-card" style={{ background: '#F9FAFB' }}>
+          <div className="db-card-title" style={{ marginBottom: 12 }}>Using your key</div>
+          <pre style={{ fontSize: 12.5, color: '#374151', background: '#0D0F1A', padding: '14px 18px', borderRadius: 8, overflow: 'auto', lineHeight: 1.6 }}>
+            <code>{`curl https://api.cloudach.com/v1/chat/completions \\
+  -H "Authorization: Bearer sk-cloudach-..." \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"llama3-8b","messages":[{"role":"user","content":"Hello!"}]}'`}</code>
+          </pre>
+        </div>
+
+        {/* Create key modal */}
+        {showCreate && (
+          <div className="db-modal-backdrop" onClick={() => setShowCreate(false)}>
+            <div className="db-modal" onClick={e => e.stopPropagation()}>
+              <div className="db-modal-title">New API key</div>
+              <div className="db-modal-sub">Give it a descriptive name so you can identify it later.</div>
+              <form onSubmit={createKey}>
+                {createError && <div className="db-error">{createError}</div>}
+                <div className="db-field">
+                  <label className="db-label">Key name</label>
+                  <input
+                    className="db-input"
+                    placeholder="e.g. Production server"
+                    value={newKeyName}
+                    onChange={e => setNewKeyName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="db-modal-actions">
+                  <button type="button" className="db-btn db-btn--ghost" onClick={() => setShowCreate(false)}>Cancel</button>
+                  <button type="submit" className="db-btn db-btn--primary" disabled={creating}>
+                    {creating ? 'Creating…' : 'Create key'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </DashboardLayout>
+    </>
+  );
+}
+
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}

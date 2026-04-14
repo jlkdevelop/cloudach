@@ -1,12 +1,13 @@
+import Link from 'next/link'
 import Logo from './Logo'
 
 export default function Nav() {
   return (
     <nav className="nav">
-      <div className="logo">
+      <Link href="/" className="logo">
         <Logo size={28} />
         <span className="logo-text">cloud<span>ach</span></span>
-      </div>
+      </Link>
       <div className="nav-links">
         <a href="#platform">Platform</a>
         <a href="#models">Models</a>
@@ -15,8 +16,12 @@ export default function Nav() {
         <a href="#">Enterprise</a>
       </div>
       <div className="nav-right">
-        <button className="btn-ghost">Sign in</button>
-        <button className="btn-solid">Get started free</button>
+        <Link href="/login">
+          <button className="btn-ghost">Sign in</button>
+        </Link>
+        <Link href="/login">
+          <button className="btn-solid">Get started free</button>
+        </Link>
       </div>
     </nav>
   )
