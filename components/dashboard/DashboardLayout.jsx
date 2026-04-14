@@ -6,6 +6,7 @@ import Logo from '../Logo';
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Overview', icon: IconOverview },
   { href: '/dashboard/models', label: 'Models', icon: IconModels },
+  { href: '/dashboard/playground', label: 'Playground', icon: IconPlayground },
   { href: '/dashboard/api-keys', label: 'API Keys', icon: IconKey },
   { href: '/dashboard/usage', label: 'Usage', icon: IconUsage },
   { href: '/dashboard/logs', label: 'Request Logs', icon: IconLogs },
@@ -137,6 +138,7 @@ export default function DashboardLayout({ children, user }) {
 
       <style>{`
         @keyframes db-spin { to { transform: rotate(360deg); } }
+        @keyframes pg-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
       `}</style>
     </div>
   );
@@ -261,6 +263,17 @@ function IconLogout() {
       <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M10.5 5L14 8L10.5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M14 8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconPlayground() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="1" y="2" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+      <path d="M5 7l2 2-2 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M9 11h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+      <path d="M4 14h8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
     </svg>
   );
 }
