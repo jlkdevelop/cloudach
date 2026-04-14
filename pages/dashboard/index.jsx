@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashboard/DashboardLayout';
+import SpendingProgress from '../../components/dashboard/SpendingProgress';
 
 const OnboardingChecklist = lazy(() => import('../../components/dashboard/OnboardingChecklist'));
 
@@ -11,6 +12,7 @@ export default function DashboardOverview() {
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState(null);
   const [daily, setDaily] = useState([]);
+  const [alertConfig, setAlertConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [statsLoading, setStatsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -32,15 +34,22 @@ export default function DashboardOverview() {
         setLoading(false);
 
         // Load stats separately so the page shell renders immediately
-        const [statsRes, usageRes] = await Promise.all([
+        const [statsRes, usageRes, alertsRes] = await Promise.all([
           fetch('/api/dashboard/stats'),
           fetch('/api/dashboard/usage?limit=7'),
+          fetch('/api/dashboard/alerts'),
         ]);
         if (statsRes.ok) setStats(await statsRes.json());
         else setError('Failed to load stats. Please refresh.');
         if (usageRes.ok) {
           const d = await usageRes.json();
           setDaily(d.daily || []);
+        }
+        if (alertsRes.ok) {
+          const d = await alertsRes.json();
+          if (d.config?.monthlyBudget) {
+            setAlertConfig({ budget: d.config.monthlyBudget, spend: d.currentMonthSpend, thresholds: d.config.thresholds });
+          }
         }
       } catch {
         setError('Network error. Please check your connection and refresh.');
@@ -81,6 +90,15 @@ export default function DashboardOverview() {
           <StatCard loading={statsLoading} label="Active Models" value={stats?.activeDeployments} sub="Running endpoints" />
           <StatCard loading={statsLoading} label="API Keys" value={stats?.apiKeyCount} sub="Active (not revoked)" />
         </div>
+
+        {/* Spending progress — only shown when budget is configured */}
+        {alertConfig && (
+          <SpendingProgress
+            spend={alertConfig.spend}
+            budget={alertConfig.budget}
+            thresholds={alertConfig.thresholds}
+          />
+        )}
 
         {/* Usage chart */}
         <div className="db-card">
