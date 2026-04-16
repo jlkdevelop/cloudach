@@ -236,62 +236,7 @@ textarea:focus-visible {
 
 .logo-text span { color: var(--text-1); }
 
-/* Search trigger — integrated, refined */
-.nav-search-trigger {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 8px;
-  padding: 0 14px;
-  height: 36px;
-  width: 260px;
-  color: var(--text-4);
-  font-size: 13px;
-  font-family: var(--font-inter), sans-serif;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s, box-shadow 0.15s;
-  white-space: nowrap;
-  letter-spacing: -0.1px;
-}
-
-.nav-search-trigger:hover {
-  border-color: rgba(255,255,255,0.12);
-  color: var(--text-3);
-  background: rgba(255,255,255,0.06);
-  box-shadow: 0 0 0 1px rgba(79,110,247,0.08) inset;
-}
-
-.nav-search-trigger svg { flex-shrink: 0; opacity: 0.5; }
-
-.nav-search-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 7px;
-  border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.03);
-  color: var(--text-3);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  flex-shrink: 0;
-}
-
-.nav-search-icon-btn:hover {
-  background: rgba(255,255,255,0.07);
-  color: var(--text-2);
-  border-color: rgba(255,255,255,0.12);
-}
-
-/* Legacy search classes (unused but kept for compat) */
 .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 2px; }
-.nav-search-icon { color: var(--text-3); flex-shrink: 0; }
-.nav-search-input { flex: 1; background: transparent; border: none; outline: none; font-size: 13px; color: var(--text-1); font-family: var(--font-inter), sans-serif; min-width: 0; }
-.nav-search-input::placeholder { color: var(--text-3); }
-.nav-search-kbd { font-size: 10px; font-weight: 500; color: var(--text-4); background: var(--bg-3); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 2px 5px; }
 
 /* Nav center links */
 .nav-links {
@@ -304,7 +249,7 @@ textarea:focus-visible {
 
 .nav-links a {
   font-size: 14px;
-  color: var(--text-3);
+  color: rgba(255,255,255,0.72);
   transition: color 0.15s, background 0.15s;
   letter-spacing: -0.15px;
   padding: 6px 12px;
@@ -312,8 +257,8 @@ textarea:focus-visible {
 }
 
 .nav-links a:hover {
-  color: var(--text-1);
-  background: rgba(255,255,255,0.05);
+  color: #ffffff;
+  background: rgba(255,255,255,0.06);
 }
 
 .nav-right {
@@ -1672,7 +1617,6 @@ footer {
   .nav-pill { border-radius: 12px; height: 50px; padding: 0 6px 0 14px; }
   .nav-links { display: none; }
   .nav-search-trigger { display: none; }
-  .nav-search-icon-btn { display: none; }
   .nav-right .btn-ghost { display: none; }
   .nav-right .lang-wrap { display: none; }
   .nav-divider { display: none; }

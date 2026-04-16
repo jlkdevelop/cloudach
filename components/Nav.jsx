@@ -1,28 +1,15 @@
 import Link from 'next/link'
 import Logo from './Logo'
 import { useState, useEffect } from 'react'
-import SearchModal from './SearchModal'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from '../lib/translations'
 
 export default function Nav() {
-  const [searchOpen, setSearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { t } = useTranslation()
 
   useEffect(() => {
     setMenuOpen(false)
-  }, [])
-
-  useEffect(() => {
-    function onKey(e) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        setSearchOpen(s => !s)
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   return (
@@ -48,19 +35,8 @@ export default function Nav() {
             <Link href="/company">{t('nav.company')}</Link>
           </div>
 
-          {/* Right: search + language + auth */}
+          {/* Right: language + auth */}
           <div className="nav-right">
-            <button
-              className="nav-search-icon-btn"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search (⌘K)"
-              title="Search models, docs… (⌘K)"
-            >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </button>
             <LanguageSwitcher />
             <div className="nav-divider" />
             <Link href="/login">
@@ -111,7 +87,6 @@ export default function Nav() {
         </div>
       )}
 
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }
