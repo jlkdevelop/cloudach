@@ -88,7 +88,7 @@ function IconAudit() {
 function IconCheck() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
-      <circle cx="8" cy="8" r="7" fill="#EEF1FF" />
+      <circle cx="8" cy="8" r="7" fill="rgba(79,110,247,0.10)" />
       <path d="M5 8l2 2 4-4" stroke="#4F6EF7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
@@ -159,39 +159,39 @@ export default function Enterprise() {
 
       <Nav />
 
-      <main>
+      <main style={{ background: '#07080f' }}>
         {/* Hero */}
         <section style={{ maxWidth: 1180, margin: '0 auto', padding: '96px 48px 80px', textAlign: 'center' }}>
           <div className="eyebrow" style={{ justifyContent: 'center', margin: '0 auto 28px', display: 'inline-flex' }}>
             <div className="eyebrow-dot" />
             Enterprise
           </div>
-          <h1 style={{ fontSize: 56, fontWeight: 700, letterSpacing: -2.5, lineHeight: 1.06, color: '#0D0F1A', marginBottom: 22 }}>
+          <h1 style={{ fontSize: 56, fontWeight: 700, letterSpacing: -2.5, lineHeight: 1.06, color: 'var(--text-1)', marginBottom: 22 }}>
             Private AI infrastructure<br />built for the enterprise.
           </h1>
-          <p style={{ fontSize: 18, color: '#6B7280', lineHeight: 1.75, maxWidth: 580, margin: '0 auto 44px' }}>
+          <p style={{ fontSize: 18, color: 'var(--text-2)', lineHeight: 1.75, maxWidth: 580, margin: '0 auto 44px' }}>
             Deploy open-source LLMs inside your own VPC. Isolated compute, compliance controls, and a dedicated team — so your data never leaves your environment.
           </p>
 
           {/* Primary CTA */}
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 20 }}>
             <Link href="/contact">
-              <button className="btn-cta" style={{ fontSize: 16, padding: '15px 36px', borderRadius: 10 }}>
+              <button className="btn-cta">
                 Contact Sales
               </button>
             </Link>
             <Link href="/docs">
-              <button className="btn-cta-ghost" style={{ fontSize: 16, padding: '15px 28px', borderRadius: 10 }}>
+              <button className="btn-cta-ghost">
                 View docs
               </button>
             </Link>
           </div>
-          <p style={{ fontSize: 13, color: '#9CA3AF' }}>No long-term contract required to start. Most teams deploy in under 2 weeks.</p>
+          <p style={{ fontSize: 13, color: 'var(--text-3)' }}>No long-term contract required to start. Most teams deploy in under 2 weeks.</p>
 
           {/* Trust stats */}
           <div style={{
             display: 'flex', gap: 0, justifyContent: 'center', marginTop: 56,
-            borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB',
+            borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
             padding: '36px 0',
           }}>
             {[
@@ -202,34 +202,34 @@ export default function Enterprise() {
             ].map((s, i) => (
               <div key={i} style={{
                 flex: 1, textAlign: 'center', padding: '0 32px',
-                borderRight: i < 3 ? '1px solid #E5E7EB' : 'none',
+                borderRight: i < 3 ? '1px solid var(--border)' : 'none',
               }}>
-                <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: -1, color: '#0D0F1A', marginBottom: 6 }}>{s.val}</div>
-                <div style={{ fontSize: 13, color: '#9CA3AF' }}>{s.label}</div>
+                <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: -1, color: 'var(--text-1)', marginBottom: 6 }}>{s.val}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-3)' }}>{s.label}</div>
               </div>
             ))}
           </div>
         </section>
 
         {/* Compliance badges */}
-        <section style={{ background: '#0D0F1A', padding: '28px 48px' }}>
+        <section style={{ background: 'var(--bg-1)', padding: '28px 48px' }}>
           <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#6B7280', marginRight: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-3)', marginRight: 8 }}>
               Compliance &amp; Security
             </span>
             {complianceBadges.map(b => (
               <div key={b.label} style={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
-                background: '#141626', border: '1px solid #1E2235',
+                background: 'var(--bg-2)', border: '1px solid var(--border)',
                 borderRadius: 8, padding: '10px 20px', minWidth: 90,
               }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#A5B4FC', letterSpacing: -0.2 }}>{b.label}</span>
-                <span style={{ fontSize: 11, color: '#4B5563', marginTop: 2 }}>{b.sub}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--brand)', letterSpacing: -0.2 }}>{b.label}</span>
+                <span style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 2 }}>{b.sub}</span>
               </div>
             ))}
             <div style={{
               display: 'flex', alignItems: 'center', gap: 8, marginLeft: 8,
-              background: '#141626', border: '1px solid #1E2235', borderRadius: 8, padding: '10px 18px',
+              background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 18px',
             }}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <circle cx="7" cy="7" r="6" stroke="#34D399" strokeWidth="1.5" />
@@ -241,33 +241,33 @@ export default function Enterprise() {
         </section>
 
         {/* Features grid */}
-        <section style={{ background: '#F9FAFB', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB' }}>
+        <section style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
           <div style={{ maxWidth: 1180, margin: '0 auto', padding: '80px 48px' }}>
             <div className="sec-tag" style={{ textAlign: 'center' }}>What you get</div>
             <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 12 }}>Everything a serious enterprise needs</h2>
-            <p style={{ textAlign: 'center', color: '#6B7280', fontSize: 15, marginBottom: 56, maxWidth: 520, margin: '0 auto 56px' }}>
+            <p style={{ textAlign: 'center', color: 'var(--text-2)', fontSize: 15, marginBottom: 56, maxWidth: 520, margin: '0 auto 56px' }}>
               Built for security, compliance, and performance at scale — not retrofitted from a developer product.
             </p>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
               gap: 1,
-              background: '#E5E7EB',
-              border: '1px solid #E5E7EB',
+              background: 'var(--border)',
+              border: '1px solid var(--border)',
               borderRadius: 16,
               overflow: 'hidden',
             }}>
               {features.map(f => (
-                <div key={f.title} style={{ background: '#fff', padding: '32px 26px' }}>
+                <div key={f.title} style={{ background: 'var(--bg-2)', padding: '32px 26px' }}>
                   <div style={{
                     width: 44, height: 44, borderRadius: 10,
-                    background: '#EEF1FF', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(79,110,247,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     color: '#4F6EF7', marginBottom: 18,
                   }}>
                     <f.Icon />
                   </div>
-                  <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 10, letterSpacing: -0.3, color: '#0D0F1A' }}>{f.title}</h3>
-                  <p style={{ fontSize: 13.5, color: '#6B7280', lineHeight: 1.65 }}>{f.desc}</p>
+                  <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 10, letterSpacing: -0.3, color: 'var(--text-1)' }}>{f.title}</h3>
+                  <p style={{ fontSize: 13.5, color: 'var(--text-2)', lineHeight: 1.65 }}>{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -281,12 +281,12 @@ export default function Enterprise() {
             <div>
               <div className="sec-tag">Everything included</div>
               <h2 className="sec-title" style={{ marginBottom: 10 }}>No hidden costs.<br />No surprise bills.</h2>
-              <p style={{ color: '#6B7280', fontSize: 15, lineHeight: 1.7, marginBottom: 36 }}>
+              <p style={{ color: 'var(--text-2)', fontSize: 15, lineHeight: 1.7, marginBottom: 36 }}>
                 Your enterprise plan includes dedicated infrastructure, compliance tooling, and concierge support — bundled into a single predictable contract.
               </p>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {enterpriseIncludes.map(item => (
-                  <li key={item} style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14, color: '#374151' }}>
+                  <li key={item} style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14, color: 'var(--text-2)' }}>
                     <IconCheck />
                     {item}
                   </li>
@@ -296,8 +296,8 @@ export default function Enterprise() {
 
             {/* Pricing card */}
             <div style={{
-              background: '#0D0F1A',
-              border: '1px solid #1E2235',
+              background: 'var(--bg-1)',
+              border: '1px solid var(--border)',
               borderRadius: 20,
               padding: '40px 36px',
               position: 'sticky',
@@ -305,39 +305,35 @@ export default function Enterprise() {
             }}>
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: '#1E2235', borderRadius: 6, padding: '4px 12px',
+                background: 'var(--bg-2)', borderRadius: 6, padding: '4px 12px',
                 fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                color: '#A5B4FC', marginBottom: 24,
+                color: 'var(--brand)', marginBottom: 24,
               }}>
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4F6EF7' }} />
                 Enterprise Plan
               </div>
-              <div style={{ fontSize: 42, fontWeight: 700, letterSpacing: -2, color: '#fff', lineHeight: 1 }}>
+              <div style={{ fontSize: 42, fontWeight: 700, letterSpacing: -2, color: 'var(--text-1)', lineHeight: 1 }}>
                 $2,000
-                <span style={{ fontSize: 15, fontWeight: 400, color: '#6B7280', letterSpacing: 0 }}>/mo</span>
+                <span style={{ fontSize: 15, fontWeight: 400, color: 'var(--text-2)', letterSpacing: 0 }}>/mo</span>
               </div>
-              <p style={{ fontSize: 13, color: '#6B7280', marginTop: 8, marginBottom: 28, lineHeight: 1.6 }}>
+              <p style={{ fontSize: 13, color: 'var(--text-2)', marginTop: 8, marginBottom: 28, lineHeight: 1.6 }}>
                 Starting price. Custom scoped to your team size, usage, and compliance needs. Volume discounts above $10k/mo.
               </p>
               <Link href="/contact">
-                <button style={{
-                  width: '100%', padding: '14px', fontSize: 15, fontWeight: 600,
-                  background: '#4F6EF7', color: '#fff', border: 'none', borderRadius: 10,
-                  cursor: 'pointer', transition: 'background 0.15s', marginBottom: 16,
-                }}>
+                <button className="btn-cta" style={{ width: '100%', marginBottom: 16 }}>
                   Contact Sales
                 </button>
               </Link>
               <Link href="/pricing">
                 <button style={{
                   width: '100%', padding: '13px', fontSize: 14, fontWeight: 500,
-                  background: 'transparent', color: '#6B7280', border: '1px solid #1E2235',
+                  background: 'transparent', color: 'var(--text-2)', border: '1px solid var(--border)',
                   borderRadius: 10, cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s',
                 }}>
                   Compare all plans
                 </button>
               </Link>
-              <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid #1E2235' }}>
+              <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid var(--border)' }}>
                 {[
                   'Typical deployment: under 2 weeks',
                   'No long-term contract required',
@@ -348,7 +344,7 @@ export default function Enterprise() {
                       <circle cx="7" cy="7" r="6" stroke="#34D399" strokeWidth="1.3" />
                       <path d="M4.5 7l1.5 1.5 3-3" stroke="#34D399" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span style={{ fontSize: 13, color: '#6B7280' }}>{t}</span>
+                    <span style={{ fontSize: 13, color: 'var(--text-3)' }}>{t}</span>
                   </div>
                 ))}
               </div>
@@ -357,15 +353,15 @@ export default function Enterprise() {
         </section>
 
         {/* Testimonials */}
-        <section style={{ background: '#F9FAFB', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB' }}>
+        <section style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
           <div style={{ maxWidth: 1180, margin: '0 auto', padding: '80px 48px' }}>
             <div className="sec-tag" style={{ textAlign: 'center' }}>Customer stories</div>
             <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 52 }}>Trusted by engineering teams</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
               {testimonials.map((t, i) => (
                 <div key={i} style={{
-                  background: '#fff',
-                  border: '1px solid #E5E7EB',
+                  background: 'var(--bg-2)',
+                  border: '1px solid var(--border)',
                   borderRadius: 14,
                   padding: '32px 28px',
                   display: 'flex', flexDirection: 'column', gap: 24,
@@ -378,10 +374,10 @@ export default function Enterprise() {
                       </svg>
                     ))}
                   </div>
-                  <p style={{ fontSize: 14.5, lineHeight: 1.7, color: '#374151', flex: 1 }}>"{t.quote}"</p>
+                  <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-2)', flex: 1 }}>"{t.quote}"</p>
                   <div>
-                    <div style={{ fontSize: 13.5, fontWeight: 600, color: '#0D0F1A' }}>{t.name}</div>
-                    <div style={{ fontSize: 12.5, color: '#9CA3AF', marginTop: 3 }}>{t.role}</div>
+                    <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--text-1)' }}>{t.name}</div>
+                    <div style={{ fontSize: 12.5, color: 'var(--text-3)', marginTop: 3 }}>{t.role}</div>
                   </div>
                 </div>
               ))}
@@ -391,42 +387,33 @@ export default function Enterprise() {
 
         {/* CTA band */}
         <section style={{
-          background: '#0D0F1A',
+          background: 'var(--bg-1)',
           padding: '88px 48px',
           textAlign: 'center',
         }}>
           <div style={{ maxWidth: 600, margin: '0 auto' }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: '#141626', border: '1px solid #1E2235',
+              background: 'var(--bg-2)', border: '1px solid var(--border)',
               borderRadius: 99, padding: '6px 16px', marginBottom: 28,
             }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#34D399', animation: 'pulse 2s infinite' }} />
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#34D399', animation: 'pulseDot 2.5s ease-in-out infinite' }} />
               <span style={{ fontSize: 12, fontWeight: 600, color: '#6EE7B7' }}>Solutions engineers available now</span>
             </div>
-            <h2 style={{ fontSize: 44, fontWeight: 700, color: '#fff', letterSpacing: -1.5, marginBottom: 16, lineHeight: 1.1 }}>
+            <h2 style={{ fontSize: 44, fontWeight: 700, color: 'var(--text-1)', letterSpacing: -1.5, marginBottom: 16, lineHeight: 1.1 }}>
               Ready to build on private AI infrastructure?
             </h2>
-            <p style={{ fontSize: 16, color: '#6B7280', marginBottom: 36, lineHeight: 1.7 }}>
+            <p style={{ fontSize: 16, color: 'var(--text-2)', marginBottom: 36, lineHeight: 1.7 }}>
               Talk to our team. We'll scope a deployment, provide a custom quote, and get you to production — typically in under two weeks.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
               <Link href="/contact">
-                <button style={{
-                  fontSize: 16, fontWeight: 600, color: '#fff', background: '#4F6EF7',
-                  padding: '15px 36px', borderRadius: 10, border: 'none', cursor: 'pointer',
-                  transition: 'background 0.15s',
-                }}>
+                <button className="btn-cta">
                   Contact Sales
                 </button>
               </Link>
               <Link href="/pricing">
-                <button style={{
-                  fontSize: 15, fontWeight: 500, color: '#9CA3AF',
-                  padding: '15px 28px', borderRadius: 10,
-                  border: '1px solid #1E2235', background: 'transparent',
-                  cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s',
-                }}>
+                <button className="btn-cta-ghost">
                   Compare plans
                 </button>
               </Link>
@@ -438,10 +425,6 @@ export default function Enterprise() {
       <Footer />
 
       <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
         @media (max-width: 900px) {
           .ent-features-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .ent-split { grid-template-columns: 1fr !important; gap: 40px !important; }
