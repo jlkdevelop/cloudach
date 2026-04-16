@@ -1,66 +1,74 @@
 import Link from 'next/link'
 import Logo from './Logo'
-import { useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import SearchModal from './SearchModal'
 
 export default function Nav() {
-  const searchRef = useRef(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [scrolled, setScrolled]     = useState(false)
 
   useEffect(() => {
-    function handleKey(e) {
+    function onKey(e) {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
-        searchRef.current?.focus()
-      }
-      if (e.key === 'Escape') {
-        searchRef.current?.blur()
+        setSearchOpen(s => !s)
       }
     }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
+    function onScroll() { setScrolled(window.scrollY > 8) }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   return (
-    <nav className="nav">
-      <div className="nav-left">
+    <>
+      <nav className={`nav${scrolled ? ' nav-scrolled' : ''}`}>
+        {/* Left: logo */}
         <Link href="/" className="logo">
           <Logo size={26} />
           <span className="logo-text">cloud<span>ach</span></span>
         </Link>
 
-        {/* Search box */}
-        <div className="nav-search">
-          <svg className="nav-search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.4" />
-            <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-          </svg>
-          <input
-            ref={searchRef}
-            type="text"
-            placeholder="Search models..."
-            className="nav-search-input"
-            onFocus={e => e.currentTarget.parentElement.classList.add('focused')}
-            onBlur={e => e.currentTarget.parentElement.classList.remove('focused')}
-          />
-          <kbd className="nav-search-kbd">⌘K</kbd>
+        {/* Center: links */}
+        <div className="nav-links">
+          <a href="#platform">Platform</a>
+          <a href="#models">Models</a>
+          <Link href="/pricing">Pricing</Link>
+          <Link href="/docs">Docs</Link>
+          <Link href="/enterprise">Enterprise</Link>
         </div>
-      </div>
 
-      <div className="nav-links">
-        <a href="#platform">Platform</a>
-        <a href="#models">Models</a>
-        <Link href="/pricing">Pricing</Link>
-        <Link href="/docs">Docs</Link>
-        <Link href="/enterprise">Enterprise</Link>
-      </div>
+        {/* Right: search + auth */}
+        <div className="nav-right">
+          {/* Search trigger — Replicate-style pill button */}
+          <button
+            className="nav-search-trigger"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Open search"
+          >
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <span>Search</span>
+            <kbd>⌘K</kbd>
+          </button>
 
-      <div className="nav-right">
-        <Link href="/login">
-          <button className="btn-ghost">Sign in</button>
-        </Link>
-        <Link href="/signup">
-          <button className="btn-solid">Get started</button>
-        </Link>
-      </div>
-    </nav>
+          <div className="nav-divider" />
+
+          <Link href="/login">
+            <button className="btn-ghost">Sign in</button>
+          </Link>
+          <Link href="/signup">
+            <button className="btn-solid">Get started</button>
+          </Link>
+        </div>
+      </nav>
+
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+    </>
   )
 }

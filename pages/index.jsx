@@ -2,13 +2,12 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Nav from '../components/Nav'
 import Hero from '../components/Hero'
+import ModelTicker from '../components/ModelTicker'
 import Features from '../components/Features'
 import Models from '../components/Models'
 import Pricing from '../components/Pricing'
 import Footer from '../components/Footer'
 import Logo from '../components/Logo'
-
-const trustNames = ['Weights & Biases', 'Hugging Face', 'LangChain', 'Cohere', 'Mistral AI', 'Scale AI']
 
 const testimonials = [
   {
@@ -51,10 +50,15 @@ export default function Home() {
       <main>
         <Hero />
 
-        {/* Trust bar */}
+        {/* Animated model ticker — Replicate-inspired scrolling showcase */}
+        <ModelTicker />
+
+        {/* Trust strip */}
         <div className="trust-bar">
           <span className="trust-label">Trusted by teams at</span>
-          {trustNames.map(n => <span className="trust-name" key={n}>{n}</span>)}
+          {['Weights & Biases', 'Hugging Face', 'LangChain', 'Cohere', 'Mistral AI', 'Scale AI'].map(n => (
+            <span className="trust-name" key={n}>{n}</span>
+          ))}
         </div>
 
         <Features />
