@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Nav from '../components/Nav'
 import AnnouncementBar from '../components/AnnouncementBar'
 import Hero from '../components/Hero'
-import ModelTicker from '../components/ModelTicker'
 import Features from '../components/Features'
 import Models from '../components/Models'
 import Pricing from '../components/Pricing'
@@ -56,9 +55,6 @@ export default function Home() {
 
       <main>
         <Hero />
-
-        {/* Animated model ticker */}
-        <ModelTicker />
 
         {/* Trust strip */}
         <div className="trust-bar">
