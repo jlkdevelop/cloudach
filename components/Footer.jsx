@@ -36,6 +36,7 @@ export default function Footer() {
           </div>
           <div className="fcol">
             <h5>Company</h5>
+            <Link href="/company">Company</Link>
             <Link href="/about">About</Link>
             <Link href="/blog">Blog</Link>
             <Link href="/enterprise">Enterprise</Link>
