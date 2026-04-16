@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import Logo from '../components/Logo';
 
 export default function LoginPage() {
@@ -47,10 +48,10 @@ export default function LoginPage() {
       </Head>
       <div className="db-login-shell">
         <div className="db-login-card">
-          <div className="db-login-logo">
+          <Link href="/" className="db-login-logo">
             <Logo size={26} monochrome />
             <span className="db-login-brand">cloud<span>ach</span></span>
-          </div>
+          </Link>
 
           <h1 className="db-login-title">
             {mode === 'login' ? 'Sign in to your account' : 'Create your account'}

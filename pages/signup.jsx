@@ -47,10 +47,10 @@ export default function SignupPage() {
       </Head>
       <div className="db-login-shell">
         <div className="db-login-card">
-          <div className="db-login-logo">
+          <Link href="/" className="db-login-logo">
             <Logo size={26} monochrome />
             <span className="db-login-brand">cloud<span>ach</span></span>
-          </div>
+          </Link>
 
           <h1 className="db-login-title">Create your account</h1>
           <p className="db-login-sub">
