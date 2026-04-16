@@ -17,7 +17,6 @@ export default function Hero() {
         preload="none"
         aria-hidden="true"
       >
-        <source src="/video/hero-bg.webm" type="video/webm" />
         <source src="/video/hero-bg.mp4" type="video/mp4" />
       </video>
       <div className="hero-wrap">
