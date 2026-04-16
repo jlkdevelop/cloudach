@@ -106,7 +106,7 @@
 
   /* Shadows */
   --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
-  --shadow-code: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(79,110,247,0.05);
+  --shadow-code: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(255,255,255,0.02);
   --shadow-glow: 0 0 40px rgba(79,110,247,0.12);
 }
 
@@ -310,7 +310,7 @@ textarea:focus-visible {
 .hero-outer {
   position: relative;
   overflow: hidden;
-  /* Layer 1: deep blue-black base */
+  /* Layer 1: near-black base */
   background: #07080f;
 }
 
@@ -320,14 +320,10 @@ textarea:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    /* Primary cobalt arc — top center, radiating down */
-    radial-gradient(ellipse 80% 55% at 50% -8%, rgba(79,110,247,0.22) 0%, transparent 60%),
-    /* Indigo depth — bottom left atmosphere */
-    radial-gradient(ellipse 50% 45% at 5% 100%, rgba(92,78,232,0.13) 0%, transparent 60%),
-    /* Cyan edge accent — far top right, very subtle */
-    radial-gradient(ellipse 35% 30% at 100% 0%, rgba(34,211,238,0.07) 0%, transparent 50%),
-    /* Violet whisper — center bottom */
-    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(124,58,237,0.08) 0%, transparent 55%);
+    /* Subtle white spotlight from top — barely perceptible depth, no color */
+    radial-gradient(ellipse 75% 45% at 50% -5%, rgba(255,255,255,0.035) 0%, transparent 65%),
+    /* Dark vignette at bottom — adds weight, grounds the composition */
+    radial-gradient(ellipse 100% 35% at 50% 115%, rgba(0,0,0,0.5) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -338,13 +334,13 @@ textarea:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(79,110,247,0.13) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
   background-size: 20px 20px;
   /* Aggressive center fade keeps text clean; corners show texture clearly */
   mask-image:
-    radial-gradient(ellipse 60% 70% at 50% 50%, transparent 20%, rgba(0,0,0,0.3) 50%, black 75%);
+    radial-gradient(ellipse 65% 75% at 50% 45%, transparent 15%, rgba(0,0,0,0.25) 45%, black 70%);
   -webkit-mask-image:
-    radial-gradient(ellipse 60% 70% at 50% 50%, transparent 20%, rgba(0,0,0,0.3) 50%, black 75%);
+    radial-gradient(ellipse 65% 75% at 50% 45%, transparent 15%, rgba(0,0,0,0.25) 45%, black 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -355,30 +351,33 @@ textarea:focus-visible {
   top: -140px; right: -100px;
   width: 700px; height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(79,110,247,0.12) 0%, rgba(92,78,232,0.05) 40%, transparent 65%);
+  background: transparent;
   pointer-events: none;
   z-index: 0;
-  animation: glowDrift 14s ease-in-out infinite;
+  animation: none;
+  display: none;
 }
 .hero-glow-2 {
   position: absolute;
   bottom: -120px; left: -80px;
   width: 560px; height: 560px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(92,78,232,0.10) 0%, rgba(124,58,237,0.04) 40%, transparent 65%);
+  background: transparent;
   pointer-events: none;
   z-index: 0;
-  animation: glowDrift 18s ease-in-out 3s infinite reverse;
+  animation: none;
+  display: none;
 }
 .hero-glow-3 {
   position: absolute;
   top: 30%; left: 40%;
   width: 420px; height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(34,211,238,0.05) 0%, transparent 60%);
+  background: transparent;
   pointer-events: none;
   z-index: 0;
-  animation: glowPulse 12s ease-in-out 1.5s infinite;
+  animation: none;
+  display: none;
 }
 
 /* Hero entrance animations */

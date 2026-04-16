@@ -7,10 +7,6 @@ export default function Hero() {
 
   return (
     <div className="hero-outer">
-      <div className="hero-glow-1" />
-      <div className="hero-glow-2" />
-      <div className="hero-glow-3" />
-
       <div className="hero-wrap">
         {/* Animated centerpiece — above headline */}
         <DeployAnimation />
