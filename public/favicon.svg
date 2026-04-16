@@ -1,7 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 52">
-  <polygon points="0,26 14,4 28,26 14,48" fill="#4F6EF7"/>
-  <polygon points="14,4 28,26 42,4" fill="#7B96FF"/>
-  <polygon points="0,26 14,48 28,26" fill="#2E4FD4"/>
-  <polygon points="14,4 28,4 28,26" fill="#A0B4FF" opacity="0.7"/>
-  <polygon points="28,26 42,4 44,26 42,48" fill="#4F6EF7" opacity="0.4"/>
+  <defs>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        .p1 { fill: #ffffff; }
+        .p2 { fill: rgba(255,255,255,0.70); }
+        .p3 { fill: rgba(255,255,255,0.45); }
+        .p4 { fill: rgba(255,255,255,0.55); }
+        .p5 { fill: rgba(255,255,255,0.28); }
+      }
+      @media (prefers-color-scheme: light) {
+        .p1 { fill: #4F6EF7; }
+        .p2 { fill: #7B96FF; }
+        .p3 { fill: #2E4FD4; }
+        .p4 { fill: #A0B4FF; }
+        .p5 { fill: #4F6EF7; }
+      }
+    </style>
+  </defs>
+  <polygon class="p1" points="0,26 14,4 28,26 14,48"/>
+  <polygon class="p2" points="14,4 28,26 42,4"/>
+  <polygon class="p3" points="0,26 14,48 28,26"/>
+  <polygon class="p4" points="14,4 28,4 28,26" opacity="0.7"/>
+  <polygon class="p5" points="28,26 42,4 44,26 42,48" opacity="0.4"/>
 </svg>
