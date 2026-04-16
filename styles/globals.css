@@ -145,10 +145,54 @@ textarea:focus-visible {
   border-radius: var(--r-md);
 }
 
+/* ── Announcement Bar ───────────────────────────────────────────────────── */
+.ann-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 102;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.ann-bar:hover {
+  background: rgba(255,255,255,0.90);
+}
+
+.ann-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-family: var(--font-inter), sans-serif;
+  letter-spacing: -0.1px;
+  line-height: 1;
+}
+
+.ann-bar-pre {
+  color: rgba(13,14,23,0.55);
+  font-weight: 400;
+}
+
+.ann-bar-cta {
+  color: #0d0e17;
+  font-weight: 600;
+}
+
+@media (max-width: 520px) {
+  .ann-bar-pre { display: none; }
+}
+
 /* ── Nav ─────────────────────────────────────────────────────────────────── */
 .nav {
   position: fixed;
-  top: 0;
+  top: 36px;
   left: 0;
   right: 0;
   z-index: 100;
@@ -428,7 +472,7 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 86px 48px 72px;
+  padding: 122px 48px 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1731,7 +1775,7 @@ footer {
   .nav-right .btn-ghost { display: none; }
   .nav-right .lang-wrap { display: none; }
   .nav-divider { display: none; }
-  .hero-wrap { padding: 84px 24px 56px; min-height: 100svh; }
+  .hero-wrap { padding: 120px 24px 56px; min-height: 100svh; }
   .hero h1 { font-size: 34px; letter-spacing: -1.5px; }
   .da-stat { display: none; }
   .da-terminal { transform: none; }
@@ -1759,7 +1803,7 @@ footer {
 /* ── Mid-size laptops (1280px) — keep hero in one screen ─────────────────── */
 @media (max-width: 1280px) and (min-width: 901px) {
   .nav { padding: 14px 20px; }
-  .hero-wrap { padding: 76px 40px 64px; }
+  .hero-wrap { padding: 112px 40px 64px; }
   .hero h1 { font-size: 44px; letter-spacing: -1.8px; }
   .hero-sub { font-size: 14.5px; }
   .nav-search-trigger { width: 220px; }
@@ -1770,7 +1814,7 @@ footer {
 
 /* ── Large desktop (1440px+) — give it a touch more breathing room ───────── */
 @media (min-width: 1440px) {
-  .hero-wrap { padding: 88px 48px 80px; }
+  .hero-wrap { padding: 124px 48px 80px; }
   .hero h1 { font-size: 58px; letter-spacing: -2.5px; }
 }
 
@@ -1797,7 +1841,7 @@ footer {
 
 .nav-mobile-drawer {
   position: fixed;
-  top: 74px;
+  top: 110px;
   left: 12px;
   right: 12px;
   background: rgba(9,10,19,0.96);

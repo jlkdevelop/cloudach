@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Nav from '../components/Nav'
+import AnnouncementBar from '../components/AnnouncementBar'
 import Hero from '../components/Hero'
 import ModelTicker from '../components/ModelTicker'
 import Features from '../components/Features'
@@ -50,6 +51,7 @@ export default function Home() {
         <meta name="twitter:description" content="The fastest way to deploy, scale, and serve open-source LLMs in production. One API. Any model. Zero GPU ops." />
       </Head>
 
+      <AnnouncementBar />
       <Nav />
 
       <main>
