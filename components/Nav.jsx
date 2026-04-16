@@ -37,15 +37,15 @@ export default function Nav() {
           </Link>
 
           <button
-            className="nav-search-trigger"
+            className="nav-search-icon-btn"
             onClick={() => setSearchOpen(true)}
-            aria-label="Open search"
+            aria-label="Search (⌘K)"
+            title="Search models, docs… (⌘K)"
           >
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
               <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
-            <span>{t('nav.search')}</span>
           </button>
         </div>
 

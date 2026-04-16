@@ -213,6 +213,27 @@ textarea:focus-visible {
 
 .nav-search-trigger svg { flex-shrink: 0; opacity: 0.5; }
 
+.nav-search-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-3);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.nav-search-icon-btn:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-2);
+  border-color: rgba(255,255,255,0.12);
+}
+
 /* Legacy search classes (unused but kept for compat) */
 .nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 2px; }
 .nav-search-icon { color: var(--text-3); flex-shrink: 0; }
@@ -299,14 +320,14 @@ textarea:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    /* Primary cobalt arc — top right, large, anchoring the eye */
-    radial-gradient(ellipse 65% 60% at 85% -5%, rgba(79,110,247,0.22) 0%, transparent 55%),
-    /* Indigo depth field — bottom left */
-    radial-gradient(ellipse 50% 50% at -8% 105%, rgba(92,78,232,0.16) 0%, transparent 58%),
-    /* Cyan edge accent — far top left, very subtle */
-    radial-gradient(ellipse 35% 30% at 5% 2%, rgba(34,211,238,0.07) 0%, transparent 50%),
-    /* Violet undertone — deep center bottom */
-    radial-gradient(ellipse 60% 35% at 50% 115%, rgba(124,58,237,0.09) 0%, transparent 55%);
+    /* Primary cobalt arc — top center, radiating down */
+    radial-gradient(ellipse 80% 55% at 50% -8%, rgba(79,110,247,0.22) 0%, transparent 60%),
+    /* Indigo depth — bottom left atmosphere */
+    radial-gradient(ellipse 50% 45% at 5% 100%, rgba(92,78,232,0.13) 0%, transparent 60%),
+    /* Cyan edge accent — far top right, very subtle */
+    radial-gradient(ellipse 35% 30% at 100% 0%, rgba(34,211,238,0.07) 0%, transparent 50%),
+    /* Violet whisper — center bottom */
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(124,58,237,0.08) 0%, transparent 55%);
   pointer-events: none;
   z-index: 0;
 }
@@ -389,14 +410,21 @@ textarea:focus-visible {
 .hero-wrap {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  /* Top padding = nav height (62px) + breathing room. Fixed nav floats over hero. */
-  padding: 84px 48px 44px;
-  display: grid;
-  grid-template-columns: 52% 44%;
-  gap: 56px;
+  padding: 110px 48px 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 680px;
+  width: 100%;
 }
 
 .hero-stat { display: flex; flex-direction: column; }
@@ -434,12 +462,13 @@ textarea:focus-visible {
 }
 
 .hero h1 {
-  font-size: 50px;
+  font-size: 68px;
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -2.2px;
+  line-height: 1.02;
+  letter-spacing: -3px;
   margin-bottom: 16px;
   color: var(--text-1);
+  text-align: center;
 }
 
 .hero h1 em {
@@ -456,13 +485,15 @@ textarea:focus-visible {
   color: var(--text-2);
   line-height: 1.68;
   margin-bottom: 24px;
-  max-width: 400px;
+  max-width: 480px;
+  text-align: center;
 }
 
 .hero-btns {
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-content: center;
 }
 
 .btn-cta {
@@ -517,6 +548,7 @@ textarea:focus-visible {
   margin-top: 28px;
   padding-top: 22px;
   border-top: 1px solid rgba(255,255,255,0.06);
+  justify-content: center;
 }
 
 .stat-val {
@@ -621,6 +653,101 @@ textarea:focus-visible {
   font-size: 11.5px;
   color: #6ee7b7;
   letter-spacing: -0.1px;
+}
+
+/* ── Deploy Animation Centerpiece ───────────────────────────────────────── */
+.da-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 740px;
+  margin: 52px auto 0;
+  padding-bottom: 64px;
+}
+
+.da-terminal {
+  width: 100%;
+  /* Subtle perspective tilt — gives depth without being gimmicky */
+  transform: perspective(1200px) rotateX(2deg);
+  transform-origin: top center;
+  transition: transform 0.6s ease;
+}
+
+.da-terminal:hover {
+  transform: perspective(1200px) rotateX(0deg);
+}
+
+.da-live {
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,0.15),
+    0 24px 64px rgba(0,0,0,0.7),
+    0 0 80px rgba(34,197,94,0.06);
+}
+
+.da-inner {
+  min-height: 180px;
+}
+
+.da-blink {
+  animation: blinkCursor 1s step-end infinite;
+  color: var(--brand);
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.status-dot--idle {
+  background: var(--text-4);
+  animation: none;
+  box-shadow: none;
+}
+
+/* Floating stat cards */
+.da-stat {
+  position: absolute;
+  background: rgba(10, 10, 18, 0.80);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 12px 18px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10;
+  animation: floatY 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.da-stat-val {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-1);
+  line-height: 1.2;
+}
+
+.da-stat-lbl {
+  font-size: 10.5px;
+  color: var(--text-4);
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.da-stat-1 {
+  top: 24px;
+  left: -112px;
+  animation-delay: 0s;
+}
+
+.da-stat-2 {
+  top: 72px;
+  right: -112px;
+  animation-delay: 1.4s;
+}
+
+.da-stat-3 {
+  bottom: 80px;
+  left: -96px;
+  animation-delay: 0.8s;
 }
 
 /* ── Trust bar ───────────────────────────────────────────────────────────── */
@@ -1587,8 +1714,12 @@ footer {
   .nav-links { display: none; }
   .nav-search-trigger { width: 160px; }
   .nav-search-trigger span { display: none; }
-  .hero-wrap { grid-template-columns: 1fr; gap: 36px; padding: 72px 24px 40px; }
-  .hero h1 { font-size: 36px; letter-spacing: -1.5px; }
+  .nav-search-icon-btn { width: 30px; height: 30px; }
+  .hero-wrap { padding: 80px 24px 0; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.8px; }
+  .da-stat { display: none; }
+  .da-terminal { transform: none; }
+  .da-wrap { margin-top: 36px; padding-bottom: 40px; }
   .hero-glow-1, .hero-glow-2, .hero-glow-3 { display: none; }
   .feat-grid { grid-template-columns: 1fr; }
   .model-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1612,16 +1743,19 @@ footer {
 /* ── Mid-size laptops (1280px) — keep hero in one screen ─────────────────── */
 @media (max-width: 1280px) and (min-width: 901px) {
   .nav { padding: 0 32px; }
-  .hero-wrap { padding: 72px 40px 40px; gap: 44px; }
-  .hero h1 { font-size: 44px; letter-spacing: -2px; }
+  .hero-wrap { padding: 72px 40px 0; }
+  .hero h1 { font-size: 54px; letter-spacing: -2.5px; }
   .hero-sub { font-size: 14.5px; }
   .nav-search-trigger { width: 220px; }
+  .da-stat-1 { left: -80px; }
+  .da-stat-2 { right: -80px; }
+  .da-stat-3 { left: -64px; }
 }
 
 /* ── Large desktop (1440px+) — give it a touch more breathing room ───────── */
 @media (min-width: 1440px) {
-  .hero-wrap { padding: 88px 48px 56px; }
-  .hero h1 { font-size: 54px; letter-spacing: -2.5px; }
+  .hero-wrap { padding: 88px 48px 0; }
+  .hero h1 { font-size: 74px; letter-spacing: -3.5px; }
 }
 
 /* ── Mobile nav hamburger + drawer ──────────────────────────────────────── */
@@ -1871,6 +2005,10 @@ footer {
   direction: rtl;
 }
 
+[dir="rtl"] .hero {
+  direction: rtl;
+}
+
 [dir="rtl"] .hero-btns {
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -1979,6 +2117,7 @@ footer {
   letter-spacing: 0;
   line-height: 1.28;
   font-family: var(--font-cairo), 'Segoe UI', 'Arial', sans-serif;
+  text-align: right;
 }
 
 [dir="rtl"] .hero-sub {
