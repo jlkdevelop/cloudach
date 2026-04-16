@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Logo from './Logo'
 import { useState, useEffect } from 'react'
 import SearchModal from './SearchModal'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Nav() {
   const [searchOpen, setSearchOpen] = useState(false)
@@ -56,8 +57,10 @@ export default function Nav() {
           <Link href="/company">Company</Link>
         </div>
 
-        {/* Right: auth */}
+        {/* Right: language + auth */}
         <div className="nav-right">
+          <LanguageSwitcher />
+          <div className="nav-divider" />
           <Link href="/login">
             <button className="btn-ghost">Sign in</button>
           </Link>

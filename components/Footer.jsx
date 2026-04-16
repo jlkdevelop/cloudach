@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Logo from './Logo'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Footer() {
   return (
@@ -45,7 +46,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="foot-bar">
-        <p>© 2026 Cloudach, Inc. All rights reserved.</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <p>© 2026 Cloudach, Inc. All rights reserved.</p>
+          <LanguageSwitcher compact />
+        </div>
         <div className="foot-bar-links">
           <Link href="/privacy">Privacy policy</Link>
           <Link href="/terms">Terms of service</Link>
