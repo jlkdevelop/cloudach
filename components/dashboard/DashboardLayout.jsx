@@ -3,28 +3,48 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Logo from '../Logo';
 
-const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Overview', icon: IconOverview },
-  { href: '/dashboard/models', label: 'Models', icon: IconModels },
-  { href: '/dashboard/playground', label: 'Playground', icon: IconPlayground },
-  { href: '/dashboard/api-keys', label: 'API Keys', icon: IconKey },
-  { href: '/dashboard/usage', label: 'Usage', icon: IconUsage },
-  { href: '/dashboard/logs', label: 'Request Logs', icon: IconLogs },
-  { href: '/dashboard/alerts', label: 'Alerts', icon: IconAlerts },
-  { href: '/dashboard/billing', label: 'Billing', icon: IconBilling },
-  { href: '/dashboard/team', label: 'Team', icon: IconTeam },
-  { href: '/dashboard/webhooks', label: 'Webhooks', icon: IconWebhooks },
-  { href: '/dashboard/audit-log', label: 'Audit Log', icon: IconAuditLog },
-  { href: '/dashboard/settings', label: 'Settings', icon: IconSettings },
+const NAV_SECTIONS = [
+  {
+    label: null,
+    items: [
+      { href: '/dashboard', label: 'Overview', icon: IconOverview },
+    ],
+  },
+  {
+    label: 'Inference',
+    items: [
+      { href: '/dashboard/models', label: 'Models', icon: IconModels },
+      { href: '/dashboard/playground', label: 'Playground', icon: IconPlayground },
+      { href: '/dashboard/api-keys', label: 'API Keys', icon: IconKey },
+    ],
+  },
+  {
+    label: 'Monitoring',
+    items: [
+      { href: '/dashboard/usage', label: 'Usage', icon: IconUsage },
+      { href: '/dashboard/logs', label: 'Request Logs', icon: IconLogs },
+      { href: '/dashboard/alerts', label: 'Alerts', icon: IconAlerts },
+      { href: '/dashboard/audit-log', label: 'Audit Log', icon: IconAuditLog },
+    ],
+  },
+  {
+    label: 'Account',
+    items: [
+      { href: '/dashboard/billing', label: 'Billing', icon: IconBilling },
+      { href: '/dashboard/team', label: 'Team', icon: IconTeam },
+      { href: '/dashboard/webhooks', label: 'Webhooks', icon: IconWebhooks },
+      { href: '/dashboard/settings', label: 'Settings', icon: IconSettings },
+    ],
+  },
 ];
 
 export function PageLoader() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-      <div style={{ textAlign: 'center', color: '#9CA3AF' }}>
+      <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.38)' }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
-          border: '3px solid #E5E7EB', borderTopColor: '#4F6EF7',
+          border: '3px solid rgba(255,255,255,0.10)', borderTopColor: 'rgba(255,255,255,0.80)',
           animation: 'db-spin 0.7s linear infinite', margin: '0 auto 12px'
         }} />
         <div style={{ fontSize: 13 }}>Loading…</div>
@@ -36,13 +56,13 @@ export function PageLoader() {
 export function ErrorBanner({ message }) {
   return (
     <div style={{
-      background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 10,
-      padding: '14px 18px', marginBottom: 24, color: '#991B1B', fontSize: 13.5,
+      background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.22)', borderRadius: 10,
+      padding: '14px 18px', marginBottom: 24, color: 'rgba(252,165,165,0.85)', fontSize: 13.5,
       display: 'flex', alignItems: 'center', gap: 10
     }}>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
-        <circle cx="8" cy="8" r="7" stroke="#DC2626" strokeWidth="1.5"/>
-        <path d="M8 5v3.5M8 11h.01" stroke="#DC2626" strokeWidth="1.5" strokeLinecap="round"/>
+        <circle cx="8" cy="8" r="7" stroke="rgba(252,165,165,0.70)" strokeWidth="1.5"/>
+        <path d="M8 5v3.5M8 11h.01" stroke="rgba(252,165,165,0.70)" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
       {message || 'Something went wrong. Please refresh the page.'}
     </div>
@@ -61,8 +81,8 @@ export default function DashboardLayout({ children, user }) {
   const sidebar = (
     <aside className={`db-sidebar${sidebarOpen ? ' db-sidebar--open' : ''}`}>
       <div className="db-sidebar-logo">
-        <Logo size={22} monochrome />
-        <span className="db-sidebar-brand">cloud<span>ach</span></span>
+        <Logo size={20} monochrome />
+        <span className="db-sidebar-brand">Cloudach</span>
         <button
           className="db-sidebar-close"
           onClick={() => setSidebarOpen(false)}
@@ -75,28 +95,36 @@ export default function DashboardLayout({ children, user }) {
       </div>
 
       <nav className="db-nav">
-        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const active = href === '/dashboard'
-            ? router.pathname === href
-            : router.pathname === href || router.pathname.startsWith(href + '/');
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`db-nav-item${active ? ' db-nav-item--active' : ''}`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              <Icon />
-              <span>{label}</span>
-            </Link>
-          );
-        })}
+        {NAV_SECTIONS.map(({ label, items }) => (
+          <div key={label || 'root'} className="db-nav-section">
+            {label && <div className="db-nav-section-label">{label}</div>}
+            {items.map(({ href, label: itemLabel, icon: Icon }) => {
+              const active = href === '/dashboard'
+                ? router.pathname === href
+                : router.pathname === href || router.pathname.startsWith(href + '/');
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`db-nav-item${active ? ' db-nav-item--active' : ''}`}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <Icon />
+                  <span>{itemLabel}</span>
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
       <div className="db-sidebar-footer">
         <div className="db-user-chip">
           <div className="db-user-avatar">{user?.email?.[0]?.toUpperCase() || 'U'}</div>
-          <span className="db-user-email" title={user?.email}>{user?.email || 'User'}</span>
+          <div className="db-user-info">
+            <span className="db-user-email" title={user?.email}>{user?.email || 'User'}</span>
+            <span className="db-user-plan">Free plan</span>
+          </div>
         </div>
         <button className="db-logout-btn" onClick={handleLogout} title="Sign out">
           <IconLogout />

@@ -191,7 +191,7 @@ export default function AlertsPage() {
 
   const budget = parseFloat(monthlyBudget) || 0;
   const spendPct = budget > 0 && currentSpend != null ? Math.min((currentSpend / budget) * 100, 100) : null;
-  const barColor = spendPct == null ? '#4F6EF7' : spendPct >= 100 ? '#DC2626' : spendPct >= 80 ? '#F59E0B' : '#4F6EF7';
+  const barColor = spendPct == null ? 'rgba(255,255,255,0.70)' : spendPct >= 100 ? '#DC2626' : spendPct >= 80 ? '#F59E0B' : 'rgba(255,255,255,0.70)';
 
   return (
     <>
@@ -244,9 +244,9 @@ export default function AlertsPage() {
                 return (
                   <span key={t} style={{
                     fontSize: 12, padding: '3px 10px', borderRadius: 20,
-                    background: hit ? (t === 100 ? '#FEE2E2' : t >= 80 ? '#FEF3C7' : '#EFF6FF') : '#F9FAFB',
-                    color: hit ? (t === 100 ? '#991B1B' : t >= 80 ? '#92400E' : '#1D4ED8') : '#6B7280',
-                    border: `1px solid ${hit ? (t === 100 ? '#FECACA' : t >= 80 ? '#FDE68A' : '#BFDBFE') : '#E5E7EB'}`,
+                    background: hit ? (t === 100 ? 'rgba(220,38,38,0.10)' : t >= 80 ? 'rgba(245,158,11,0.10)' : 'rgba(255,255,255,0.07)') : 'rgba(255,255,255,0.03)',
+                    color: hit ? (t === 100 ? 'rgba(252,165,165,0.85)' : t >= 80 ? '#F59E0B' : 'rgba(255,255,255,0.75)') : 'rgba(255,255,255,0.35)',
+                    border: `1px solid ${hit ? (t === 100 ? 'rgba(220,38,38,0.25)' : t >= 80 ? 'rgba(245,158,11,0.30)' : 'rgba(255,255,255,0.15)') : 'rgba(255,255,255,0.08)'}`,
                     fontWeight: hit ? 600 : 400,
                   }}>
                     {hit ? '✓' : ''} {t}%
@@ -308,9 +308,9 @@ export default function AlertsPage() {
                       onClick={() => toggleThreshold(t)}
                       style={{
                         padding: '6px 14px', borderRadius: 20, fontSize: 13, cursor: 'pointer',
-                        border: `1px solid ${thresholds.includes(t) ? '#4F6EF7' : '#E5E7EB'}`,
-                        background: thresholds.includes(t) ? '#EEF2FF' : '#F9FAFB',
-                        color: thresholds.includes(t) ? '#3730A3' : '#6B7280',
+                        border: `1px solid ${thresholds.includes(t) ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.10)'}`,
+                        background: thresholds.includes(t) ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.03)',
+                        color: thresholds.includes(t) ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.40)',
                         fontWeight: thresholds.includes(t) ? 600 : 400,
                         transition: 'all 0.15s',
                       }}
@@ -330,7 +330,7 @@ export default function AlertsPage() {
                   type="checkbox"
                   checked={notifyEmail}
                   onChange={(e) => setNotifyEmail(e.target.checked)}
-                  style={{ marginTop: 2, accentColor: '#4F6EF7', width: 15, height: 15 }}
+                  style={{ marginTop: 2, accentColor: '#ffffff', width: 15, height: 15 }}
                 />
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>Email notifications</div>
@@ -418,7 +418,7 @@ export default function AlertsPage() {
                       <div style={{ fontSize: 12, color: '#6B7280', marginTop: 2 }}>
                         {formatCost(h.spendAtAlert)} of {formatCost(h.budget)} budget
                         {h.notifiedEmail && (
-                          <span style={{ marginLeft: 8, color: '#4F6EF7' }}>· emailed</span>
+                          <span style={{ marginLeft: 8, color: 'rgba(255,255,255,0.45)' }}>· emailed</span>
                         )}
                       </div>
                     </div>
@@ -444,7 +444,7 @@ export default function AlertsPage() {
             <div style={{ marginBottom: 20 }}>
               {modelLimits.map((lim) => {
                 const pct = lim.limitUsd > 0 ? Math.min((lim.spendThisMonth / lim.limitUsd) * 100, 100) : 0;
-                const barColor = pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : '#4F6EF7';
+                const barColor = pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : 'rgba(255,255,255,0.70)';
                 return (
                   <div key={lim.modelId} style={{
                     padding: '14px 0',
@@ -585,7 +585,7 @@ export default function AlertsPage() {
             <br />
             <div>
               Manage your alerts and budget at{' '}
-              <Link href="/dashboard/alerts" style={{ color: '#4F6EF7' }}>
+              <Link href="/dashboard/alerts" style={{ color: 'rgba(255,255,255,0.55)' }}>
                 cloudach.com/dashboard/alerts
               </Link>.
             </div>
@@ -607,9 +607,9 @@ export default function AlertsPage() {
 }
 
 function ThresholdBadge({ pct }) {
-  const color = pct >= 100 ? { bg: '#FEE2E2', text: '#991B1B', border: '#FECACA' }
-    : pct >= 80 ? { bg: '#FEF3C7', text: '#92400E', border: '#FDE68A' }
-    : { bg: '#EFF6FF', text: '#1D4ED8', border: '#BFDBFE' };
+  const color = pct >= 100 ? { bg: 'rgba(220,38,38,0.10)', text: 'rgba(252,165,165,0.85)', border: 'rgba(220,38,38,0.25)' }
+    : pct >= 80 ? { bg: 'rgba(245,158,11,0.10)', text: '#F59E0B', border: 'rgba(245,158,11,0.30)' }
+    : { bg: 'rgba(255,255,255,0.06)', text: 'rgba(255,255,255,0.65)', border: 'rgba(255,255,255,0.12)' };
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',

@@ -7,7 +7,7 @@ const ENTRIES = [
     version: 'v1.0',
     tag: 'GA Release',
     color: 'var(--brand)',
-    bg: 'rgba(79,110,247,0.10)',
+    bg: 'rgba(255,255,255,0.07)',
     items: [
       'GPU cost optimization engine: spot instance scheduling, preemption handling, automatic fallback to on-demand',
       'Autoscaling policies: time-based, load-based, and budget-aware scaling rules',
@@ -135,7 +135,7 @@ const ENTRIES = [
     version: 'v0.4',
     tag: 'Platform',
     color: 'var(--brand)',
-    bg: 'rgba(79,110,247,0.10)',
+    bg: 'rgba(255,255,255,0.07)',
     items: [
       'Neon Postgres integration: connection pooling, SSL-only, combined schema migration',
       'Auth system: /api/auth/register, /login, /logout with secure session management',

@@ -436,7 +436,7 @@ function LatencyBadge({ ms }) {
   let color = '#166534'; // green
   if (ms >= 3000) color = '#991B1B';       // red
   else if (ms >= 1000) color = '#92400E';  // amber
-  else if (ms >= 500) color = '#1E40AF';   // blue
+  else if (ms >= 500) color = 'rgba(255,255,255,0.55)';   // dim
   return (
     <span style={{ fontWeight: 500, color, fontSize: 12 }}>
       {ms >= 1000 ? `${(ms / 1000).toFixed(1)}s` : `${ms}ms`}

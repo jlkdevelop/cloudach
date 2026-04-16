@@ -20,10 +20,10 @@ const RESOURCE_OPTIONS = [
 ];
 
 const ACTION_BADGE_COLORS = {
-  'login.success':   { bg: '#DCFCE7', color: '#166534' },
-  'login.failed':    { bg: '#FEE2E2', color: '#991B1B' },
-  'api_key.created': { bg: '#DBEAFE', color: '#1E40AF' },
-  'api_key.revoked': { bg: '#FEF3C7', color: '#92400E' },
+  'login.success':   { bg: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.70)' },
+  'login.failed':    { bg: 'rgba(220,38,38,0.10)', color: 'rgba(252,165,165,0.85)' },
+  'api_key.created': { bg: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.75)' },
+  'api_key.revoked': { bg: 'rgba(245,158,11,0.10)', color: '#F59E0B' },
 };
 
 function ActionBadge({ action }) {

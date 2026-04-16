@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, lazy } from 'react';
+import { useEffect, useState, Suspense, lazy, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -64,24 +64,29 @@ export default function DashboardOverview() {
   if (loading || !user) return <PageLoader />;
 
   const maxTokens = Math.max(...daily.map(d => parseInt(d.tokens || 0, 10)), 1);
+  const greeting = getGreeting();
+  const firstName = user.email.split('@')[0];
 
   return (
     <>
       <Head><title>Dashboard — Cloudach</title></Head>
       <DashboardLayout user={user}>
         <div className="db-page-header">
-          <h1 className="db-page-title">Overview</h1>
-          <p className="db-page-subtitle">Welcome back, {user.email}</p>
+          <h1 className="db-page-title">{greeting}, {firstName}</h1>
+          <p className="db-page-subtitle">
+            Here&rsquo;s what&rsquo;s happening with your infrastructure today.
+            <span className="db-page-date">{formatDate()}</span>
+          </p>
         </div>
 
         {/* What's new banner */}
         <Link href="/changelog" style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#EEF2FF', border: '1px solid #C7D2FE', borderRadius: 10, padding: '10px 16px', marginBottom: 20, cursor: 'pointer' }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#6366F1', background: '#fff', border: '1px solid #C7D2FE', borderRadius: 4, padding: '1px 8px', flexShrink: 0 }}>NEW</span>
-            <span style={{ fontSize: 14, color: '#3730A3', fontWeight: 500, flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 10, padding: '10px 16px', marginBottom: 20, cursor: 'pointer' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.75)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: 4, padding: '1px 8px', flexShrink: 0 }}>NEW</span>
+            <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', fontWeight: 500, flex: 1 }}>
               Cloudach v1.0 is GA — GPU cost optimization, usage alerts, spending limits, and more.
             </span>
-            <span style={{ fontSize: 13, color: '#6366F1', fontWeight: 500, flexShrink: 0 }}>See changelog →</span>
+            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', fontWeight: 500, flexShrink: 0 }}>See changelog →</span>
           </div>
         </Link>
 
@@ -189,6 +194,17 @@ function StatCard({ label, value, sub, loading }) {
       )}
     </div>
   );
+}
+
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+
+function formatDate() {
+  return new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 }
 
 function formatTokens(n) {

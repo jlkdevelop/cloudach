@@ -22,14 +22,14 @@ export default function LangChainTutorial() {
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: '#0D0F1A', letterSpacing: '-0.5px' }}>Cloudach<span style={{ color: '#4F6EF7' }}>.</span></span>
+            <span style={{ fontWeight: 700, fontSize: 18, color: '#0D0F1A', letterSpacing: '-0.5px' }}>Cloudach<span style={{ color: 'rgba(255,255,255,0.72)' }}>.</span></span>
           </Link>
           <Link href="/docs" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/docs#integrations" style={{ fontSize: 14, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Integrations</Link>
+          <Link href="/docs#integrations" style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Integrations</Link>
           <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
-            <button style={{ background: '#4F6EF7', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+            <button style={{ background: '#ffffff', color: '#0d0e17', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
               Get started free
             </button>
           </Link>
@@ -55,8 +55,8 @@ export default function LangChainTutorial() {
               ))}
               <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid #F3F4F6' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Also see</div>
-                <Link href="/tutorials/llamaindex" style={{ display: 'block', padding: '5px 0', fontSize: 13, color: '#4F6EF7', textDecoration: 'none' }}>LlamaIndex guide</Link>
-                <Link href="/docs" style={{ display: 'block', padding: '5px 0', fontSize: 13, color: '#4F6EF7', textDecoration: 'none' }}>API reference</Link>
+                <Link href="/tutorials/llamaindex" style={{ display: 'block', padding: '5px 0', fontSize: 13, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>LlamaIndex guide</Link>
+                <Link href="/docs" style={{ display: 'block', padding: '5px 0', fontSize: 13, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>API reference</Link>
               </div>
             </nav>
           </aside>
@@ -65,9 +65,9 @@ export default function LangChainTutorial() {
           <main style={{ flex: 1, minWidth: 0 }}>
             {/* Breadcrumb */}
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, color: '#9CA3AF', marginBottom: 24 }}>
-              <Link href="/docs" style={{ color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
+              <Link href="/docs" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Docs</Link>
               <span>/</span>
-              <Link href="/docs#integrations" style={{ color: '#4F6EF7', textDecoration: 'none' }}>Integrations</Link>
+              <Link href="/docs#integrations" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Integrations</Link>
               <span>/</span>
               <span>LangChain</span>
             </div>
@@ -382,7 +382,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: '#EEF1FF', borderLeft: '3px solid #4F6EF7', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#3730A3', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(255,255,255,0.05)', borderLeft: '3px solid rgba(255,255,255,0.25)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: 'rgba(255,255,255,0.80)', marginBottom: 16 }}>
       {children}
     </div>
   );
@@ -391,4 +391,4 @@ function Callout({ children }) {
 const p = { fontSize: 15, lineHeight: 1.7, color: '#374151', marginBottom: 16 };
 const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12, color: '#0D0F1A' };
 const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
-const linkStyle = { color: '#4F6EF7', textDecoration: 'none' };
+const linkStyle = { color: 'rgba(255,255,255,0.72)', textDecoration: 'none' };

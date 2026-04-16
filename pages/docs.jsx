@@ -1152,7 +1152,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: 'rgba(79,110,247,0.08)', borderLeft: '2px solid var(--brand)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#818cf8', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(255,255,255,0.04)', borderLeft: '2px solid rgba(255,255,255,0.25)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>
       {children}
     </div>
   );
@@ -1174,7 +1174,7 @@ function Table({ headers, rows }) {
             <tr key={i}>
               {row.map((cell, j) => (
                 <td key={j} style={{ padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#a0a0a0', verticalAlign: 'top' }}>
-                  {j === 0 ? <code style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: 12, fontFamily: 'monospace', color: '#818cf8' }}>{cell}</code> : cell}
+                  {j === 0 ? <code style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: 12, fontFamily: 'monospace', color: 'rgba(255,255,255,0.65)' }}>{cell}</code> : cell}
                 </td>
               ))}
             </tr>

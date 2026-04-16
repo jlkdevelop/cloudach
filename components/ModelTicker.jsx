@@ -21,7 +21,7 @@ const ROW2 = [
 ]
 
 const TAG_COLORS = {
-  LLM:        { bg: 'rgba(79,110,247,0.15)',  text: '#818cf8' },
+  LLM:        { bg: 'rgba(255,255,255,0.08)',  text: 'rgba(255,255,255,0.60)' },
   MoE:        { bg: 'rgba(251,146,60,0.15)',  text: '#fb923c' },
   Reasoning:  { bg: 'rgba(167,139,250,0.15)', text: '#a78bfa' },
   Code:       { bg: 'rgba(34,211,238,0.15)',  text: '#22d3ee' },

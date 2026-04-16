@@ -37,8 +37,8 @@
   100% { transform: translate(0px, 0px) scale(1); }
 }
 @keyframes borderGlow {
-  0%, 100% { border-color: rgba(79,110,247,0.2); }
-  50%       { border-color: rgba(79,110,247,0.5); }
+  0%, 100% { border-color: rgba(255,255,255,0.12); }
+  50%       { border-color: rgba(255,255,255,0.30); }
 }
 
 /* ============================================================
@@ -47,11 +47,11 @@
    ============================================================ */
 :root {
   /* Brand */
-  --brand:          #4F6EF7;
-  --brand-hover:    #6B86FF;
-  --brand-subtle:   rgba(79, 110, 247, 0.10);
-  --brand-border:   rgba(79, 110, 247, 0.22);
-  --brand-glow:     rgba(79, 110, 247, 0.06);
+  --brand:          #ffffff;
+  --brand-hover:    rgba(255, 255, 255, 0.88);
+  --brand-subtle:   rgba(255, 255, 255, 0.06);
+  --brand-border:   rgba(255, 255, 255, 0.12);
+  --brand-glow:     rgba(255, 255, 255, 0.03);
 
   /* Primary action system — white on dark */
   --btn-primary-bg:      #ffffff;
@@ -73,7 +73,7 @@
   /* Borders */
   --border:         rgba(255, 255, 255, 0.08);
   --border-strong:  rgba(255, 255, 255, 0.14);
-  --border-brand:   rgba(79, 110, 247, 0.30);
+  --border-brand:   rgba(255, 255, 255, 0.18);
 
   /* Text */
   --text-1:  #f2f2f2;
@@ -100,7 +100,7 @@
   /* Shadows */
   --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
   --shadow-code: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(255,255,255,0.02);
-  --shadow-glow: 0 0 40px rgba(79,110,247,0.12);
+  --shadow-glow: 0 0 40px rgba(255,255,255,0.04);
 }
 
 *, *::before, *::after {
@@ -460,9 +460,9 @@ textarea:focus-visible {
   gap: 7px;
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--brand);
-  background: rgba(79,110,247,0.08);
-  border: 1px solid rgba(79,110,247,0.18);
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
   padding: 4px 12px;
   border-radius: var(--r-full);
   margin-bottom: 18px;
@@ -477,7 +477,7 @@ textarea:focus-visible {
   background: var(--brand);
   flex-shrink: 0;
   animation: pulseDot 2.5s ease-in-out infinite;
-  box-shadow: 0 0 6px rgba(79,110,247,0.6);
+  box-shadow: 0 0 6px rgba(255,255,255,0.25);
 }
 
 .hero h1 {
@@ -589,10 +589,10 @@ textarea:focus-visible {
   border: 1px solid rgba(255,255,255,0.08);
   /* Layered shadow: depth + brand glow rim */
   box-shadow:
-    0 0 0 1px rgba(79,110,247,0.06),
+    0 0 0 1px rgba(255,255,255,0.04),
     0 24px 64px rgba(0,0,0,0.7),
     0 4px 16px rgba(0,0,0,0.5),
-    0 0 80px rgba(79,110,247,0.06);
+    0 0 80px rgba(255,255,255,0.02);
   /* Keep the floating animation but also ensure it doesn't go out of viewport */
   position: relative;
 }
@@ -615,7 +615,7 @@ textarea:focus-visible {
   font-family: 'Menlo', 'Monaco', monospace;
 }
 
-.code-tab span { color: rgba(79,110,247,0.8); }
+.code-tab span { color: rgba(255,255,255,0.55); }
 
 .code-inner {
   padding: 18px 22px;
@@ -631,13 +631,13 @@ textarea:focus-visible {
 .code-inner .cs { color: #93c5fd; }
 .code-inner .cn { color: #f9a8d4; }
 .code-inner .cd { color: #444d5a; }
-.code-inner .co { color: #818cf8; }
+.code-inner .co { color: rgba(255,255,255,0.45); }
 .code-inner .cok { color: #6ee7b7; font-weight: 600; }
 .code-inner .live {
-  color: #7b91f5;
+  color: rgba(255,255,255,0.90);
   font-weight: 600;
   /* Subtle glow on the live endpoint line */
-  text-shadow: 0 0 12px rgba(107,134,255,0.4);
+  text-shadow: 0 0 12px rgba(255,255,255,0.15);
 }
 
 .code-footer {
@@ -1007,7 +1007,7 @@ textarea:focus-visible {
 }
 
 .step:hover {
-  border-left-color: rgba(79,110,247,0.7);
+  border-left-color: rgba(255,255,255,0.40);
 }
 
 .step:not(:last-child)::after {
@@ -1017,7 +1017,7 @@ textarea:focus-visible {
   right: -24px;
   width: 48px;
   height: 1px;
-  border-top: 1px dashed rgba(79,110,247,0.25);
+  border-top: 1px dashed rgba(255,255,255,0.12);
   pointer-events: none;
 }
 
@@ -1251,8 +1251,8 @@ textarea:focus-visible {
 /* ── CTA band ────────────────────────────────────────────────────────────── */
 .cta-band {
   background: linear-gradient(180deg, var(--bg-1) 0%, #07080f 100%);
-  border-top: 1px solid rgba(79,110,247,0.12);
-  box-shadow: inset 0 1px 0 rgba(79,110,247,0.15);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
   padding: 96px 48px;
   text-align: center;
   position: relative;
@@ -1814,7 +1814,7 @@ footer {
   border-radius: 10px;
   padding: 4px;
   z-index: 200;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,110,247,0.06);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
   animation: slideDown 0.18s cubic-bezier(0.16,1,0.3,1) both;
 }
 
@@ -1838,7 +1838,7 @@ footer {
 }
 
 .lang-option--active {
-  background: rgba(79,110,247,0.08);
+  background: rgba(255,255,255,0.06);
 }
 
 .lang-option-code {

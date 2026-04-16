@@ -74,8 +74,8 @@ export default function JoinTeamPage() {
               <button
                 onClick={handleJoin}
                 style={{
-                  width: '100%', padding: '12px 24px', background: '#4F6EF7',
-                  color: '#fff', border: 'none', borderRadius: 10, fontSize: 15,
+                  width: '100%', padding: '12px 24px', background: '#ffffff',
+                  color: '#0d0e17', border: 'none', borderRadius: 10, fontSize: 15,
                   fontWeight: 600, cursor: 'pointer', letterSpacing: '-0.2px',
                 }}
               >
@@ -95,7 +95,7 @@ export default function JoinTeamPage() {
           )}
 
           {status === 'joining' && (
-            <p style={{ color: '#4F6EF7', fontSize: 14 }}>Joining team…</p>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14 }}>Joining team…</p>
           )}
 
           {status === 'success' && (
@@ -119,7 +119,7 @@ export default function JoinTeamPage() {
               <button
                 onClick={() => router.push('/dashboard')}
                 style={{
-                  padding: '10px 24px', background: '#4F6EF7', color: '#fff',
+                  padding: '10px 24px', background: '#ffffff', color: '#0d0e17',
                   border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 }}
               >

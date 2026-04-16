@@ -676,7 +676,7 @@ const styles = {
   paramValue: {
     fontSize: 12,
     fontWeight: 600,
-    color: '#4F6EF7',
+    color: 'rgba(255,255,255,0.75)',
     fontVariantNumeric: 'tabular-nums',
   },
   select: {
@@ -716,7 +716,7 @@ const styles = {
   },
   range: {
     width: '100%',
-    accentColor: '#4F6EF7',
+    accentColor: '#ffffff',
     cursor: 'pointer',
   },
   rangeHints: {
@@ -843,7 +843,7 @@ const styles = {
     display: 'inline-block',
     width: 2,
     height: '1em',
-    background: '#4F6EF7',
+    background: 'rgba(255,255,255,0.80)',
     borderRadius: 1,
     marginLeft: 2,
     verticalAlign: 'text-bottom',
@@ -901,7 +901,7 @@ const styles = {
     width: 40,
     height: 40,
     borderRadius: 10,
-    background: '#4F6EF7',
+    background: '#ffffff',
     border: 'none',
     cursor: 'pointer',
     display: 'flex',
@@ -911,7 +911,7 @@ const styles = {
     transition: 'background 0.12s',
   },
   sendBtnDisabled: {
-    background: '#C7D2FE',
+    background: 'rgba(255,255,255,0.25)',
     cursor: 'default',
   },
   modalOverlay: {
@@ -962,9 +962,9 @@ const styles = {
     transition: 'all 0.1s',
   },
   langTabActive: {
-    background: '#EEF1FF',
-    border: '1px solid #C7D2FE',
-    color: '#4F6EF7',
+    background: 'rgba(255,255,255,0.10)',
+    border: '1px solid rgba(255,255,255,0.22)',
+    color: 'rgba(255,255,255,0.90)',
     fontWeight: 600,
   },
   codeBlock: {

@@ -6,7 +6,7 @@ import Link from 'next/link';
  */
 export default function SpendingProgress({ spend, budget, thresholds = [] }) {
   const pct = budget > 0 ? Math.min((spend / budget) * 100, 100) : 0;
-  const barColor = pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : '#4F6EF7';
+  const barColor = pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : 'rgba(255,255,255,0.70)';
 
   function formatCost(n) {
     if (n == null || isNaN(n)) return '—';
@@ -18,7 +18,7 @@ export default function SpendingProgress({ spend, budget, thresholds = [] }) {
     <div className="db-card" style={{ marginBottom: 24 }}>
       <div className="db-card-header">
         <span className="db-card-title">Monthly budget</span>
-        <Link href="/dashboard/alerts" style={{ fontSize: 12, color: '#4F6EF7', textDecoration: 'none' }}>
+        <Link href="/dashboard/alerts" style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }}>
           Manage alerts →
         </Link>
       </div>
@@ -30,7 +30,7 @@ export default function SpendingProgress({ spend, budget, thresholds = [] }) {
         <span style={{ fontSize: 13, color: '#9CA3AF' }}>of {formatCost(budget)}</span>
         <span style={{
           marginLeft: 'auto', fontSize: 13, fontWeight: 600,
-          color: pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : '#4F6EF7',
+          color: pct >= 100 ? '#DC2626' : pct >= 80 ? '#F59E0B' : 'rgba(255,255,255,0.70)',
         }}>
           {Math.round(pct)}%
         </span>

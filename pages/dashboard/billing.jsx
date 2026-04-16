@@ -6,7 +6,7 @@ import DashboardLayout, { PageLoader, ErrorBanner } from '../../components/dashb
 
 const PLAN_COLORS = {
   free: { bg: '#F3F4F6', text: '#374151', border: '#E5E7EB' },
-  pro: { bg: '#EEF2FF', text: '#4338CA', border: '#C7D2FE' },
+  pro: { bg: 'rgba(255,255,255,0.06)', text: 'rgba(255,255,255,0.80)', border: 'rgba(255,255,255,0.18)' },
   enterprise: { bg: '#F0FDF4', text: '#166534', border: '#BBF7D0' },
 };
 
@@ -360,7 +360,7 @@ export default function BillingPage() {
                         <div style={{ display: 'flex', gap: 8 }}>
                           {inv.hostedInvoiceUrl && (
                             <a href={inv.hostedInvoiceUrl} target="_blank" rel="noopener noreferrer"
-                              style={{ fontSize: 12, color: '#4F6EF7' }}>View</a>
+                              style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>View</a>
                           )}
                           {inv.invoicePdfUrl && (
                             <a href={inv.invoicePdfUrl} target="_blank" rel="noopener noreferrer"
@@ -383,7 +383,7 @@ export default function BillingPage() {
 function CheckIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <path d="M2 7l3.5 3.5 6.5-6.5" stroke="#4F6EF7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2 7l3.5 3.5 6.5-6.5" stroke="rgba(255,255,255,0.75)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

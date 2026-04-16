@@ -73,7 +73,7 @@ export default function Blog() {
               onMouseEnter={e => e.currentTarget.style.background='var(--bg-2)'}
               onMouseLeave={e => e.currentTarget.style.background='var(--bg-1)'}>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'rgba(79,110,247,0.10)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em', border: '1px solid rgba(79,110,247,0.18)' }}>{p.tag}</span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'rgba(255,255,255,0.07)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em', border: '1px solid rgba(255,255,255,0.12)' }}>{p.tag}</span>
                 <span style={{ fontSize: 12, color: 'var(--text-4)' }}>{p.date}</span>
               </div>
               <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-1)', letterSpacing: -0.3, marginBottom: 8 }}>{p.title}</h2>

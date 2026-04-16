@@ -83,8 +83,8 @@ export default function AdminUsersPage() {
                         borderRadius: 6,
                         border: 'none',
                         cursor: u.role === 'admin' ? 'not-allowed' : 'pointer',
-                        background: u.isDisabled ? '#6366F1' : '#FEE2E2',
-                        color: u.isDisabled ? '#fff' : '#DC2626',
+                        background: u.isDisabled ? 'rgba(255,255,255,0.10)' : 'rgba(220,38,38,0.10)',
+                        color: u.isDisabled ? 'rgba(255,255,255,0.75)' : 'rgba(252,165,165,0.85)',
                         opacity: u.role === 'admin' ? 0.5 : 1,
                       }}
                       title={u.role === 'admin' ? 'Cannot disable admin accounts' : ''}

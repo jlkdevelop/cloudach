@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 
 const CheckIcon = () => (
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style={{ flexShrink: 0 }}>
-    <path d="M2.5 7.5l3.5 3.5 6.5-6.5" stroke="#4F6EF7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M2.5 7.5l3.5 3.5 6.5-6.5" stroke="rgba(255,255,255,0.75)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 
@@ -149,7 +149,7 @@ function PricingCalculator() {
                 padding: '8px 20px',
                 borderRadius: 8,
                 border: plan === p ? '2px solid var(--brand)' : '1px solid var(--border)',
-                background: plan === p ? 'rgba(79,110,247,0.10)' : 'var(--bg-2)',
+                background: plan === p ? 'rgba(255,255,255,0.08)' : 'var(--bg-2)',
                 color: plan === p ? 'var(--brand)' : 'var(--text-2)',
                 fontWeight: plan === p ? 600 : 400,
                 fontSize: 14,
@@ -174,7 +174,7 @@ function PricingCalculator() {
           max={500}
           value={tokens}
           onChange={e => setTokens(Number(e.target.value))}
-          style={{ width: '100%', accentColor: '#4F6EF7', height: 4, cursor: 'pointer' }}
+          style={{ width: '100%', accentColor: '#ffffff', height: 4, cursor: 'pointer' }}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#9CA3AF', marginTop: 6 }}>
           <span>1M tokens</span>
@@ -341,8 +341,8 @@ export default function PricingPage() {
                           fontWeight: 700,
                           padding: '3px 8px',
                           borderRadius: 5,
-                          background: m.tier === 'Free+' ? 'rgba(34,197,94,0.10)' : 'rgba(79,110,247,0.10)',
-                          color: m.tier === 'Free+' ? '#6ee7b7' : 'var(--brand)',
+                          background: m.tier === 'Free+' ? 'rgba(34,197,94,0.10)' : 'rgba(255,255,255,0.07)',
+                          color: m.tier === 'Free+' ? '#6ee7b7' : 'rgba(255,255,255,0.65)',
                           letterSpacing: '0.03em',
                         }}>
                           {m.tier}

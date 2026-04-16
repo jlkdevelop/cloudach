@@ -88,7 +88,7 @@ function IconAudit() {
 function IconCheck() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
-      <circle cx="8" cy="8" r="7" fill="rgba(79,110,247,0.10)" />
+      <circle cx="8" cy="8" r="7" fill="rgba(255,255,255,0.07)" />
       <path d="M5 8l2 2 4-4" stroke="var(--brand)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
@@ -261,7 +261,7 @@ export default function Enterprise() {
                 <div key={f.title} style={{ background: 'var(--bg-2)', padding: '32px 26px' }}>
                   <div style={{
                     width: 44, height: 44, borderRadius: 10,
-                    background: 'rgba(79,110,247,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     color: 'var(--brand)', marginBottom: 18,
                   }}>
                     <f.Icon />

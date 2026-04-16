@@ -128,14 +128,14 @@ export default function Company() {
                   key={member.name}
                   style={{
                     background: member.founder ? 'linear-gradient(135deg, #131520 0%, #111111 100%)' : 'var(--bg-1)',
-                    border: member.founder ? '1px solid rgba(79,110,247,0.25)' : '1px solid var(--border)',
+                    border: member.founder ? '1px solid rgba(255,255,255,0.16)' : '1px solid var(--border)',
                     borderRadius: 14,
                     padding: '28px 26px',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 14,
                     gridColumn: member.founder ? 'span 2' : undefined,
-                    boxShadow: member.founder ? '0 0 40px rgba(79,110,247,0.06)' : 'none',
+                    boxShadow: member.founder ? '0 0 40px rgba(255,255,255,0.03)' : 'none',
                     transition: 'border-color 0.2s',
                   }}
                 >

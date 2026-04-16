@@ -2,11 +2,11 @@ export default function Logo({ size = 32, monochrome = false }) {
   const h = size * 1.625
 
   const c = {
-    base:      monochrome ? '#ffffff'               : '#4F6EF7',
+    base:      monochrome ? '#ffffff'               : '#ffffff',
     light:     monochrome ? 'rgba(255,255,255,0.7)' : '#7B96FF',
     dark:      monochrome ? 'rgba(255,255,255,0.45)': '#2E4FD4',
     highlight: monochrome ? 'rgba(255,255,255,0.55)': '#A0B4FF',
-    faint:     monochrome ? 'rgba(255,255,255,0.25)': '#4F6EF7',
+    faint:     monochrome ? 'rgba(255,255,255,0.25)': '#ffffff',
   }
 
   return (

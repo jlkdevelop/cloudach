@@ -20,14 +20,14 @@ export default function PythonQuickstart() {
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: '#0D0F1A', letterSpacing: '-0.5px' }}>Cloudach<span style={{ color: '#4F6EF7' }}>.</span></span>
+            <span style={{ fontWeight: 700, fontSize: 18, color: '#0D0F1A', letterSpacing: '-0.5px' }}>Cloudach<span style={{ color: 'rgba(255,255,255,0.72)' }}>.</span></span>
           </Link>
           <Link href="/docs" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/docs#tutorials" style={{ fontSize: 14, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Tutorials</Link>
+          <Link href="/docs#tutorials" style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Tutorials</Link>
           <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
-            <button style={{ background: '#4F6EF7', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+            <button style={{ background: '#ffffff', color: '#0d0e17', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
               Get started free
             </button>
           </Link>
@@ -58,9 +58,9 @@ export default function PythonQuickstart() {
           <main style={{ flex: 1, minWidth: 0 }}>
             {/* Breadcrumb */}
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, color: '#9CA3AF', marginBottom: 24 }}>
-              <Link href="/docs" style={{ color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
+              <Link href="/docs" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Docs</Link>
               <span>/</span>
-              <Link href="/docs#tutorials" style={{ color: '#4F6EF7', textDecoration: 'none' }}>Tutorials</Link>
+              <Link href="/docs#tutorials" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Tutorials</Link>
               <span>/</span>
               <span>Python quickstart</span>
             </div>
@@ -70,7 +70,7 @@ export default function PythonQuickstart() {
               <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
                 <span style={{ fontSize: 11, fontWeight: 700, color: '#059669', background: '#ECFDF5', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Beginner</span>
                 <span style={{ fontSize: 12, color: '#9CA3AF' }}>~5 min</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Python</span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.72)', background: 'rgba(255,255,255,0.05)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Python</span>
               </div>
               <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: -0.5, marginBottom: 12 }}>Python SDK Quickstart</h1>
               <p style={{ fontSize: 16, color: '#6B7280', lineHeight: 1.7, marginBottom: 0 }}>
@@ -283,7 +283,7 @@ function CodeBlock({ children }) {
 function Callout({ children }) {
   return (
     <div style={{
-      background: '#EEF1FF', border: '1px solid #C7D2FE', borderRadius: 8,
+      background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8,
       padding: '12px 16px', fontSize: 13, color: '#374151', lineHeight: 1.6, marginBottom: 16,
     }}>
       {children}
@@ -292,7 +292,7 @@ function Callout({ children }) {
 }
 
 const p = { fontSize: 14, color: '#374151', lineHeight: 1.7, marginBottom: 12 };
-const link = { color: '#4F6EF7', textDecoration: 'none' };
+const link = { color: 'rgba(255,255,255,0.72)', textDecoration: 'none' };
 const inlineCode = {
   fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
   fontSize: '0.85em', background: '#F3F4F6', padding: '1px 5px', borderRadius: 4, color: '#374151',

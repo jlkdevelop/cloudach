@@ -321,7 +321,7 @@ export default function WebhooksPage() {
                     title={hook.is_enabled ? 'Disable' : 'Enable'}
                     style={{
                       width: 36, height: 20, borderRadius: 10, border: 'none', cursor: 'pointer', flexShrink: 0,
-                      background: hook.is_enabled ? '#4F6EF7' : '#D1D5DB',
+                      background: hook.is_enabled ? 'rgba(255,255,255,0.80)' : 'rgba(255,255,255,0.15)',
                       position: 'relative', transition: 'background 0.2s',
                     }}
                   >
@@ -339,7 +339,7 @@ export default function WebhooksPage() {
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
                       {hook.events.map((ev) => (
                         <code key={ev} style={{
-                          background: '#EEF2FF', color: '#4F6EF7',
+                          background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.60)',
                           padding: '1px 7px', borderRadius: 4, fontSize: 11.5,
                         }}>
                           {ev}
@@ -473,7 +473,7 @@ export default function WebhooksPage() {
           <p style={{ fontSize: 12.5, color: '#6B7280', margin: 0, lineHeight: 1.6 }}>
             Each request includes an <code>X-Cloudach-Signature</code> header (format: <code>sha256=&lt;hex&gt;</code>).
             Compute <code>HMAC-SHA256(secret, rawBody)</code> and compare to verify authenticity.
-            See the <a href="/docs#webhooks" style={{ color: '#4F6EF7' }}>webhook docs</a> for code examples.
+            See the <a href="/docs#webhooks" style={{ color: 'rgba(255,255,255,0.60)' }}>webhook docs</a> for code examples.
           </p>
         </div>
       </DashboardLayout>

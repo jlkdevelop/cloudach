@@ -65,7 +65,7 @@ export default function AdminDashboard() {
         <div style={card}>
           <div style={cardHeader}>
             <span style={cardTitle}>Recent requests</span>
-            <Link href="/admin/requests" style={{ fontSize: 13, color: '#6366F1', textDecoration: 'none' }}>View all →</Link>
+            <Link href="/admin/requests" style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', textDecoration: 'none' }}>View all →</Link>
           </div>
           <div style={{ overflowX: 'auto' }}>
             <table style={table}>
@@ -118,7 +118,7 @@ export function AdminShell({ children }) {
         <Link href="/admin/requests" style={navLink}>Requests</Link>
         <Link href="/admin/api-keys" style={navLink}>API Keys</Link>
         <div style={{ flex: 1 }} />
-        <Link href="/dashboard" style={{ ...navLink, color: '#6366F1' }}>← Dashboard</Link>
+        <Link href="/dashboard" style={{ ...navLink, color: 'rgba(255,255,255,0.65)' }}>← Dashboard</Link>
       </nav>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px' }}>
         {children}
@@ -135,7 +135,7 @@ function formatTokens(n) {
 
 const pageTitle = { fontSize: 26, fontWeight: 700, marginBottom: 24 };
 const statsGrid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12, marginBottom: 24 };
-const btn = { background: '#6366F1', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 14, fontWeight: 500, cursor: 'pointer' };
+const btn = { background: '#ffffff', color: '#0d0e17', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 14, fontWeight: 500, cursor: 'pointer' };
 const card = { background: '#fff', border: '1px solid #E5E7EB', borderRadius: 10, overflow: 'hidden' };
 const cardHeader = { padding: '14px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' };
 const cardTitle = { fontWeight: 600, fontSize: 15 };

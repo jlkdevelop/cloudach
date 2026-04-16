@@ -5,7 +5,7 @@ import Link from 'next/link';
 import DashboardLayout, { PageLoader, ErrorBanner } from '../../../components/dashboard/DashboardLayout';
 
 const ROLE_LABELS = { admin: 'Admin', member: 'Member', viewer: 'Viewer' };
-const ROLE_COLORS = { admin: '#4F6EF7', member: '#10B981', viewer: '#F59E0B' };
+const ROLE_COLORS = { admin: 'rgba(255,255,255,0.80)', member: 'rgba(255,255,255,0.60)', viewer: 'rgba(255,255,255,0.45)' };
 
 export default function TeamPage() {
   const router = useRouter();
@@ -264,7 +264,7 @@ export default function TeamPage() {
                             <span style={{ marginLeft: 6, fontSize: 11, color: '#9CA3AF', fontStyle: 'italic' }}>(you)</span>
                           )}
                           {m.user_id === team.owner_user_id && (
-                            <span style={{ marginLeft: 6, fontSize: 11, color: '#4F6EF7', fontWeight: 600 }}>owner</span>
+                            <span style={{ marginLeft: 6, fontSize: 11, color: 'rgba(255,255,255,0.50)', fontWeight: 600 }}>owner</span>
                           )}
                         </td>
                         <td>

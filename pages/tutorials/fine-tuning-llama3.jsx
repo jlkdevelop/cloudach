@@ -29,14 +29,14 @@ export default function FineTuningTutorial() {
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: '#6366F1' }}>Cloudach</span>
+            <span style={{ fontWeight: 700, fontSize: 18, color: 'rgba(255,255,255,0.72)' }}>Cloudach</span>
           </Link>
           <Link href="/docs" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/docs#tutorials" style={{ fontSize: 14, fontWeight: 500, color: '#6366F1', textDecoration: 'none' }}>Tutorials</Link>
+          <Link href="/docs#tutorials" style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Tutorials</Link>
           <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
-            <button style={{ background: '#6366F1', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+            <button style={{ background: '#ffffff', color: '#0d0e17', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
               Get started free
             </button>
           </Link>
@@ -69,9 +69,9 @@ export default function FineTuningTutorial() {
           <main style={{ flex: 1, minWidth: 0 }}>
             {/* Breadcrumb */}
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, color: '#9CA3AF', marginBottom: 24 }}>
-              <Link href="/docs" style={{ color: '#6366F1', textDecoration: 'none' }}>Docs</Link>
+              <Link href="/docs" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Docs</Link>
               <span>/</span>
-              <Link href="/docs#tutorials" style={{ color: '#6366F1', textDecoration: 'none' }}>Tutorials</Link>
+              <Link href="/docs#tutorials" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Tutorials</Link>
               <span>/</span>
               <span>Fine-tuning Llama 3</span>
             </div>
@@ -320,7 +320,7 @@ export default function FineTuningTutorial() {
                   <Link key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
                       <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#6366F1', background: '#EEF2FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.72)', background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
                     </div>
                     <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
                   </Link>
@@ -348,7 +348,7 @@ const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12 };
 const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
 const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
 const inlineCode = { background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'monospace' };
-const linkStyle = { color: '#6366F1', textDecoration: 'none' };
+const linkStyle = { color: 'rgba(255,255,255,0.72)', textDecoration: 'none' };
 const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: 14, marginBottom: 16 };
 const thStyle = { textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid #E5E7EB', color: '#374151', fontWeight: 600 };
 const tdStyle = { padding: '8px 12px', borderBottom: '1px solid #F3F4F6', color: '#374151', verticalAlign: 'top' };
@@ -389,7 +389,7 @@ function CodeBlock({ children, onCopy }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: '#EEF2FF', borderLeft: '3px solid #6366F1', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#3730A3', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(255,255,255,0.05)', borderLeft: '3px solid rgba(255,255,255,0.25)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: 'rgba(255,255,255,0.80)', marginBottom: 16 }}>
       {children}
     </div>
   );

@@ -22,14 +22,14 @@ export default function CustomerSupportBotTutorial() {
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: '#6366F1' }}>Cloudach</span>
+            <span style={{ fontWeight: 700, fontSize: 18, color: 'rgba(255,255,255,0.72)' }}>Cloudach</span>
           </Link>
           <Link href="/docs" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/docs#tutorials" style={{ fontSize: 14, fontWeight: 500, color: '#6366F1', textDecoration: 'none' }}>Tutorials</Link>
+          <Link href="/docs#tutorials" style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Tutorials</Link>
           <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
-            <button style={{ background: '#6366F1', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+            <button style={{ background: '#ffffff', color: '#0d0e17', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
               Get started free
             </button>
           </Link>
@@ -60,9 +60,9 @@ export default function CustomerSupportBotTutorial() {
           <main style={{ flex: 1, minWidth: 0 }}>
             {/* Breadcrumb */}
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13, color: '#9CA3AF', marginBottom: 24 }}>
-              <Link href="/docs" style={{ color: '#6366F1', textDecoration: 'none' }}>Docs</Link>
+              <Link href="/docs" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Docs</Link>
               <span>/</span>
-              <Link href="/docs#tutorials" style={{ color: '#6366F1', textDecoration: 'none' }}>Tutorials</Link>
+              <Link href="/docs#tutorials" style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none' }}>Tutorials</Link>
               <span>/</span>
               <span>Customer support bot</span>
             </div>
@@ -590,9 +590,9 @@ function LangTabs({ lang, onLang }) {
             fontSize: 13,
             fontWeight: 600,
             border: 'none',
-            borderBottom: lang === key ? '2px solid #6366F1' : '2px solid transparent',
+            borderBottom: lang === key ? '2px solid rgba(255,255,255,0.55)' : '2px solid transparent',
             background: 'transparent',
-            color: lang === key ? '#6366F1' : '#6B7280',
+            color: lang === key ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.38)',
             cursor: 'pointer',
             marginBottom: -2,
           }}
@@ -660,7 +660,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: '#EEF2FF', borderLeft: '3px solid #6366F1', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#3730A3', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(255,255,255,0.05)', borderLeft: '3px solid rgba(255,255,255,0.25)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: 'rgba(255,255,255,0.80)', marginBottom: 16 }}>
       {children}
     </div>
   );
@@ -669,4 +669,4 @@ function Callout({ children }) {
 const p = { fontSize: 15, lineHeight: 1.7, color: '#374151', marginBottom: 16 };
 const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12, color: '#0D0F1A' };
 const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
-const linkStyle = { color: '#6366F1', textDecoration: 'none' };
+const linkStyle = { color: 'rgba(255,255,255,0.72)', textDecoration: 'none' };

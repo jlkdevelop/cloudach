@@ -84,7 +84,7 @@ export default function BlogPost2() {
           We&apos;re working on fine-tuning support (bring your own LoRA adapter), embeddings endpoints for RAG pipelines, and a private VPC deployment option for enterprise teams. If any of those are blockers for you, <Link href="/contact" style={{ color: 'var(--brand)' }}>reach out</Link> — we prioritize based on what the community is building.
         </p>
         <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.85, marginBottom: 40 }}>
-          <Link href="/signup" style={{ color: '#4F6EF7', fontWeight: 600 }}>Sign up free →</Link> and deploy your first model in 60 seconds.
+          <Link href="/signup" style={{ color: 'rgba(255,255,255,0.72)', fontWeight: 600 }}>Sign up free →</Link> and deploy your first model in 60 seconds.
         </p>
       </main>
       <Footer />

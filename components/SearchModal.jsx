@@ -23,7 +23,7 @@ const ITEMS = [
 ]
 
 const TYPE_COLORS = {
-  Model: { bg: 'rgba(79,110,247,0.12)', text: '#818cf8' },
+  Model: { bg: 'rgba(255,255,255,0.07)', text: 'rgba(255,255,255,0.60)' },
   Doc:   { bg: 'rgba(34,197,94,0.10)',  text: '#4ade80' },
   Page:  { bg: 'rgba(251,191,36,0.10)', text: '#fbbf24' },
 }
