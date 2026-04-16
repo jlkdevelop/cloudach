@@ -70,7 +70,7 @@ const SECTIONS = [
   },
   {
     title: '17. Contact',
-    body: 'For legal questions or to report a violation, contact us at legal@cloudach.com or by mail at Cloudach, Inc., 1209 Orange Street, Wilmington, DE 19801, USA.',
+    body: 'For legal questions or to report a violation, contact us at legal@cloudach.com or by mail at Cloudach, LLC, 1209 Orange Street, Wilmington, DE 19801, USA.',
   },
 ]
 

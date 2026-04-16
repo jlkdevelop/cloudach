@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 const SECTIONS = [
   {
     title: '1. Introduction',
-    body: 'Cloudach, Inc. ("Cloudach", "we", "us", or "our") operates the Cloudach LLM infrastructure platform. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our website and services (the "Service"). By using the Service, you agree to the practices described in this policy.',
+    body: 'Cloudach, LLC ("Cloudach", "we", "us", or "our") operates the Cloudach LLM infrastructure platform. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our website and services (the "Service"). By using the Service, you agree to the practices described in this policy.',
   },
   {
     title: '2. Information We Collect',
@@ -54,7 +54,7 @@ const SECTIONS = [
   },
   {
     title: '13. Contact and Data Controller',
-    body: 'Cloudach, Inc. is the data controller for personal data processed under this policy. For privacy questions, data subject requests, or to reach our Data Protection Officer, contact us at privacy@cloudach.com or by mail at Cloudach, Inc., 1209 Orange Street, Wilmington, DE 19801, USA.',
+    body: 'Cloudach, LLC is the data controller for personal data processed under this policy. For privacy questions, data subject requests, or to reach our Data Protection Officer, contact us at privacy@cloudach.com or by mail at Cloudach, LLC, 1209 Orange Street, Wilmington, DE 19801, USA.',
   },
 ]
 

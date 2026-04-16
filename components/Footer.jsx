@@ -47,7 +47,7 @@ export default function Footer() {
       </div>
       <div className="foot-bar">
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <p>© 2026 Cloudach, Inc. All rights reserved.</p>
+          <p>© 2026 Cloudach, LLC. All rights reserved.</p>
           <LanguageSwitcher compact />
         </div>
         <div className="foot-bar-links">
