@@ -5,6 +5,11 @@ import SearchModal from './SearchModal'
 
 export default function Nav() {
   const [searchOpen, setSearchOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [])
 
   useEffect(() => {
     function onKey(e) {
@@ -61,7 +66,44 @@ export default function Nav() {
           </Link>
         </div>
 
+        <button
+          className="nav-hamburger"
+          onClick={() => setMenuOpen(m => !m)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+            </svg>
+          )}
+        </button>
+
       </nav>
+
+      {menuOpen && (
+        <div className="nav-mobile-drawer">
+          <div className="nav-mobile-links">
+            <a href="/#platform" onClick={() => setMenuOpen(false)}>Platform</a>
+            <a href="/#models" onClick={() => setMenuOpen(false)}>Models</a>
+            <Link href="/pricing" onClick={() => setMenuOpen(false)}>Pricing</Link>
+            <Link href="/docs" onClick={() => setMenuOpen(false)}>Docs</Link>
+            <Link href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</Link>
+            <Link href="/company" onClick={() => setMenuOpen(false)}>Company</Link>
+          </div>
+          <div className="nav-mobile-auth">
+            <Link href="/login" onClick={() => setMenuOpen(false)}>
+              <button className="nav-mobile-signin">Sign in</button>
+            </Link>
+            <Link href="/signup" onClick={() => setMenuOpen(false)}>
+              <button className="btn-solid" style={{ width: '100%', padding: '10px' }}>Get started free</button>
+            </Link>
+          </div>
+        </div>
+      )}
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
