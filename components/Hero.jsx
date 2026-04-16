@@ -1,14 +1,12 @@
 import Link from 'next/link';
 import { useTranslation } from '../lib/translations';
 import DeployAnimation from './DeployAnimation';
-import HeroParticles from './HeroParticles';
 
 export default function Hero() {
   const { t } = useTranslation()
 
   return (
     <div className="hero-outer">
-      <HeroParticles />
       <div className="hero-wrap">
         {/* Animated centerpiece — above headline */}
         <DeployAnimation />

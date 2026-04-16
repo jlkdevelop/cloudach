@@ -428,7 +428,7 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 92px 48px 72px;
+  padding: 86px 48px 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -481,6 +481,7 @@ textarea:focus-visible {
   font-size: 52px;
   font-weight: 700;
   line-height: 1.02;
+  margin: 0 0 16px;
   letter-spacing: -2px;
   margin-bottom: 16px;
   color: var(--text-1);
@@ -494,9 +495,9 @@ textarea:focus-visible {
 
 .hero-sub {
   font-size: 15.5px;
-  color: var(--text-2);
+  color: rgba(255,255,255,0.60);
   line-height: 1.68;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   max-width: 480px;
   text-align: center;
 }
@@ -549,8 +550,8 @@ textarea:focus-visible {
 
 .hero-free-note {
   font-size: 11.5px;
-  color: var(--text-4);
-  margin-top: 11px;
+  color: rgba(255,255,255,0.28);
+  margin-top: 14px;
   letter-spacing: 0.01em;
 }
 
@@ -672,7 +673,7 @@ textarea:focus-visible {
   position: relative;
   width: 100%;
   max-width: 740px;
-  margin: 0 auto 52px;
+  margin: 0 auto 44px;
   padding-bottom: 0;
 }
 
@@ -1730,7 +1731,7 @@ footer {
   .nav-right .btn-ghost { display: none; }
   .nav-right .lang-wrap { display: none; }
   .nav-divider { display: none; }
-  .hero-wrap { padding: 80px 24px 56px; min-height: 100svh; }
+  .hero-wrap { padding: 84px 24px 56px; min-height: 100svh; }
   .hero h1 { font-size: 34px; letter-spacing: -1.5px; }
   .da-stat { display: none; }
   .da-terminal { transform: none; }
@@ -1758,7 +1759,7 @@ footer {
 /* ── Mid-size laptops (1280px) — keep hero in one screen ─────────────────── */
 @media (max-width: 1280px) and (min-width: 901px) {
   .nav { padding: 14px 20px; }
-  .hero-wrap { padding: 72px 40px 64px; }
+  .hero-wrap { padding: 76px 40px 64px; }
   .hero h1 { font-size: 44px; letter-spacing: -1.8px; }
   .hero-sub { font-size: 14.5px; }
   .nav-search-trigger { width: 220px; }
