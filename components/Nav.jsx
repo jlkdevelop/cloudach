@@ -26,24 +26,14 @@ export default function Nav() {
   return (
     <>
       <nav className={`nav${scrolled ? ' nav-scrolled' : ''}`}>
-        {/* Left: logo */}
-        <Link href="/" className="logo">
-          <Logo size={26} />
-          <span className="logo-text">cloud<span>ach</span></span>
-        </Link>
 
-        {/* Center: links */}
-        <div className="nav-links">
-          <a href="#platform">Platform</a>
-          <a href="#models">Models</a>
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/docs">Docs</Link>
-          <Link href="/enterprise">Enterprise</Link>
-        </div>
+        {/* Left: logo + search */}
+        <div className="nav-left">
+          <Link href="/" className="logo">
+            <Logo size={26} />
+            <span className="logo-text">cloud<span>ach</span></span>
+          </Link>
 
-        {/* Right: search + auth */}
-        <div className="nav-right">
-          {/* Search trigger — Replicate-style pill button */}
           <button
             className="nav-search-trigger"
             onClick={() => setSearchOpen(true)}
@@ -56,9 +46,20 @@ export default function Nav() {
             <span>Search</span>
             <kbd>⌘K</kbd>
           </button>
+        </div>
 
-          <div className="nav-divider" />
+        {/* Center: nav links */}
+        <div className="nav-links">
+          <a href="#platform">Platform</a>
+          <a href="#models">Models</a>
+          <Link href="/pricing">Pricing</Link>
+          <Link href="/docs">Docs</Link>
+          <Link href="/enterprise">Enterprise</Link>
+          <Link href="/company">Company</Link>
+        </div>
 
+        {/* Right: auth */}
+        <div className="nav-right">
           <Link href="/login">
             <button className="btn-ghost">Sign in</button>
           </Link>
@@ -66,6 +67,7 @@ export default function Nav() {
             <button className="btn-solid">Get started</button>
           </Link>
         </div>
+
       </nav>
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
