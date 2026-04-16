@@ -162,7 +162,7 @@ textarea:focus-visible {
   border-radius: var(--r-full);
   padding: 0 18px;
   height: 34px;
-  width: 220px;
+  width: 300px;
   color: var(--text-3);
   font-size: 13px;
   font-family: var(--font-inter), sans-serif;
