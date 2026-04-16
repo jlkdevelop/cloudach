@@ -87,7 +87,7 @@ export default function Company() {
 
       <Nav />
 
-      <main style={{ background: '#0a0a0a', minHeight: '100vh' }}>
+      <main style={{ background: '#07080f', minHeight: '100vh' }}>
 
         {/* ── Hero ── */}
         <section className="section-wrap" style={{ paddingBottom: 48 }}>

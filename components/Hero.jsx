@@ -6,6 +6,7 @@ export default function Hero() {
       {/* Ambient glow orbs */}
       <div className="hero-glow-1" />
       <div className="hero-glow-2" />
+      <div className="hero-glow-3" />
 
       <div className="hero-wrap">
         {/* Left column */}

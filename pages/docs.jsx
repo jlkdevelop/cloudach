@@ -33,7 +33,7 @@ export default function DocsPage() {
         <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
 
-      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#f2f2f2', background: '#0a0a0a', minHeight: '100vh' }}>
+      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#f2f2f2', background: '#07080f', minHeight: '100vh' }}>
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 60, background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 100 }}>
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
