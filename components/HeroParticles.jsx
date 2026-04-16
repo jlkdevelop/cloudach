@@ -11,8 +11,8 @@ function makeParticle(cw, ch) {
     y: rand(0, ch),
     vx: Math.cos(angle) * speed,
     vy: Math.sin(angle) * speed,
-    r: rand(1.5, 3.5),
-    alpha: rand(0.06, 0.22),
+    r: rand(3, 6),
+    alpha: rand(0.55, 1.0),
     glow: Math.random() > 0.55,
   }
 }
