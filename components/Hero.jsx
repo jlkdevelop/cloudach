@@ -2,6 +2,20 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
+    <div className="hero-section">
+      <video
+        className="hero-video-bg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/hero-bg-poster.jpg"
+        preload="none"
+      >
+        <source src="/hero-bg.webm" type="video/webm" />
+        <source src="/hero-bg.mp4" type="video/mp4" />
+      </video>
+      <div className="hero-video-overlay" />
     <div className="hero-wrap">
       <div className="hero">
         <div className="eyebrow">
@@ -62,6 +76,7 @@ export default function Hero() {
           <span className="status-txt">Deployed in 43s — A100 · us-east-1</span>
         </div>
       </div>
+    </div>
     </div>
   )
 }
