@@ -33,19 +33,19 @@ export default function DocsPage() {
         <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
       </Head>
 
-      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#0D0F1A' }}>
+      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#f2f2f2', background: '#0a0a0a', minHeight: '100vh' }}>
         {/* Nav */}
-        <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 64 }}>
+        <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 60, background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 100 }}>
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Logo size={28} />
-            <span style={{ fontWeight: 700, fontSize: 17, color: '#0D0F1A', letterSpacing: '-0.5px' }}>cloud<span style={{ color: '#4F6EF7' }}>ach</span></span>
+            <Logo size={26} />
+            <span style={{ fontWeight: 700, fontSize: 16, color: '#f2f2f2', letterSpacing: '-0.4px' }}>cloud<span style={{ color: '#4F6EF7' }}>ach</span></span>
           </Link>
-          <Link href="/docs" style={{ fontSize: 14, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
+          <Link href="/docs" style={{ fontSize: 13.5, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
+          <Link href="/dashboard" style={{ fontSize: 13.5, color: '#a0a0a0', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
             <button className="btn-solid">
-              Get started free
+              Get started
             </button>
           </Link>
         </nav>
@@ -53,7 +53,7 @@ export default function DocsPage() {
         <div style={{ display: 'flex', maxWidth: 1100, margin: '0 auto', padding: '40px 24px', gap: 48 }}>
           {/* Sidebar */}
           <aside style={{ width: 200, flexShrink: 0 }}>
-            <nav style={{ position: 'sticky', top: 24 }}>
+            <nav style={{ position: 'sticky', top: 80 }}>
               {[
                 ['#quickstart', 'Quickstart'],
                 ['#authentication', 'Authentication'],
@@ -84,24 +84,25 @@ export default function DocsPage() {
                     display: 'block',
                     padding: '6px 0',
                     fontSize: 13,
-                    color: label.startsWith('↳') ? '#9CA3AF' : '#374151',
+                    color: label.startsWith('↳') ? '#555555' : '#a0a0a0',
                     textDecoration: 'none',
                     lineHeight: 1.4,
+                    transition: 'color 0.15s',
                   }}
                 >
                   {label}
                 </a>
               ))}
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #F3F4F6' }}>
-                <Link href="/changelog" style={{ display: 'block', padding: '6px 0', fontSize: 13, color: '#374151', textDecoration: 'none', lineHeight: 1.4 }}>Changelog</Link>
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                <Link href="/changelog" style={{ display: 'block', padding: '6px 0', fontSize: 13, color: '#a0a0a0', textDecoration: 'none', lineHeight: 1.4 }}>Changelog</Link>
               </div>
             </nav>
           </aside>
 
           {/* Main content */}
           <main style={{ flex: 1, minWidth: 0 }}>
-            <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 8 }}>API Documentation</h1>
-            <p style={{ color: '#6B7280', fontSize: 16, marginBottom: 40 }}>
+            <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 8, color: '#f2f2f2', letterSpacing: '-1px' }}>API Documentation</h1>
+            <p style={{ color: '#666666', fontSize: 16, marginBottom: 40 }}>
               Cloudach is an OpenAI-compatible LLM API. Drop in your API key and base URL — no code changes needed.
             </p>
 
@@ -1060,7 +1061,7 @@ curl https://api.cloudach.com/v1/chat/completions \\
 function Section({ id, title, children }) {
   return (
     <section id={id} style={{ marginBottom: 56 }}>
-      <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, paddingBottom: 8, borderBottom: '1px solid #E5E7EB' }}>{title}</h2>
+      <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#f2f2f2', letterSpacing: '-0.5px' }}>{title}</h2>
       {children}
     </section>
   );
@@ -1078,11 +1079,12 @@ function LangTabs({ lang, onLang }) {
             fontSize: 13,
             fontWeight: 500,
             borderRadius: '6px 6px 0 0',
-            border: '1px solid #E5E7EB',
-            borderBottom: lang === key ? '1px solid #1E1E1E' : '1px solid #E5E7EB',
-            background: lang === key ? '#1E1E1E' : '#F9FAFB',
-            color: lang === key ? '#fff' : '#6B7280',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderBottom: lang === key ? '1px solid #0d0d0d' : '1px solid rgba(255,255,255,0.08)',
+            background: lang === key ? '#0d0d0d' : '#161616',
+            color: lang === key ? '#f2f2f2' : '#666666',
             cursor: 'pointer',
+            transition: 'color 0.15s',
           }}
         >
           {label}
@@ -1105,15 +1107,16 @@ function CodeBlock({ children }) {
   return (
     <div style={{ position: 'relative', marginBottom: 16 }}>
       <pre style={{
-        background: '#1E1E1E',
-        color: '#D4D4D4',
+        background: '#0d0d0d',
+        color: '#c9d1d9',
         padding: '16px 20px',
         borderRadius: 8,
         fontSize: 13,
-        lineHeight: 1.6,
+        lineHeight: 1.65,
         overflowX: 'auto',
         whiteSpace: 'pre',
         margin: 0,
+        border: '1px solid rgba(255,255,255,0.07)',
       }}>
         {children}
       </pre>
@@ -1125,11 +1128,12 @@ function CodeBlock({ children }) {
           right: 10,
           padding: '3px 10px',
           fontSize: 11,
-          background: copied ? '#22C55E' : '#374151',
-          color: '#fff',
-          border: 'none',
+          background: copied ? '#22C55E' : '#1c1c1c',
+          color: copied ? '#fff' : '#a0a0a0',
+          border: '1px solid rgba(255,255,255,0.1)',
           borderRadius: 4,
           cursor: 'pointer',
+          transition: 'background 0.15s',
         }}
       >
         {copied ? 'Copied!' : 'Copy'}
@@ -1140,7 +1144,7 @@ function CodeBlock({ children }) {
 
 function Code({ children }) {
   return (
-    <code style={{ background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'monospace' }}>
+    <code style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: '0.875em', fontFamily: 'monospace', color: '#a0a0a0' }}>
       {children}
     </code>
   );
@@ -1148,7 +1152,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: '#EEF1FF', borderLeft: '3px solid #4F6EF7', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#3730A3', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(79,110,247,0.08)', borderLeft: '2px solid #4F6EF7', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#818cf8', marginBottom: 16 }}>
       {children}
     </div>
   );
@@ -1161,7 +1165,7 @@ function Table({ headers, rows }) {
         <thead>
           <tr>
             {headers.map(h => (
-              <th key={h} style={{ textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid #E5E7EB', color: '#374151', fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>
+              <th key={h} style={{ textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#a0a0a0', fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -1169,8 +1173,8 @@ function Table({ headers, rows }) {
           {rows.map((row, i) => (
             <tr key={i}>
               {row.map((cell, j) => (
-                <td key={j} style={{ padding: '8px 12px', borderBottom: '1px solid #F3F4F6', color: '#374151', verticalAlign: 'top' }}>
-                  {j === 0 ? <code style={{ background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: 12, fontFamily: 'monospace' }}>{cell}</code> : cell}
+                <td key={j} style={{ padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#a0a0a0', verticalAlign: 'top' }}>
+                  {j === 0 ? <code style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: 12, fontFamily: 'monospace', color: '#818cf8' }}>{cell}</code> : cell}
                 </td>
               ))}
             </tr>
@@ -1181,11 +1185,11 @@ function Table({ headers, rows }) {
   );
 }
 
-const p = { fontSize: 15, lineHeight: 1.7, color: '#374151', marginBottom: 16 };
-const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12 };
-const h4 = { fontSize: 14, fontWeight: 600, marginTop: 16, marginBottom: 8, color: '#374151' };
-const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
-const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#374151', fontSize: 15 };
+const p = { fontSize: 15, lineHeight: 1.7, color: '#a0a0a0', marginBottom: 16 };
+const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12, color: '#f2f2f2' };
+const h4 = { fontSize: 14, fontWeight: 600, marginTop: 16, marginBottom: 8, color: '#a0a0a0' };
+const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#a0a0a0', fontSize: 15 };
+const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#a0a0a0', fontSize: 15 };
 
 // ── API Playground ────────────────────────────────────────────────────────────
 
@@ -1497,17 +1501,17 @@ for await (const chunk of stream) {
   );
 }
 
-const pgLabel = { display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6, marginTop: 14 };
-const pgHint  = { fontSize: 12, color: '#9CA3AF', marginTop: 4, marginBottom: 0 };
+const pgLabel = { display: 'block', fontSize: 13, fontWeight: 600, color: '#a0a0a0', marginBottom: 6, marginTop: 14 };
+const pgHint  = { fontSize: 12, color: '#666666', marginTop: 4, marginBottom: 0 };
 const pgInput = {
   display: 'block',
   width: '100%',
   padding: '8px 12px',
-  border: '1px solid #E5E7EB',
+  border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: 6,
   fontSize: 14,
-  color: '#0D0F1A',
-  background: '#FAFAFA',
+  color: '#f2f2f2',
+  background: '#161616',
   boxSizing: 'border-box',
   outline: 'none',
   fontFamily: 'inherit',

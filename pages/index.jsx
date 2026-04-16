@@ -51,14 +51,16 @@ export default function Home() {
       <main>
         <Hero />
 
+        {/* Trust bar */}
         <div className="trust-bar">
-          <span className="trust-label">5,000+ developers &middot; trusted by teams at</span>
+          <span className="trust-label">Trusted by teams at</span>
           {trustNames.map(n => <span className="trust-name" key={n}>{n}</span>)}
         </div>
 
         <Features />
         <Models />
 
+        {/* Testimonials */}
         <section className="section-wrap">
           <div className="sec-tag">What developers say</div>
           <h2 className="sec-title">Built for engineers who ship.</h2>
@@ -77,16 +79,19 @@ export default function Home() {
 
         <Pricing />
 
+        {/* CTA band */}
         <section className="cta-band">
-          <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'center' }}>
-            <Logo size={36} />
+          <div style={{ marginBottom: 22, display: 'flex', justifyContent: 'center' }}>
+            <Logo size={34} />
           </div>
           <h2>Your model.<br />Production-ready today.</h2>
           <p>
             Join 5,000+ developers and teams running open-source LLMs on Cloudach.<br />
             Free to start. No credit card required.
           </p>
-          <Link href="/signup"><button className="btn-cta-white">Deploy your first model free</button></Link>
+          <Link href="/signup">
+            <button className="btn-cta-white">Deploy your first model free</button>
+          </Link>
         </section>
       </main>
 

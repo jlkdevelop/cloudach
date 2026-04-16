@@ -5,7 +5,7 @@ export default function Nav() {
   return (
     <nav className="nav">
       <Link href="/" className="logo">
-        <Logo size={28} />
+        <Logo size={26} />
         <span className="logo-text">cloud<span>ach</span></span>
       </Link>
       <div className="nav-links">
@@ -20,7 +20,7 @@ export default function Nav() {
           <button className="btn-ghost">Sign in</button>
         </Link>
         <Link href="/signup">
-          <button className="btn-solid">Get started free</button>
+          <button className="btn-solid">Get started</button>
         </Link>
       </div>
     </nav>
