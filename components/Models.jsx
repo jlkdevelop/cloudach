@@ -100,10 +100,11 @@ export default function Models() {
               <p>{m.sub}</p>
               {m.ttft && (
                 <div className="mbench">
-                  <span title="Time to First Token p50">⚡ {m.ttft} TTFT</span>
-                  <span title="Throughput tokens/sec">🚀 {m.tps}</span>
+                  <span title="Time to First Token p50"><span className="mbench-val">{m.ttft}</span><span className="mbench-lbl">TTFT</span></span>
+                  <span title="Throughput tokens/sec"><span className="mbench-val">{m.tps}</span><span className="mbench-lbl">tok/s</span></span>
                 </div>
               )}
+              <div className="mcard-deploy">Deploy →</div>
             </div>
           ))}
         </div>
