@@ -19,7 +19,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="nav nav-scrolled">
+      <nav className="nav">
 
         {/* Left: logo + search */}
         <div className="nav-left">
