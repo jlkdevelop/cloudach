@@ -28,65 +28,66 @@ export default function Nav() {
   return (
     <>
       <nav className="nav">
+        <div className="nav-pill">
 
-        {/* Left: logo + search */}
-        <div className="nav-left">
-          <Link href="/" className="logo">
-            <Logo size={32} monochrome />
-            <span className="logo-text">cloud<span>ach</span></span>
-          </Link>
+          {/* Left: logo */}
+          <div className="nav-left">
+            <Link href="/" className="logo">
+              <Logo size={28} monochrome />
+              <span className="logo-text">cloud<span>ach</span></span>
+            </Link>
+          </div>
+
+          {/* Center: nav links — absolutely centered in pill */}
+          <div className="nav-links">
+            <a href="#platform">{t('nav.platform')}</a>
+            <a href="#models">{t('nav.models')}</a>
+            <Link href="/pricing">{t('nav.pricing')}</Link>
+            <Link href="/docs">{t('nav.docs')}</Link>
+            <Link href="/enterprise">{t('nav.enterprise')}</Link>
+            <Link href="/company">{t('nav.company')}</Link>
+          </div>
+
+          {/* Right: search + language + auth */}
+          <div className="nav-right">
+            <button
+              className="nav-search-icon-btn"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search (⌘K)"
+              title="Search models, docs… (⌘K)"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            </button>
+            <LanguageSwitcher />
+            <div className="nav-divider" />
+            <Link href="/login">
+              <button className="btn-ghost">{t('nav.signin')}</button>
+            </Link>
+            <Link href="/signup">
+              <button className="btn-solid">{t('nav.getstarted')}</button>
+            </Link>
+          </div>
 
           <button
-            className="nav-search-icon-btn"
-            onClick={() => setSearchOpen(true)}
-            aria-label="Search (⌘K)"
-            title="Search models, docs… (⌘K)"
+            className="nav-hamburger"
+            onClick={() => setMenuOpen(m => !m)}
+            aria-label="Toggle menu"
           >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
-              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+            {menuOpen ? (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+              </svg>
+            )}
           </button>
+
         </div>
-
-        {/* Center: nav links — absolutely centered in the nav bar */}
-        <div className="nav-links">
-          <a href="#platform">{t('nav.platform')}</a>
-          <a href="#models">{t('nav.models')}</a>
-          <Link href="/pricing">{t('nav.pricing')}</Link>
-          <Link href="/docs">{t('nav.docs')}</Link>
-          <Link href="/enterprise">{t('nav.enterprise')}</Link>
-          <Link href="/company">{t('nav.company')}</Link>
-        </div>
-
-        {/* Right: language + auth */}
-        <div className="nav-right">
-          <LanguageSwitcher />
-          <div className="nav-divider" />
-          <Link href="/login">
-            <button className="btn-ghost">{t('nav.signin')}</button>
-          </Link>
-          <Link href="/signup">
-            <button className="btn-solid">{t('nav.getstarted')}</button>
-          </Link>
-        </div>
-
-        <button
-          className="nav-hamburger"
-          onClick={() => setMenuOpen(m => !m)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? (
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-            </svg>
-          ) : (
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-            </svg>
-          )}
-        </button>
-
       </nav>
 
       {menuOpen && (
