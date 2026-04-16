@@ -132,12 +132,12 @@ function PricingCalculator() {
   const tokenFormatted = (tokens * 1_000_000).toLocaleString()
 
   return (
-    <div style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: 16, padding: '40px 40px', maxWidth: 680, margin: '0 auto' }}>
-      <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: -0.5, marginBottom: 6, color: '#0D0F1A' }}>Estimate your monthly cost</h3>
-      <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 32, lineHeight: 1.6 }}>Adjust the sliders to see a real-time cost estimate for your usage.</p>
+    <div style={{ background: 'var(--bg-1)', border: '1px solid var(--border)', borderRadius: 16, padding: '40px 40px', maxWidth: 680, margin: '0 auto' }}>
+      <h3 style={{ fontSize: 20, fontWeight: 700, letterSpacing: -0.5, marginBottom: 6, color: 'var(--text-1)' }}>Estimate your monthly cost</h3>
+      <p style={{ fontSize: 14, color: 'var(--text-2)', marginBottom: 32, lineHeight: 1.6 }}>Adjust the sliders to see a real-time cost estimate for your usage.</p>
 
       <div style={{ marginBottom: 28 }}>
-        <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 10 }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-2)', display: 'block', marginBottom: 10 }}>
           Plan
         </label>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -148,9 +148,9 @@ function PricingCalculator() {
               style={{
                 padding: '8px 20px',
                 borderRadius: 8,
-                border: plan === p ? '2px solid #4F6EF7' : '1px solid #E5E7EB',
-                background: plan === p ? '#EEF1FF' : '#fff',
-                color: plan === p ? '#4F6EF7' : '#6B7280',
+                border: plan === p ? '2px solid #4F6EF7' : '1px solid var(--border)',
+                background: plan === p ? 'rgba(79,110,247,0.10)' : 'var(--bg-2)',
+                color: plan === p ? '#4F6EF7' : 'var(--text-2)',
                 fontWeight: plan === p ? 600 : 400,
                 fontSize: 14,
                 cursor: 'pointer',
@@ -164,7 +164,7 @@ function PricingCalculator() {
       </div>
 
       <div style={{ marginBottom: 32 }}>
-        <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-2)', display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
           <span>Monthly token usage</span>
           <span style={{ color: '#4F6EF7' }}>{tokenFormatted} tokens</span>
         </label>
@@ -182,20 +182,20 @@ function PricingCalculator() {
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: 12, padding: '24px 28px' }}>
+      <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 12, padding: '24px 28px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {sub > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: '#6B7280' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--text-2)' }}>
               <span>{plan} subscription</span>
               <span>${sub.toFixed(2)}</span>
             </div>
           )}
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: '#6B7280' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--text-2)' }}>
             <span>{tokens}M tokens × ${rate.toFixed(2)}/M</span>
             <span>${tokenCost.toFixed(2)}</span>
           </div>
-          <div style={{ height: 1, background: '#F3F4F6', margin: '4px 0' }} />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 700, color: '#0D0F1A', letterSpacing: -0.5 }}>
+          <div style={{ height: 1, background: 'var(--border)', margin: '4px 0' }} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 700, color: 'var(--text-1)', letterSpacing: -0.5 }}>
             <span>Estimated monthly total</span>
             <span style={{ color: '#4F6EF7' }}>${formatted}</span>
           </div>
@@ -215,7 +215,7 @@ function FaqItem({ q, a }) {
   return (
     <div
       style={{
-        borderBottom: '1px solid #E5E7EB',
+        borderBottom: '1px solid var(--border)',
         padding: '20px 0',
       }}
     >
@@ -233,7 +233,7 @@ function FaqItem({ q, a }) {
           gap: 16,
         }}
       >
-        <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A', letterSpacing: -0.2 }}>{q}</span>
+        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-1)', letterSpacing: -0.2 }}>{q}</span>
         <svg
           width="16"
           height="16"
@@ -245,7 +245,7 @@ function FaqItem({ q, a }) {
         </svg>
       </button>
       {open && (
-        <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.75, marginTop: 14, paddingRight: 32 }}>{a}</p>
+        <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.75, marginTop: 14, paddingRight: 32 }}>{a}</p>
       )}
     </div>
   )
@@ -268,17 +268,17 @@ export default function PricingPage() {
 
       <Nav />
 
-      <main>
+      <main style={{ background: '#07080f', minHeight: '100vh' }}>
         {/* Hero */}
         <section style={{ textAlign: 'center', padding: '88px 24px 64px', maxWidth: 720, margin: '0 auto' }}>
           <div className="eyebrow" style={{ justifyContent: 'center', margin: '0 auto 24px' }}>
             <div className="eyebrow-dot" />
             Pricing
           </div>
-          <h1 style={{ fontSize: 52, fontWeight: 700, letterSpacing: -2.5, lineHeight: 1.07, color: '#0D0F1A', marginBottom: 20 }}>
+          <h1 style={{ fontSize: 52, fontWeight: 700, letterSpacing: -2.5, lineHeight: 1.07, color: 'var(--text-1)', marginBottom: 20 }}>
             Usage-based.<br />No surprises.
           </h1>
-          <p style={{ fontSize: 17, color: '#6B7280', lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
+          <p style={{ fontSize: 17, color: 'var(--text-2)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
             Start free and pay only for what you use. Every plan runs on the same production-grade infrastructure — pick the tier that fits your scale.
           </p>
         </section>
@@ -310,45 +310,45 @@ export default function PricingPage() {
         </section>
 
         {/* Per-model pricing */}
-        <section style={{ background: '#F9FAFB', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB' }}>
+        <section style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
           <div style={{ maxWidth: 1180, margin: '0 auto', padding: '72px 24px' }}>
             <div className="sec-tag" style={{ textAlign: 'center' }}>Model pricing</div>
             <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 8 }}>Per-model token rates</h2>
-            <p style={{ textAlign: 'center', fontSize: 15, color: '#6B7280', marginBottom: 48, lineHeight: 1.6 }}>
+            <p style={{ textAlign: 'center', fontSize: 15, color: 'var(--text-2)', marginBottom: 48, lineHeight: 1.6 }}>
               Pro plan customers get 25% lower token rates across the board.
             </p>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
                 <thead>
-                  <tr style={{ borderBottom: '2px solid #E5E7EB' }}>
-                    <th style={{ textAlign: 'left', padding: '10px 16px', color: '#6B7280', fontWeight: 600, whiteSpace: 'nowrap' }}>Model</th>
-                    <th style={{ textAlign: 'left', padding: '10px 16px', color: '#6B7280', fontWeight: 600 }}>Provider</th>
-                    <th style={{ textAlign: 'left', padding: '10px 16px', color: '#6B7280', fontWeight: 600 }}>Context</th>
-                    <th style={{ textAlign: 'left', padding: '10px 16px', color: '#6B7280', fontWeight: 600, whiteSpace: 'nowrap' }}>Available on</th>
-                    <th style={{ textAlign: 'right', padding: '10px 16px', color: '#6B7280', fontWeight: 600, whiteSpace: 'nowrap' }}>Free ($/M tokens)</th>
+                  <tr style={{ borderBottom: '2px solid var(--border)' }}>
+                    <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Model</th>
+                    <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600 }}>Provider</th>
+                    <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600 }}>Context</th>
+                    <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Available on</th>
+                    <th style={{ textAlign: 'right', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Free ($/M tokens)</th>
                     <th style={{ textAlign: 'right', padding: '10px 16px', color: '#4F6EF7', fontWeight: 600, whiteSpace: 'nowrap' }}>Pro ($/M tokens)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {modelPricing.map((m, i) => (
-                    <tr key={m.name} style={{ borderBottom: '1px solid #F3F4F6', background: i % 2 === 0 ? '#fff' : 'transparent' }}>
-                      <td style={{ padding: '13px 16px', fontWeight: 600, color: '#0D0F1A' }}>{m.name}</td>
-                      <td style={{ padding: '13px 16px', color: '#6B7280' }}>{m.provider}</td>
-                      <td style={{ padding: '13px 16px', color: '#6B7280', fontFamily: 'monospace', fontSize: 12 }}>{m.context}</td>
+                    <tr key={m.name} style={{ borderBottom: '1px solid var(--border)', background: i % 2 === 0 ? 'var(--bg-2)' : 'transparent' }}>
+                      <td style={{ padding: '13px 16px', fontWeight: 600, color: 'var(--text-1)' }}>{m.name}</td>
+                      <td style={{ padding: '13px 16px', color: 'var(--text-2)' }}>{m.provider}</td>
+                      <td style={{ padding: '13px 16px', color: 'var(--text-2)', fontFamily: 'monospace', fontSize: 12 }}>{m.context}</td>
                       <td style={{ padding: '13px 16px' }}>
                         <span style={{
                           fontSize: 11,
                           fontWeight: 700,
                           padding: '3px 8px',
                           borderRadius: 5,
-                          background: m.tier === 'Free+' ? '#D1FAE5' : '#EEF1FF',
-                          color: m.tier === 'Free+' ? '#065F46' : '#3730A3',
+                          background: m.tier === 'Free+' ? 'rgba(34,197,94,0.10)' : 'rgba(79,110,247,0.10)',
+                          color: m.tier === 'Free+' ? '#6ee7b7' : 'var(--brand)',
                           letterSpacing: '0.03em',
                         }}>
                           {m.tier}
                         </span>
                       </td>
-                      <td style={{ padding: '13px 16px', textAlign: 'right', color: '#374151', fontFamily: 'monospace', fontSize: 13 }}>
+                      <td style={{ padding: '13px 16px', textAlign: 'right', color: 'var(--text-2)', fontFamily: 'monospace', fontSize: 13 }}>
                         ${m.freeRate.toFixed(2)}
                       </td>
                       <td style={{ padding: '13px 16px', textAlign: 'right', color: '#4F6EF7', fontWeight: 600, fontFamily: 'monospace', fontSize: 13 }}>
@@ -369,14 +369,14 @@ export default function PricingPage() {
         <section style={{ maxWidth: 1180, margin: '0 auto', padding: '80px 24px' }}>
           <div className="sec-tag" style={{ textAlign: 'center' }}>Calculator</div>
           <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 8 }}>See what you'd pay</h2>
-          <p style={{ textAlign: 'center', fontSize: 15, color: '#6B7280', marginBottom: 48, lineHeight: 1.6 }}>
+          <p style={{ textAlign: 'center', fontSize: 15, color: 'var(--text-2)', marginBottom: 48, lineHeight: 1.6 }}>
             Drag the slider to estimate your monthly bill based on token volume.
           </p>
           <PricingCalculator />
         </section>
 
         {/* FAQ */}
-        <section style={{ background: '#F9FAFB', borderTop: '1px solid #E5E7EB' }}>
+        <section style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)' }}>
           <div style={{ maxWidth: 760, margin: '0 auto', padding: '72px 24px' }}>
             <div className="sec-tag" style={{ textAlign: 'center' }}>FAQ</div>
             <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 48 }}>Common questions</h2>
@@ -401,7 +401,7 @@ export default function PricingPage() {
                 <button className="btn-cta-ghost" style={{ color: '#9CA3AF', borderColor: '#2A2E45' }}>Talk to sales</button>
               </Link>
             </div>
-            <p style={{ fontSize: 12, color: '#4B5563', marginTop: 16, marginBottom: 0 }}>
+            <p style={{ fontSize: 12, color: 'var(--text-2)', marginTop: 16, marginBottom: 0 }}>
               5,000+ developers already on Cloudach · No lock-in · Cancel anytime
             </p>
           </div>

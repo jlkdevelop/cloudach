@@ -6,8 +6,8 @@ const ENTRIES = [
     date: 'Apr 2026',
     version: 'v1.0',
     tag: 'GA Release',
-    color: '#6366F1',
-    bg: '#EEF2FF',
+    color: 'var(--brand)',
+    bg: 'rgba(79,110,247,0.10)',
     items: [
       'GPU cost optimization engine: spot instance scheduling, preemption handling, automatic fallback to on-demand',
       'Autoscaling policies: time-based, load-based, and budget-aware scaling rules',
@@ -21,8 +21,8 @@ const ENTRIES = [
     date: 'Apr 2026',
     version: 'v0.9.5',
     tag: 'Developer Experience',
-    color: '#059669',
-    bg: '#ECFDF5',
+    color: '#6ee7b7',
+    bg: 'rgba(34,197,94,0.10)',
     items: [
       'Webhook system: subscribe to inference.completed, usage.threshold, and billing.invoice events',
       'Webhook signatures: HMAC-SHA256 on every payload — verify with the X-Cloudach-Signature header',
@@ -36,8 +36,8 @@ const ENTRIES = [
     date: 'Mar 2026',
     version: 'v0.9',
     tag: 'Security',
-    color: '#DC2626',
-    bg: '#FEF2F2',
+    color: '#fca5a5',
+    bg: 'rgba(239,68,68,0.10)',
     items: [
       'Auth hardening: bcrypt password hashing, JWT-based sessions, secure cookie flags',
       'Input validation and SQL-injection prevention across all API routes',
@@ -50,8 +50,8 @@ const ENTRIES = [
     date: 'Mar 2026',
     version: 'v0.8.5',
     tag: 'Enterprise',
-    color: '#0891B2',
-    bg: '#ECFEFF',
+    color: '#67e8f9',
+    bg: 'rgba(8,145,178,0.10)',
     items: [
       'Enterprise page redesigned: SLA table, compliance badges, dedicated support callout',
       'Team management dashboard: invite members, assign roles (admin/developer/viewer), revoke access',
@@ -64,8 +64,8 @@ const ENTRIES = [
     date: 'Mar 2026',
     version: 'v0.8',
     tag: 'Infrastructure',
-    color: '#7C3AED',
-    bg: '#F5F3FF',
+    color: '#c4b5fd',
+    bg: 'rgba(124,58,237,0.10)',
     items: [
       'Autoscaling from zero: GPU pods scale to 0 when idle, cold-start in ~30s',
       'Tenant isolation: per-tenant Kubernetes namespaces and network policies',
@@ -78,8 +78,8 @@ const ENTRIES = [
     date: 'Feb 2026',
     version: 'v0.7.5',
     tag: 'Performance',
-    color: '#D97706',
-    bg: '#FFFBEB',
+    color: '#fbbf24',
+    bg: 'rgba(245,158,11,0.10)',
     items: [
       'Dashboard performance: self-hosted fonts, HTTP caching headers, lazy-loaded charts',
       'CLI v0.1: cloudach chat, cloudach models list, cloudach keys create/revoke',
@@ -92,8 +92,8 @@ const ENTRIES = [
     date: 'Feb 2026',
     version: 'v0.7',
     tag: 'Dashboard',
-    color: '#374151',
-    bg: '#F9FAFB',
+    color: 'var(--text-2)',
+    bg: 'var(--bg-2)',
     items: [
       'API Keys page: create, name, copy, and revoke keys with one click',
       'Usage page: daily token consumption charts, per-model breakdown',
@@ -106,8 +106,8 @@ const ENTRIES = [
     date: 'Feb 2026',
     version: 'v0.6',
     tag: 'API',
-    color: '#059669',
-    bg: '#ECFDF5',
+    color: '#6ee7b7',
+    bg: 'rgba(34,197,94,0.10)',
     items: [
       'POST /v1/chat/completions: OpenAI-compatible chat endpoint with streaming (SSE)',
       'POST /v1/completions: legacy text completion endpoint',
@@ -120,8 +120,8 @@ const ENTRIES = [
     date: 'Feb 2026',
     version: 'v0.5',
     tag: 'Models',
-    color: '#0891B2',
-    bg: '#ECFEFF',
+    color: '#67e8f9',
+    bg: 'rgba(8,145,178,0.10)',
     items: [
       'Llama 3 8B deployed on vLLM — 8K context, sub-100ms median TTFT',
       'Llama 3 70B available on dedicated GPU tier',
@@ -134,8 +134,8 @@ const ENTRIES = [
     date: 'Jan 2026',
     version: 'v0.4',
     tag: 'Platform',
-    color: '#6366F1',
-    bg: '#EEF2FF',
+    color: 'var(--brand)',
+    bg: 'rgba(79,110,247,0.10)',
     items: [
       'Neon Postgres integration: connection pooling, SSL-only, combined schema migration',
       'Auth system: /api/auth/register, /login, /logout with secure session management',
@@ -147,8 +147,8 @@ const ENTRIES = [
     date: 'Jan 2026',
     version: 'v0.1',
     tag: 'Launch',
-    color: '#374151',
-    bg: '#F9FAFB',
+    color: 'var(--text-2)',
+    bg: 'var(--bg-2)',
     items: [
       'Initial commit: Next.js frontend, Kubernetes manifests, Docker configuration',
       'Brand identity: Cloudach logo, indigo/white design system',
@@ -176,18 +176,18 @@ export default function ChangelogPage() {
         <link rel="alternate" type="application/rss+xml" title="Cloudach Changelog RSS" href="/api/changelog/rss" />
       </Head>
 
-      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#0D0F1A' }}>
+      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: 'var(--text-1)', background: '#07080f', minHeight: '100vh' }}>
         {/* Nav */}
-        <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
+        <nav style={{ borderBottom: '1px solid var(--border)', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: '#6366F1' }}>Cloudach</span>
+            <span style={{ fontWeight: 700, fontSize: 18, color: 'var(--brand)' }}>Cloudach</span>
           </Link>
-          <Link href="/docs" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/changelog" style={{ fontSize: 14, fontWeight: 500, color: '#6366F1', textDecoration: 'none' }}>Changelog</Link>
-          <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
+          <Link href="/docs" style={{ fontSize: 14, color: 'var(--text-2)', textDecoration: 'none' }}>Docs</Link>
+          <Link href="/changelog" style={{ fontSize: 14, fontWeight: 500, color: 'var(--brand)', textDecoration: 'none' }}>Changelog</Link>
+          <Link href="/dashboard" style={{ fontSize: 14, color: 'var(--text-2)', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
-            <button style={{ background: '#6366F1', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
+            <button style={{ background: 'var(--brand)', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 16px', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>
               Get started free
             </button>
           </Link>
@@ -199,19 +199,19 @@ export default function ChangelogPage() {
             <a
               href="/api/changelog/rss"
               title="Subscribe via RSS"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#D97706', fontWeight: 500, textDecoration: 'none', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 6, padding: '5px 12px', marginTop: 8 }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#fbbf24', fontWeight: 500, textDecoration: 'none', background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 6, padding: '5px 12px', marginTop: 8 }}
             >
               <RssIcon /> RSS Feed
             </a>
           </div>
-          <p style={{ fontSize: 16, color: '#6B7280', marginBottom: 56, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color: 'var(--text-2)', marginBottom: 56, lineHeight: 1.6 }}>
             Everything we&apos;ve shipped — models, API features, platform improvements, and security hardening.
-            Subscribe to <a href="/blog" style={{ color: '#6366F1', textDecoration: 'none' }}>the blog</a> for major announcements.
+            Subscribe to <a href="/blog" style={{ color: 'var(--brand)', textDecoration: 'none' }}>the blog</a> for major announcements.
           </p>
 
           <div style={{ position: 'relative' }}>
             {/* Timeline line */}
-            <div style={{ position: 'absolute', left: 0, top: 8, bottom: 8, width: 2, background: '#E5E7EB' }} />
+            <div style={{ position: 'absolute', left: 0, top: 8, bottom: 8, width: 2, background: 'var(--border)' }} />
 
             {ENTRIES.map((entry, i) => (
               <div key={i} id={`v${entry.version.replace('.', '-')}`} style={{ display: 'flex', gap: 32, marginBottom: 48, position: 'relative' }}>
@@ -227,7 +227,7 @@ export default function ChangelogPage() {
 
                   <ul style={{ margin: 0, paddingLeft: 20, listStyle: 'disc' }}>
                     {entry.items.map((item, j) => (
-                      <li key={j} style={{ fontSize: 14, color: '#374151', lineHeight: 1.75, marginBottom: 4 }}>{item}</li>
+                      <li key={j} style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.75, marginBottom: 4 }}>{item}</li>
                     ))}
                   </ul>
                 </div>
@@ -236,12 +236,12 @@ export default function ChangelogPage() {
           </div>
 
           {/* Footer */}
-          <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid #E5E7EB', display: 'flex', gap: 24, flexWrap: 'wrap', fontSize: 13, color: '#9CA3AF' }}>
-            <Link href="/docs" style={{ color: '#9CA3AF', textDecoration: 'none' }}>API Docs</Link>
-            <Link href="/blog" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Blog</Link>
-            <Link href="/status" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Status</Link>
-            <a href="/api/changelog/rss" style={{ color: '#9CA3AF', textDecoration: 'none' }}>RSS</a>
-            <a href="mailto:support@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>support@cloudach.com</a>
+          <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid var(--border)', display: 'flex', gap: 24, flexWrap: 'wrap', fontSize: 13, color: 'var(--text-2)' }}>
+            <Link href="/docs" style={{ color: 'var(--text-2)', textDecoration: 'none' }}>API Docs</Link>
+            <Link href="/blog" style={{ color: 'var(--text-2)', textDecoration: 'none' }}>Blog</Link>
+            <Link href="/status" style={{ color: 'var(--text-2)', textDecoration: 'none' }}>Status</Link>
+            <a href="/api/changelog/rss" style={{ color: 'var(--text-2)', textDecoration: 'none' }}>RSS</a>
+            <a href="mailto:support@cloudach.com" style={{ color: 'var(--text-2)', textDecoration: 'none' }}>support@cloudach.com</a>
           </div>
         </div>
       </div>

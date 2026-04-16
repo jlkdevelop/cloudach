@@ -28,9 +28,9 @@ const uptimeBars = Object.fromEntries(
 )
 
 const statusConfig = {
-  operational: { label: 'Operational',    color: '#34D399', bg: '#ECFDF5', text: '#065F46' },
-  degraded:    { label: 'Degraded',       color: '#F59E0B', bg: '#FFFBEB', text: '#92400E' },
-  outage:      { label: 'Outage',         color: '#EF4444', bg: '#FEF2F2', text: '#991B1B' },
+  operational: { label: 'Operational',    color: '#34D399', bg: 'rgba(34,197,94,0.10)',    text: '#6ee7b7' },
+  degraded:    { label: 'Degraded',       color: '#F59E0B', bg: 'rgba(245,158,11,0.10)',   text: '#fbbf24' },
+  outage:      { label: 'Outage',         color: '#EF4444', bg: 'rgba(239,68,68,0.10)',    text: '#fca5a5' },
 }
 
 const barColor = { 1: '#34D399', 0.5: '#F59E0B', 0: '#EF4444' }
@@ -105,26 +105,26 @@ export default function Status() {
         <meta name="twitter:description" content="Live status of Cloudach infrastructure and services." />
       </Head>
       <Nav />
-      <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px 80px', fontFamily: 'Inter, system-ui, sans-serif' }}>
+      <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px 80px', fontFamily: 'Inter, system-ui, sans-serif', background: '#07080f', minHeight: '100vh' }}>
 
         {/* Header */}
         <div className="sec-tag">Status</div>
-        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 8px' }}>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: 'var(--text-1)', margin: '16px 0 8px' }}>
           System status
         </h1>
-        <p style={{ fontSize: 15, color: '#6B7280', marginBottom: 32 }}>
+        <p style={{ fontSize: 15, color: 'var(--text-2)', marginBottom: 32 }}>
           Real-time health and uptime for all Cloudach services.
         </p>
 
         {/* Overall banner */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
-          background: allOperational ? '#ECFDF5' : '#FEF2F2',
-          border: `1px solid ${allOperational ? '#6EE7B7' : '#FCA5A5'}`,
+          background: allOperational ? 'rgba(34,197,94,0.10)' : 'rgba(239,68,68,0.10)',
+          border: `1px solid ${allOperational ? 'rgba(34,197,94,0.25)' : 'rgba(239,68,68,0.25)'}`,
           borderRadius: 10, padding: '14px 20px', marginBottom: 48
         }}>
           <div style={{ width: 10, height: 10, borderRadius: '50%', background: allOperational ? '#34D399' : '#EF4444', flexShrink: 0 }} />
-          <span style={{ fontWeight: 700, fontSize: 15, color: allOperational ? '#065F46' : '#991B1B' }}>
+          <span style={{ fontWeight: 700, fontSize: 15, color: allOperational ? '#6ee7b7' : '#fca5a5' }}>
             {allOperational ? 'All systems operational' : 'Some systems are experiencing issues'}
           </span>
           <span style={{ marginLeft: 'auto', fontSize: 12, color: '#9CA3AF' }}>
@@ -133,22 +133,22 @@ export default function Status() {
         </div>
 
         {/* Service health by group */}
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0D0F1A', marginBottom: 20 }}>Service health</h2>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-1)', marginBottom: 20 }}>Service health</h2>
         {groups.map(group => (
           <div key={group} style={{ marginBottom: 32 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-2)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
               {group}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#E5E7EB', border: '1px solid #E5E7EB', borderRadius: 12, overflow: 'hidden' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
               {services.filter(s => s.group === group).map(s => {
                 const cfg = statusConfig[s.status]
                 const bars = uptimeBars[s.name]
                 return (
-                  <div key={s.name} style={{ background: '#fff', padding: '14px 20px' }}>
+                  <div key={s.name} style={{ background: 'var(--bg-1)', padding: '14px 20px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                      <span style={{ fontSize: 14, fontWeight: 500, color: '#0D0F1A' }}>{s.name}</span>
+                      <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-1)' }}>{s.name}</span>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <span style={{ fontSize: 12, color: '#6B7280' }}>{s.uptime30d.toFixed(2)}% uptime</span>
+                        <span style={{ fontSize: 12, color: 'var(--text-2)' }}>{s.uptime30d.toFixed(2)}% uptime</span>
                         <span style={{ fontSize: 11, fontWeight: 700, background: cfg.bg, color: cfg.text, padding: '3px 10px', borderRadius: 5, letterSpacing: '0.04em' }}>
                           {cfg.label}
                         </span>
@@ -183,56 +183,56 @@ export default function Status() {
         ))}
 
         {/* SLA commitments */}
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0D0F1A', margin: '48px 0 16px' }}>SLA commitments</h2>
-        <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 24 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-1)', margin: '48px 0 16px' }}>SLA commitments</h2>
+        <p style={{ fontSize: 14, color: 'var(--text-2)', marginBottom: 24 }}>
           Uptime is measured per calendar month, excluding scheduled maintenance windows announced at least 48 hours in advance.
           Service credits are applied to your next invoice automatically upon verified breach.
         </p>
-        <div style={{ border: '1px solid #E5E7EB', borderRadius: 12, overflow: 'hidden' }}>
+        <div style={{ border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
           {/* Table header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr', background: '#F9FAFB', padding: '10px 20px', gap: 16, borderBottom: '1px solid #E5E7EB' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr', background: 'var(--bg-2)', padding: '10px 20px', gap: 16, borderBottom: '1px solid var(--border)' }}>
             {['Tier', 'Uptime SLA', 'Response time', 'Support', 'Credits on breach'].map(h => (
-              <span key={h} style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</span>
+              <span key={h} style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-2)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</span>
             ))}
           </div>
           {slaTable.map((row, i) => (
             <div key={row.tier} style={{
               display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr',
               padding: '16px 20px', gap: 16,
-              background: '#fff',
-              borderBottom: i < slaTable.length - 1 ? '1px solid #F3F4F6' : 'none',
+              background: 'var(--bg-1)',
+              borderBottom: i < slaTable.length - 1 ? '1px solid var(--border)' : 'none',
             }}>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#0D0F1A' }}>{row.tier}</span>
-              <span style={{ fontSize: 14, color: '#0D0F1A', fontWeight: 600 }}>{row.uptime}</span>
-              <span style={{ fontSize: 13, color: '#374151' }}>{row.responseTime}</span>
-              <span style={{ fontSize: 13, color: '#374151' }}>{row.support}</span>
-              <span style={{ fontSize: 13, color: '#374151' }}>{row.credits}</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-1)' }}>{row.tier}</span>
+              <span style={{ fontSize: 14, color: 'var(--text-1)', fontWeight: 600 }}>{row.uptime}</span>
+              <span style={{ fontSize: 13, color: 'var(--text-2)' }}>{row.responseTime}</span>
+              <span style={{ fontSize: 13, color: 'var(--text-2)' }}>{row.support}</span>
+              <span style={{ fontSize: 13, color: 'var(--text-2)' }}>{row.credits}</span>
             </div>
           ))}
         </div>
         <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
           {slaTable.map(row => (
             <p key={row.tier} style={{ fontSize: 12, color: '#9CA3AF', margin: 0 }}>
-              <strong style={{ color: '#6B7280' }}>{row.tier}:</strong> {row.notes}
+              <strong style={{ color: 'var(--text-2)' }}>{row.tier}:</strong> {row.notes}
             </p>
           ))}
         </div>
 
         {/* Incident history */}
         <div style={{ marginTop: 56 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0D0F1A', marginBottom: 8 }}>Incident history</h2>
-          <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 24 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-1)', marginBottom: 8 }}>Incident history</h2>
+          <p style={{ fontSize: 14, color: 'var(--text-2)', marginBottom: 24 }}>
             Past incidents affecting Cloudach services. All times in UTC.
           </p>
 
           {incidents.length === 0 ? (
             <div style={{
-              border: '1px solid #E5E7EB', borderRadius: 12,
+              border: '1px solid var(--border)', borderRadius: 12,
               padding: '40px 32px', textAlign: 'center',
-              background: '#F9FAFB',
+              background: 'var(--bg-1)',
             }}>
               <div style={{ fontSize: 28, marginBottom: 12 }}>✓</div>
-              <p style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A', margin: 0 }}>No incidents recorded</p>
+              <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-1)', margin: 0 }}>No incidents recorded</p>
               <p style={{ fontSize: 13, color: '#9CA3AF', marginTop: 4 }}>
                 We&rsquo;ve had zero incidents in the past 90 days. Full incident reports will appear here when they occur.
               </p>
@@ -240,12 +240,12 @@ export default function Status() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {incidents.map((inc, i) => (
-                <div key={i} style={{ border: '1px solid #E5E7EB', borderRadius: 12, padding: '20px 24px', background: '#fff' }}>
+                <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 12, padding: '20px 24px', background: 'var(--bg-1)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                    <span style={{ fontWeight: 700, fontSize: 15, color: '#0D0F1A' }}>{inc.title}</span>
+                    <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--text-1)' }}>{inc.title}</span>
                     <span style={{ fontSize: 12, color: '#9CA3AF' }}>{inc.date}</span>
                   </div>
-                  <p style={{ fontSize: 13, color: '#374151', margin: 0 }}>{inc.summary}</p>
+                  <p style={{ fontSize: 13, color: 'var(--text-2)', margin: 0 }}>{inc.summary}</p>
                 </div>
               ))}
             </div>
@@ -254,12 +254,12 @@ export default function Status() {
 
         {/* Subscribe footer */}
         <div style={{
-          marginTop: 56, borderTop: '1px solid #E5E7EB', paddingTop: 32,
+          marginTop: 56, borderTop: '1px solid var(--border)', paddingTop: 32,
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16,
         }}>
           <div>
-            <p style={{ fontWeight: 600, fontSize: 14, color: '#0D0F1A', margin: 0 }}>Subscribe to updates</p>
-            <p style={{ fontSize: 13, color: '#6B7280', margin: '2px 0 0' }}>Get notified by email when an incident is reported or resolved.</p>
+            <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--text-1)', margin: 0 }}>Subscribe to updates</p>
+            <p style={{ fontSize: 13, color: 'var(--text-2)', margin: '2px 0 0' }}>Get notified by email when an incident is reported or resolved.</p>
           </div>
           <a href="mailto:status@cloudach.com?subject=Subscribe to Cloudach status updates" style={{ textDecoration: 'none' }}>
             <button style={{
