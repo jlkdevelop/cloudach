@@ -145,7 +145,7 @@ textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  height: 52px;
+  height: 62px;
   border-bottom: none;
   background: transparent;
   position: fixed;
@@ -170,9 +170,9 @@ textarea:focus-visible {
 }
 
 .logo-text {
-  font-size: 16.5px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
   color: var(--text-1);
 }
 
@@ -185,12 +185,12 @@ textarea:focus-visible {
   gap: 7px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 7px;
+  border-radius: 8px;
   padding: 0 14px;
-  height: 32px;
+  height: 36px;
   width: 260px;
   color: var(--text-4);
-  font-size: 12.5px;
+  font-size: 13px;
   font-family: var(--font-inter), sans-serif;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s, box-shadow 0.15s;
@@ -224,11 +224,11 @@ textarea:focus-visible {
 }
 
 .nav-links a {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-3);
   transition: color 0.15s, background 0.15s;
-  letter-spacing: -0.1px;
-  padding: 5px 11px;
+  letter-spacing: -0.15px;
+  padding: 6px 12px;
   border-radius: 6px;
 }
 
@@ -247,28 +247,28 @@ textarea:focus-visible {
 
 /* Auth buttons */
 .btn-ghost {
-  font-size: 13px;
-  color: var(--text-3);
-  padding: 5px 12px;
-  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-2);
+  padding: 7px 14px;
+  border-radius: 7px;
   border: none;
   background: transparent;
   transition: color 0.15s, background 0.15s;
-  letter-spacing: -0.1px;
+  letter-spacing: -0.15px;
 }
 
 .btn-ghost:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.06);
   color: var(--text-1);
 }
 
 .btn-solid {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #fff;
   background: var(--brand);
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 8px 18px;
+  border-radius: 7px;
   border: none;
   letter-spacing: -0.2px;
   transition: background 0.15s, box-shadow 0.15s;
@@ -385,8 +385,8 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
-  /* Top padding = nav height (52px) + breathing room. Fixed nav floats over hero. */
-  padding: 76px 48px 44px;
+  /* Top padding = nav height (62px) + breathing room. Fixed nav floats over hero. */
+  padding: 84px 48px 44px;
   display: grid;
   grid-template-columns: 52% 44%;
   gap: 56px;
@@ -860,7 +860,7 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 48px;
-  margin-top: 52px;
+  margin-top: 62px;
 }
 
 .step {
@@ -1577,7 +1577,7 @@ footer {
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .nav { padding: 0 20px; height: 52px; }
+  .nav { padding: 0 20px; height: 62px; }
   .nav-links { display: none; }
   .nav-search-trigger { width: 160px; }
   .nav-search-trigger span { display: none; }
@@ -1641,7 +1641,7 @@ footer {
 
 .nav-mobile-drawer {
   position: fixed;
-  top: 52px;
+  top: 62px;
   left: 0;
   right: 0;
   background: rgba(7,8,15,0.97);
