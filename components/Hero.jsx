@@ -21,7 +21,7 @@ export default function Hero() {
 
           <h1 className="hero-anim-2">
             {t('hero.headline1')}<br />
-            {t('hero.headline2')}<br />
+            {t('hero.headline2') ? <>{t('hero.headline2')}<br /></> : null}
             <em>{t('hero.headline3')}</em>
           </h1>
 

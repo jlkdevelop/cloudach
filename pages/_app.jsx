@@ -3,12 +3,18 @@ import '../styles/dashboard.css'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Inter } from 'next/font/google'
+import { Inter, Cairo } from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+})
+
+const cairo = Cairo({
+  subsets: ['arabic', 'latin'],
+  display: 'swap',
+  variable: '--font-cairo',
 })
 
 export default function App({ Component, pageProps }) {
@@ -20,7 +26,7 @@ export default function App({ Component, pageProps }) {
   }, [locale])
 
   return (
-    <div className={inter.variable}>
+    <div className={`${inter.variable} ${cairo.variable}`}>
       <Head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/favicon.svg" />

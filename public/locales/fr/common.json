@@ -17,7 +17,7 @@
     "headline2": "en production.",
     "headline3": "En 60 secondes.",
     "sub": "Déployez Llama 3, Mistral, Qwen et plus de 50 modèles avec un seul appel API — à une fraction du coût des API propriétaires. Compatible OpenAI. Zéro gestion GPU.",
-    "cta_primary": "Commencer à déployer gratuitement",
+    "cta_primary": "Déployer gratuitement",
     "cta_secondary": "Voir la documentation",
     "free_note": "Sans carte bancaire · Gratuit jusqu'à 1M de tokens/mois",
     "stat1_val": "10ms",
@@ -76,7 +76,7 @@
     "no_cc": "Sans carte bancaire",
     "plan_starter_name": "Starter",
     "plan_starter_desc": "Pour les développeurs et les projets personnels.",
-    "plan_starter_price": "0$",
+    "plan_starter_price": "$0",
     "plan_starter_unit": "+ 0,20$ / million de tokens",
     "plan_starter_f1": "1 déploiement actif",
     "plan_starter_f2": "Infrastructure GPU partagée",
@@ -85,7 +85,7 @@
     "plan_starter_cta": "Commencer gratuitement",
     "plan_pro_name": "Pro",
     "plan_pro_desc": "Pour les applications en production et les équipes en croissance.",
-    "plan_pro_price": "49$",
+    "plan_pro_price": "$49",
     "plan_pro_unit": "par mois + 0,15$ / million de tokens",
     "plan_pro_f1": "10 déploiements actifs",
     "plan_pro_f2": "Instances GPU dédiées",
@@ -151,7 +151,7 @@
     "cta_title1": "Votre modèle.",
     "cta_title2": "Prêt pour la production aujourd'hui.",
     "cta_sub": "Rejoignez 5 000+ développeurs et équipes qui font tourner des LLM open source sur Cloudach.\nGratuit pour commencer. Sans carte bancaire.",
-    "cta_primary": "Déployez votre premier modèle gratuitement",
+    "cta_primary": "Déployez votre premier modèle",
     "cta_secondary": "Voir les tarifs →"
   }
 }

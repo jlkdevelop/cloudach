@@ -1961,3 +1961,47 @@ footer {
 [dir="rtl"] .cta-band-actions {
   flex-direction: row-reverse;
 }
+
+[dir="rtl"] body,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  font-family: var(--font-cairo), 'Segoe UI', 'Arial', sans-serif;
+}
+
+[dir="rtl"] .hero h1 {
+  letter-spacing: 0;
+  line-height: 1.28;
+  font-family: var(--font-cairo), 'Segoe UI', 'Arial', sans-serif;
+}
+
+[dir="rtl"] .hero-sub {
+  line-height: 1.9;
+  font-size: 14.5px;
+}
+
+[dir="rtl"] .stat-label {
+  line-height: 1.55;
+  font-size: 11px;
+}
+
+[dir="rtl"] .hero-free-note {
+  line-height: 1.65;
+}
+
+[dir="rtl"] h2 {
+  letter-spacing: 0;
+  line-height: 1.32;
+}
+
+[dir="rtl"] h3, [dir="rtl"] h5 {
+  letter-spacing: 0;
+}
+
+[dir="rtl"] p {
+  line-height: 1.85;
+}
+
+[dir="rtl"] .btn-cta svg {
+  transform: scaleX(-1);
+}

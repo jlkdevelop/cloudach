@@ -13,9 +13,9 @@
   },
   "hero": {
     "eyebrow": "LLM 云基础设施",
-    "headline1": "在生产环境中运行任何开源 LLM",
-    "headline2": "",
-    "headline3": "60 秒内完成。",
+    "headline1": "运行任何开源 LLM",
+    "headline2": "投入生产环境。",
+    "headline3": "仅需 60 秒。",
     "sub": "通过单次 API 调用部署 Llama 3、Mistral、Qwen 及 50+ 个模型——成本仅为专有 API 的一小部分。兼容 OpenAI。零 GPU 运维。",
     "cta_primary": "免费开始部署",
     "cta_secondary": "查看文档",
