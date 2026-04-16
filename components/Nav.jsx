@@ -3,10 +3,12 @@ import Logo from './Logo'
 import { useState, useEffect } from 'react'
 import SearchModal from './SearchModal'
 import LanguageSwitcher from './LanguageSwitcher'
+import { useTranslation } from '../lib/translations'
 
 export default function Nav() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     setMenuOpen(false)
@@ -43,18 +45,18 @@ export default function Nav() {
               <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
               <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
-            <span>Search models, docs...</span>
+            <span>{t('nav.search')}</span>
           </button>
         </div>
 
         {/* Center: nav links — absolutely centered in the nav bar */}
         <div className="nav-links">
-          <a href="#platform">Platform</a>
-          <a href="#models">Models</a>
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/docs">Docs</Link>
-          <Link href="/enterprise">Enterprise</Link>
-          <Link href="/company">Company</Link>
+          <a href="#platform">{t('nav.platform')}</a>
+          <a href="#models">{t('nav.models')}</a>
+          <Link href="/pricing">{t('nav.pricing')}</Link>
+          <Link href="/docs">{t('nav.docs')}</Link>
+          <Link href="/enterprise">{t('nav.enterprise')}</Link>
+          <Link href="/company">{t('nav.company')}</Link>
         </div>
 
         {/* Right: language + auth */}
@@ -62,10 +64,10 @@ export default function Nav() {
           <LanguageSwitcher />
           <div className="nav-divider" />
           <Link href="/login">
-            <button className="btn-ghost">Sign in</button>
+            <button className="btn-ghost">{t('nav.signin')}</button>
           </Link>
           <Link href="/signup">
-            <button className="btn-solid">Get started</button>
+            <button className="btn-solid">{t('nav.getstarted')}</button>
           </Link>
         </div>
 
@@ -90,19 +92,19 @@ export default function Nav() {
       {menuOpen && (
         <div className="nav-mobile-drawer">
           <div className="nav-mobile-links">
-            <a href="/#platform" onClick={() => setMenuOpen(false)}>Platform</a>
-            <a href="/#models" onClick={() => setMenuOpen(false)}>Models</a>
-            <Link href="/pricing" onClick={() => setMenuOpen(false)}>Pricing</Link>
-            <Link href="/docs" onClick={() => setMenuOpen(false)}>Docs</Link>
-            <Link href="/enterprise" onClick={() => setMenuOpen(false)}>Enterprise</Link>
-            <Link href="/company" onClick={() => setMenuOpen(false)}>Company</Link>
+            <a href="/#platform" onClick={() => setMenuOpen(false)}>{t('nav.platform')}</a>
+            <a href="/#models" onClick={() => setMenuOpen(false)}>{t('nav.models')}</a>
+            <Link href="/pricing" onClick={() => setMenuOpen(false)}>{t('nav.pricing')}</Link>
+            <Link href="/docs" onClick={() => setMenuOpen(false)}>{t('nav.docs')}</Link>
+            <Link href="/enterprise" onClick={() => setMenuOpen(false)}>{t('nav.enterprise')}</Link>
+            <Link href="/company" onClick={() => setMenuOpen(false)}>{t('nav.company')}</Link>
           </div>
           <div className="nav-mobile-auth">
             <Link href="/login" onClick={() => setMenuOpen(false)}>
-              <button className="nav-mobile-signin">Sign in</button>
+              <button className="nav-mobile-signin">{t('nav.signin')}</button>
             </Link>
             <Link href="/signup" onClick={() => setMenuOpen(false)}>
-              <button className="btn-solid" style={{ width: '100%', padding: '10px' }}>Get started free</button>
+              <button className="btn-solid" style={{ width: '100%', padding: '10px' }}>{t('nav.getstartedfree')}</button>
             </Link>
           </div>
         </div>

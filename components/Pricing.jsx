@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslation } from '../lib/translations';
 
 const CheckIcon = () => (
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style={{ flexShrink: 0 }}>
@@ -6,63 +7,88 @@ const CheckIcon = () => (
   </svg>
 )
 
-const plans = [
-  {
-    name: 'Starter',
-    desc: 'For developers and side projects.',
-    price: '$0',
-    unit: '+ $0.20 / million tokens',
-    features: ['1 active deployment', 'Shared GPU infrastructure', 'OpenAI-compatible API', 'Community support'],
-    cta: 'Get started free',
-    href: '/signup',
-    featured: false,
-  },
-  {
-    name: 'Pro',
-    desc: 'For production apps and growing teams.',
-    price: '$49',
-    unit: 'per month + $0.15 / million tokens',
-    features: ['10 active deployments', 'Dedicated GPU instances', 'Autoscaling + fine-tuning', 'Usage dashboard + logs', 'Priority support'],
-    cta: 'Start free trial',
-    href: '/signup',
-    featured: true,
-  },
-  {
-    name: 'Enterprise',
-    desc: 'For regulated industries and large-scale teams.',
-    price: 'Custom',
-    unit: 'Volume discounts · dedicated team',
-    features: ['Unlimited deployments', 'Private VPC + air-gap', '99.9% SLA guarantee', 'HIPAA · SOC 2 · GDPR', 'Dedicated solutions engineer'],
-    cta: 'Contact sales',
-    href: null,
-    featured: false,
-  },
-]
-
 export default function Pricing() {
+  const { t } = useTranslation()
+
+  const plans = [
+    {
+      key: 'starter',
+      name: t('pricing.plan_starter_name'),
+      desc: t('pricing.plan_starter_desc'),
+      price: t('pricing.plan_starter_price'),
+      unit: t('pricing.plan_starter_unit'),
+      features: [
+        t('pricing.plan_starter_f1'),
+        t('pricing.plan_starter_f2'),
+        t('pricing.plan_starter_f3'),
+        t('pricing.plan_starter_f4'),
+      ],
+      cta: t('pricing.plan_starter_cta'),
+      href: '/signup',
+      featured: false,
+      showNoCC: true,
+    },
+    {
+      key: 'pro',
+      name: t('pricing.plan_pro_name'),
+      desc: t('pricing.plan_pro_desc'),
+      price: t('pricing.plan_pro_price'),
+      unit: t('pricing.plan_pro_unit'),
+      features: [
+        t('pricing.plan_pro_f1'),
+        t('pricing.plan_pro_f2'),
+        t('pricing.plan_pro_f3'),
+        t('pricing.plan_pro_f4'),
+        t('pricing.plan_pro_f5'),
+      ],
+      cta: t('pricing.plan_pro_cta'),
+      href: '/signup',
+      featured: true,
+      showNoCC: false,
+    },
+    {
+      key: 'enterprise',
+      name: t('pricing.plan_enterprise_name'),
+      desc: t('pricing.plan_enterprise_desc'),
+      price: t('pricing.plan_enterprise_price'),
+      unit: t('pricing.plan_enterprise_unit'),
+      features: [
+        t('pricing.plan_enterprise_f1'),
+        t('pricing.plan_enterprise_f2'),
+        t('pricing.plan_enterprise_f3'),
+        t('pricing.plan_enterprise_f4'),
+        t('pricing.plan_enterprise_f5'),
+      ],
+      cta: t('pricing.plan_enterprise_cta'),
+      href: null,
+      featured: false,
+      showNoCC: false,
+    },
+  ]
+
   return (
     <>
       <section className="section-wrap">
-        <div className="sec-tag">How it works</div>
-        <h2 className="sec-title">Model to API in three steps</h2>
+        <div className="sec-tag">{t('pricing.how_tag')}</div>
+        <h2 className="sec-title">{t('pricing.how_title')}</h2>
         <div className="steps">
           <div className="step">
-            <div className="step-n">Step 01 &mdash; ~10 seconds</div>
+            <div className="step-n">{t('pricing.step1_n')}</div>
             <div className="step-line" />
-            <h3>Pick your model</h3>
-            <p>Choose from 40+ curated open-source models or paste any HuggingFace URL. GGUF, safetensors, and direct upload all supported.</p>
+            <h3>{t('pricing.step1_title')}</h3>
+            <p>{t('pricing.step1_desc')}</p>
           </div>
           <div className="step">
-            <div className="step-n">Step 02 &mdash; ~20 seconds</div>
+            <div className="step-n">{t('pricing.step2_n')}</div>
             <div className="step-line" />
-            <h3>Configure and preview cost</h3>
-            <p>Select GPU tier, region, and autoscaling policy. See your estimated cost per million tokens before committing — no surprises.</p>
+            <h3>{t('pricing.step2_title')}</h3>
+            <p>{t('pricing.step2_desc')}</p>
           </div>
           <div className="step">
-            <div className="step-n">Step 03 &mdash; ~30 seconds</div>
+            <div className="step-n">{t('pricing.step3_n')}</div>
             <div className="step-line" />
-            <h3>Get your live endpoint</h3>
-            <p>Receive an OpenAI-compatible REST URL. Swap your base URL and go — same SDK, same interface, your model.</p>
+            <h3>{t('pricing.step3_title')}</h3>
+            <p>{t('pricing.step3_desc')}</p>
           </div>
         </div>
       </section>
@@ -71,34 +97,34 @@ export default function Pricing() {
         <div className="section-wrap">
           <div className="sec-header">
             <div>
-              <div className="sec-tag">Pricing</div>
-              <h2 className="sec-title">Usage-based.<br />No surprises.</h2>
+              <div className="sec-tag">{t('pricing.tag')}</div>
+              <h2 className="sec-title">{t('pricing.title1')}<br />{t('pricing.title2')}</h2>
             </div>
-            <p className="sec-sub">Start free, scale with confidence. Every plan runs on the same infrastructure — you only pay for what you use.</p>
+            <p className="sec-sub">{t('pricing.sub')}</p>
           </div>
-          <p className="price-trust-note">No contracts. Cancel anytime. Prices in USD.</p>
+          <p className="price-trust-note">{t('pricing.trust_note')}</p>
           <div className="price-grid">
             {plans.map(plan => (
-              <div className={`pcard${plan.featured ? ' featured' : ''}`} key={plan.name}>
-                {plan.featured && <div className="ptag">Most popular</div>}
+              <div className={`pcard${plan.featured ? ' featured' : ''}`} key={plan.key}>
+                {plan.featured && <div className="ptag">{t('pricing.most_popular')}</div>}
                 <h3>{plan.name}</h3>
                 <p className="pdesc">{plan.desc}</p>
-                <div className="pamt" style={plan.price === 'Custom' ? { fontSize: 28, paddingTop: 6 } : {}}>{plan.price}</div>
+                <div className="pamt" style={plan.key === 'enterprise' ? { fontSize: 28, paddingTop: 6 } : {}}>{plan.price}</div>
                 <div className="punit">{plan.unit}</div>
                 <ul className="plist">
                   {plan.features.map(f => (
                     <li key={f}><CheckIcon />{f}</li>
                   ))}
                 </ul>
-                {plan.name === 'Enterprise' ? (
+                {plan.key === 'enterprise' ? (
                   <button className="pbtn pbtn-outline">{plan.cta}</button>
                 ) : plan.href ? (
                   <Link href={plan.href}><button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button></Link>
                 ) : (
                   <button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button>
                 )}
-                {plan.name === 'Starter' && (
-                  <p className="plan-free-note">No credit card required</p>
+                {plan.showNoCC && (
+                  <p className="plan-free-note">{t('pricing.no_cc')}</p>
                 )}
               </div>
             ))}

@@ -1,6 +1,8 @@
 import '../styles/globals.css'
 import '../styles/dashboard.css'
 import Head from 'next/head'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({
@@ -10,6 +12,13 @@ const inter = Inter({
 })
 
 export default function App({ Component, pageProps }) {
+  const { locale } = useRouter()
+
+  useEffect(() => {
+    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr'
+    document.documentElement.lang = locale || 'en'
+  }, [locale])
+
   return (
     <div className={inter.variable}>
       <Head>

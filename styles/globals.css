@@ -1827,3 +1827,137 @@ footer {
   flex-shrink: 0;
   margin-left: auto;
 }
+
+/* ─── RTL support for Arabic ─────────────────────────────────── */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .nav {
+  direction: rtl;
+}
+
+[dir="rtl"] .nav-left {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-right {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-links {
+  direction: rtl;
+}
+
+[dir="rtl"] .footer-wrap {
+  direction: rtl;
+}
+
+[dir="rtl"] .flinks {
+  direction: rtl;
+}
+
+[dir="rtl"] .foot-bar {
+  direction: rtl;
+}
+
+[dir="rtl"] .hero-wrap {
+  direction: rtl;
+}
+
+[dir="rtl"] .hero-btns {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .hero-stats {
+  direction: rtl;
+}
+
+[dir="rtl"] .sec-header {
+  direction: rtl;
+}
+
+[dir="rtl"] .feat-grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .model-grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .price-grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .steps {
+  direction: rtl;
+}
+
+[dir="rtl"] .tcard-grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .trust-bar {
+  direction: rtl;
+}
+
+[dir="rtl"] .plist {
+  direction: rtl;
+}
+
+[dir="rtl"] .plist li {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .mbench {
+  direction: rtl;
+}
+
+[dir="rtl"] .eyebrow {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .btn-cta {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .code-window {
+  direction: ltr;
+}
+
+[dir="rtl"] .nav-search-trigger {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .lang-option {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .lang-option-check {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .fcol {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .tcard {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .tauthor {
+  direction: rtl;
+}
+
+[dir="rtl"] .cta-band {
+  direction: rtl;
+}
+
+[dir="rtl"] .cta-band-actions {
+  flex-direction: row-reverse;
+}
