@@ -12,12 +12,10 @@ export default function Hero() {
       <div className="hero-glow-3" />
 
       <div className="hero-wrap">
-        <div className="hero">
-          <div className="eyebrow hero-anim-1">
-            <div className="eyebrow-dot" />
-            {t('hero.eyebrow')}
-          </div>
+        {/* Animated centerpiece — above headline */}
+        <DeployAnimation />
 
+        <div className="hero">
           <h1 className="hero-anim-2">
             {t('hero.headline1')}<br />
             {t('hero.headline2') ? <>{t('hero.headline2')}<br /></> : null}
@@ -64,8 +62,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Animated centerpiece — full width, below text */}
-        <DeployAnimation />
       </div>
     </div>
   )

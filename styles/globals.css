@@ -412,7 +412,7 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 110px 48px 0;
+  padding: 100px 48px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -660,8 +660,8 @@ textarea:focus-visible {
   position: relative;
   width: 100%;
   max-width: 740px;
-  margin: 52px auto 0;
-  padding-bottom: 64px;
+  margin: 0 auto 52px;
+  padding-bottom: 0;
 }
 
 .da-terminal {
@@ -1719,7 +1719,7 @@ footer {
   .hero h1 { font-size: 40px; letter-spacing: -1.8px; }
   .da-stat { display: none; }
   .da-terminal { transform: none; }
-  .da-wrap { margin-top: 36px; padding-bottom: 40px; }
+  .da-wrap { margin: 0 auto 36px; padding-bottom: 0; }
   .hero-glow-1, .hero-glow-2, .hero-glow-3 { display: none; }
   .feat-grid { grid-template-columns: 1fr; }
   .model-grid { grid-template-columns: repeat(2, 1fr); }
