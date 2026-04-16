@@ -62,9 +62,8 @@ export default function Home() {
 
         {/* Trust strip */}
         <div className="trust-bar">
-          <span className="trust-label">{t('home.trusted_label')}</span>
           {trustNames.map(n => (
-            <span className="trust-name" key={n}>{n}</span>
+            <span key={n}>{n}</span>
           ))}
         </div>
 
