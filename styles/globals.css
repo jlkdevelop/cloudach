@@ -205,10 +205,8 @@ textarea:focus-visible {
   max-width: 1088px;
   height: 52px;
   padding: 0 8px 0 18px;
-  background: rgba(9, 10, 19, 0.82);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #222525;
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 14px;
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.03) inset,
@@ -1746,10 +1744,8 @@ footer {
   top: 110px;
   left: 12px;
   right: 12px;
-  background: rgba(9,10,19,0.96);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #222525;
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 12px;
   padding: 12px 12px 20px;
   z-index: 99;
