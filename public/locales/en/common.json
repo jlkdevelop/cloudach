@@ -13,8 +13,8 @@
   },
   "hero": {
     "eyebrow": "LLM cloud infrastructure",
-    "headline1": "Open-source LLMs",
-    "headline2": "in production.",
+    "headline1": "Deploy open models.",
+    "headline2": "",
     "headline3": "In 60 seconds.",
     "sub": "One API. 50+ open-source models. Zero GPU management.",
     "cta_primary": "Start deploying free",

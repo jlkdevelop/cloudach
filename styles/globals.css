@@ -472,11 +472,7 @@ textarea:focus-visible {
 
 .hero h1 em {
   font-style: normal;
-  /* luminous gradient on accent text */
-  background: linear-gradient(92deg, #6B86FF 0%, #22D3EE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-1);
 }
 
 .hero-sub {
