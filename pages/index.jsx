@@ -93,9 +93,14 @@ export default function Home() {
             Join 5,000+ developers and teams running open-source LLMs on Cloudach.<br />
             Free to start. No credit card required.
           </p>
-          <Link href="/signup">
-            <button className="btn-cta-white">Deploy your first model free</button>
-          </Link>
+          <div className="cta-band-actions">
+            <Link href="/signup">
+              <button className="btn-cta-white">Deploy your first model free</button>
+            </Link>
+            <Link href="/pricing">
+              <button className="btn-cta-ghost-pricing">View pricing &rarr;</button>
+            </Link>
+          </div>
         </section>
       </main>
 

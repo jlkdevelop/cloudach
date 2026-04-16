@@ -76,6 +76,7 @@ export default function Pricing() {
             </div>
             <p className="sec-sub">Start free, scale with confidence. Every plan runs on the same infrastructure — you only pay for what you use.</p>
           </div>
+          <p className="price-trust-note">No contracts. Cancel anytime. Prices in USD.</p>
           <div className="price-grid">
             {plans.map(plan => (
               <div className={`pcard${plan.featured ? ' featured' : ''}`} key={plan.name}>
@@ -89,10 +90,13 @@ export default function Pricing() {
                     <li key={f}><CheckIcon />{f}</li>
                   ))}
                 </ul>
-                {plan.href
-                  ? <Link href={plan.href}><button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button></Link>
-                  : <button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button>
-                }
+                {plan.name === 'Enterprise' ? (
+                  <button className="pbtn pbtn-outline">{plan.cta}</button>
+                ) : plan.href ? (
+                  <Link href={plan.href}><button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button></Link>
+                ) : (
+                  <button className={`pbtn${plan.featured ? ' pblu' : ''}`}>{plan.cta}</button>
+                )}
                 {plan.name === 'Starter' && (
                   <p className="plan-free-note">No credit card required</p>
                 )}
