@@ -87,21 +87,23 @@ export default function Terms() {
         <meta name="twitter:description" content="Cloudach terms of service — the rules and conditions for using the platform." />
       </Head>
       <Nav />
-      <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
+      <main style={{ background: '#07080f', minHeight: '100vh' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Legal</div>
-        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 8px' }}>Terms of Service</h1>
-        <p style={{ fontSize: 13, color: '#9CA3AF', marginBottom: 16 }}>Last updated: April 14, 2026</p>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: 'var(--text-1)', margin: '16px 0 8px' }}>Terms of Service</h1>
+        <p style={{ fontSize: 13, color: 'var(--text-4)', marginBottom: 16 }}>Last updated: April 14, 2026</p>
         <div style={{ display: 'flex', gap: 16, marginBottom: 40, flexWrap: 'wrap' }}>
-          <Link href="/privacy" style={{ fontSize: 13, color: '#6366F1' }}>Privacy Policy</Link>
-          <Link href="/acceptable-use" style={{ fontSize: 13, color: '#6366F1' }}>Acceptable Use Policy</Link>
+          <Link href="/privacy" style={{ fontSize: 13, color: 'var(--brand)' }}>Privacy Policy</Link>
+          <Link href="/acceptable-use" style={{ fontSize: 13, color: 'var(--brand)' }}>Acceptable Use Policy</Link>
         </div>
 
         {SECTIONS.map(s => (
           <div key={s.title} style={{ marginBottom: 32 }}>
-            <h2 style={{ fontSize: 17, fontWeight: 700, color: '#0D0F1A', marginBottom: 8 }}>{s.title}</h2>
-            <p style={{ fontSize: 15, color: '#6B7280', lineHeight: 1.75 }}>{s.body}</p>
+            <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-1)', marginBottom: 8 }}>{s.title}</h2>
+            <p style={{ fontSize: 15, color: 'var(--text-2)', lineHeight: 1.75 }}>{s.body}</p>
           </div>
         ))}
+      </div>
       </main>
       <Footer />
     </>

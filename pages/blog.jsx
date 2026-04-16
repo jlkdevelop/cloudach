@@ -61,25 +61,27 @@ export default function Blog() {
         <meta name="twitter:description" content="Engineering deep dives, product updates, and LLM infrastructure insights from the Cloudach team." />
       </Head>
       <Nav />
-      <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px' }}>
+      <main style={{ background: '#07080f', minHeight: '100vh' }}>
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px' }}>
         <div className="sec-tag">Blog</div>
-        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: '#0D0F1A', margin: '16px 0 52px' }}>
+        <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: 'var(--text-1)', margin: '16px 0 52px' }}>
           From the team
         </h1>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#E5E7EB', border: '1px solid #E5E7EB', borderRadius: 14, overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
           {posts.map(p => (
-            <Link href={p.slug} key={p.title} style={{ background: '#fff', padding: '28px 32px', display: 'block', textDecoration: 'none', transition: 'background 0.1s' }}
-              onMouseEnter={e => e.currentTarget.style.background='#F9FAFB'}
-              onMouseLeave={e => e.currentTarget.style.background='#fff'}>
+            <Link href={p.slug} key={p.title} style={{ background: 'var(--bg-1)', padding: '28px 32px', display: 'block', textDecoration: 'none', transition: 'background 0.15s' }}
+              onMouseEnter={e => e.currentTarget.style.background='var(--bg-2)'}
+              onMouseLeave={e => e.currentTarget.style.background='var(--bg-1)'}>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>{p.tag}</span>
-                <span style={{ fontSize: 12, color: '#9CA3AF' }}>{p.date}</span>
+                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'rgba(79,110,247,0.10)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em', border: '1px solid rgba(79,110,247,0.18)' }}>{p.tag}</span>
+                <span style={{ fontSize: 12, color: 'var(--text-4)' }}>{p.date}</span>
               </div>
-              <h2 style={{ fontSize: 17, fontWeight: 700, color: '#0D0F1A', letterSpacing: -0.3, marginBottom: 8 }}>{p.title}</h2>
-              <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.65 }}>{p.desc}</p>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-1)', letterSpacing: -0.3, marginBottom: 8 }}>{p.title}</h2>
+              <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.65 }}>{p.desc}</p>
             </Link>
           ))}
         </div>
+      </div>
       </main>
       <Footer />
     </>
