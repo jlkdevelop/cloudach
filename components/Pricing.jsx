@@ -3,7 +3,7 @@ import { useTranslation } from '../lib/translations';
 
 const CheckIcon = () => (
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style={{ flexShrink: 0 }}>
-    <path d="M2.5 7.5l3.5 3.5 6.5-6.5" stroke="#4F6EF7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M2.5 7.5l3.5 3.5 6.5-6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 
