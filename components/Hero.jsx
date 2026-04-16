@@ -7,6 +7,19 @@ export default function Hero() {
 
   return (
     <div className="hero-outer">
+      {/* Background video — light-grid on black, very low opacity */}
+      <video
+        className="hero-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
+      >
+        <source src="/video/hero-bg.webm" type="video/webm" />
+        <source src="/video/hero-bg.mp4" type="video/mp4" />
+      </video>
       <div className="hero-wrap">
         {/* Animated centerpiece — above headline */}
         <DeployAnimation />

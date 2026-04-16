@@ -44,3 +44,8 @@ coverage/
 *.tfstate
 *.tfstate.*
 .terraform/
+
+# Large raw video source files — optimized web versions only
+public/video/*.mov
+public/video/*.mkv
+public/video/raw-*
