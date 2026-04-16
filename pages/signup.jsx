@@ -99,11 +99,11 @@ export default function SignupPage() {
             <Link href="/login">Sign in</Link>
           </div>
 
-          <p style={{ fontSize: 12, color: '#6B7280', textAlign: 'center', marginTop: 16 }}>
+          <p style={{ fontSize: 12, color: 'var(--text-3)', textAlign: 'center', marginTop: 16 }}>
             By creating an account you agree to our{' '}
-            <a href="/terms" style={{ color: '#6B7280', textDecoration: 'underline' }}>Terms of Service</a>
+            <a href="/terms" style={{ color: 'var(--text-3)', textDecoration: 'underline' }}>Terms of Service</a>
             {' '}and{' '}
-            <a href="/privacy" style={{ color: '#6B7280', textDecoration: 'underline' }}>Privacy Policy</a>.
+            <a href="/privacy" style={{ color: 'var(--text-3)', textDecoration: 'underline' }}>Privacy Policy</a>.
           </p>
         </div>
       </div>
