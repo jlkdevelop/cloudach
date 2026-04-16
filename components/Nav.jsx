@@ -5,7 +5,6 @@ import SearchModal from './SearchModal'
 
 export default function Nav() {
   const [searchOpen, setSearchOpen] = useState(false)
-  const [scrolled, setScrolled]     = useState(false)
 
   useEffect(() => {
     function onKey(e) {
@@ -14,18 +13,13 @@ export default function Nav() {
         setSearchOpen(s => !s)
       }
     }
-    function onScroll() { setScrolled(window.scrollY > 8) }
     window.addEventListener('keydown', onKey)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      window.removeEventListener('scroll', onScroll)
-    }
+    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   return (
     <>
-      <nav className={`nav${scrolled ? ' nav-scrolled' : ''}`}>
+      <nav className="nav nav-scrolled">
 
         {/* Left: logo + search */}
         <div className="nav-left">
