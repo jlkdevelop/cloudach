@@ -44,22 +44,6 @@ export default function Hero() {
             {t('hero.free_note')}
           </p>
 
-          <div className="hero-stats hero-anim-5">
-            <div className="hero-stat">
-              <div className="stat-val">{t('hero.stat1_val')}</div>
-              <div className="stat-label">{t('hero.stat1_label')}</div>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <div className="stat-val">{t('hero.stat2_val')}</div>
-              <div className="stat-label">{t('hero.stat2_label')}</div>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <div className="stat-val">{t('hero.stat3_val')}</div>
-              <div className="stat-label">{t('hero.stat3_label')}</div>
-            </div>
-          </div>
         </div>
 
       </div>

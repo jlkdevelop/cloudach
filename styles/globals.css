@@ -412,7 +412,7 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 100px 48px 0;
+  padding: 92px 48px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -423,7 +423,7 @@ textarea:focus-visible {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 680px;
+  max-width: 600px;
   width: 100%;
 }
 
@@ -462,10 +462,10 @@ textarea:focus-visible {
 }
 
 .hero h1 {
-  font-size: 68px;
+  font-size: 52px;
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
   margin-bottom: 16px;
   color: var(--text-1);
   text-align: center;
@@ -1716,7 +1716,7 @@ footer {
   .nav-search-trigger span { display: none; }
   .nav-search-icon-btn { width: 30px; height: 30px; }
   .hero-wrap { padding: 80px 24px 0; }
-  .hero h1 { font-size: 40px; letter-spacing: -1.8px; }
+  .hero h1 { font-size: 34px; letter-spacing: -1.5px; }
   .da-stat { display: none; }
   .da-terminal { transform: none; }
   .da-wrap { margin: 0 auto 36px; padding-bottom: 0; }
@@ -1744,7 +1744,7 @@ footer {
 @media (max-width: 1280px) and (min-width: 901px) {
   .nav { padding: 0 32px; }
   .hero-wrap { padding: 72px 40px 0; }
-  .hero h1 { font-size: 54px; letter-spacing: -2.5px; }
+  .hero h1 { font-size: 44px; letter-spacing: -1.8px; }
   .hero-sub { font-size: 14.5px; }
   .nav-search-trigger { width: 220px; }
   .da-stat-1 { left: -80px; }
@@ -1755,7 +1755,7 @@ footer {
 /* ── Large desktop (1440px+) — give it a touch more breathing room ───────── */
 @media (min-width: 1440px) {
   .hero-wrap { padding: 88px 48px 0; }
-  .hero h1 { font-size: 74px; letter-spacing: -3.5px; }
+  .hero h1 { font-size: 58px; letter-spacing: -2.5px; }
 }
 
 /* ── Mobile nav hamburger + drawer ──────────────────────────────────────── */
