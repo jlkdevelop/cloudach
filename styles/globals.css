@@ -156,14 +156,15 @@ textarea:focus-visible {
 .nav-search-trigger {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   background: var(--bg-2);
   border: 1px solid var(--border);
   border-radius: var(--r-full);
-  padding: 0 14px;
-  height: 32px;
+  padding: 0 18px;
+  height: 34px;
+  width: 220px;
   color: var(--text-3);
-  font-size: 12.5px;
+  font-size: 13px;
   font-family: var(--font-inter), sans-serif;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
