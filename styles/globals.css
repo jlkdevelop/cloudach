@@ -310,6 +310,7 @@ textarea:focus-visible {
 .hero-outer {
   position: relative;
   overflow: hidden;
+  min-height: 100dvh;
   /* Layer 1: near-black base */
   background: #07080f;
 }
@@ -411,7 +412,7 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 92px 48px 0;
+  padding: 92px 48px 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1710,7 +1711,7 @@ footer {
   .nav-search-trigger { width: 160px; }
   .nav-search-trigger span { display: none; }
   .nav-search-icon-btn { width: 30px; height: 30px; }
-  .hero-wrap { padding: 80px 24px 0; }
+  .hero-wrap { padding: 80px 24px 56px; min-height: 100svh; }
   .hero h1 { font-size: 34px; letter-spacing: -1.5px; }
   .da-stat { display: none; }
   .da-terminal { transform: none; }
@@ -1738,7 +1739,7 @@ footer {
 /* ── Mid-size laptops (1280px) — keep hero in one screen ─────────────────── */
 @media (max-width: 1280px) and (min-width: 901px) {
   .nav { padding: 0 32px; }
-  .hero-wrap { padding: 72px 40px 0; }
+  .hero-wrap { padding: 72px 40px 64px; }
   .hero h1 { font-size: 44px; letter-spacing: -1.8px; }
   .hero-sub { font-size: 14.5px; }
   .nav-search-trigger { width: 220px; }
@@ -1749,7 +1750,7 @@ footer {
 
 /* ── Large desktop (1440px+) — give it a touch more breathing room ───────── */
 @media (min-width: 1440px) {
-  .hero-wrap { padding: 88px 48px 0; }
+  .hero-wrap { padding: 88px 48px 80px; }
   .hero h1 { font-size: 58px; letter-spacing: -2.5px; }
 }
 
