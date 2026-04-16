@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import Logo from '../components/Logo';
 
 const MODELS = [
   { id: 'llama3-8b',      name: 'Llama 3 8B',      ctx: '8K',   best: 'Fast chat, Q&A, summarization' },
@@ -35,8 +36,9 @@ export default function DocsPage() {
       <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#0D0F1A' }}>
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid #E5E7EB', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 64 }}>
-          <Link href="/" style={{ textDecoration: 'none' }}>
-            <span style={{ fontWeight: 700, fontSize: 17, color: '#0D0F1A', letterSpacing: '-0.5px' }}>Cloudach<span style={{ color: '#4F6EF7' }}>.</span></span>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Logo size={28} />
+            <span style={{ fontWeight: 700, fontSize: 17, color: '#0D0F1A', letterSpacing: '-0.5px' }}>cloud<span style={{ color: '#4F6EF7' }}>ach</span></span>
           </Link>
           <Link href="/docs" style={{ fontSize: 14, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
           <Link href="/dashboard" style={{ fontSize: 14, color: '#6B7280', textDecoration: 'none' }}>Dashboard</Link>
