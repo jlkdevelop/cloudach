@@ -48,7 +48,7 @@ export default function LoginPage() {
       <div className="db-login-shell">
         <div className="db-login-card">
           <div className="db-login-logo">
-            <Logo size={26} />
+            <Logo size={26} monochrome />
             <span className="db-login-brand">cloud<span>ach</span></span>
           </div>
 

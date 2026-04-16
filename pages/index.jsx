@@ -91,7 +91,7 @@ export default function Home() {
         {/* CTA band */}
         <section className="cta-band">
           <div style={{ marginBottom: 22, display: 'flex', justifyContent: 'center' }}>
-            <Logo size={34} />
+            <Logo size={34} monochrome />
           </div>
           <h2>{t('home.cta_title1')}<br />{t('home.cta_title2')}</h2>
           <p>

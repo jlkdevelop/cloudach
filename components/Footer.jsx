@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="footer-wrap">
         <div className="fbrand">
           <div className="logo">
-            <Logo size={24} />
+            <Logo size={24} monochrome />
             <span className="logo-text" style={{ fontSize: 15 }}>cloud<span>ach</span></span>
           </div>
           <p>{t('footer.tagline')}</p>

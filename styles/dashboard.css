@@ -40,7 +40,7 @@
 }
 
 .db-sidebar-brand span {
-  color: #4F6EF7;
+  color: #fff;
 }
 
 .db-nav {
@@ -802,7 +802,7 @@
 }
 
 .db-login-brand span {
-  color: #4F6EF7;
+  color: #f2f2f2;
 }
 
 .db-login-title {
@@ -838,8 +838,8 @@
   padding: 11px;
   font-size: 14.5px;
   font-weight: 600;
-  background: #4F6EF7;
-  color: #fff;
+  background: var(--btn-primary-bg, #ffffff);
+  color: var(--btn-primary-text, #0d0e17);
   border: none;
   border-radius: 9px;
   cursor: pointer;
@@ -847,8 +847,8 @@
 }
 
 .db-login-full-btn:hover {
-  background: #6B86FF;
-  box-shadow: 0 0 20px rgba(79,110,247,0.35);
+  background: var(--btn-primary-hover, rgba(255,255,255,0.88));
+  box-shadow: var(--btn-primary-shadow, 0 0 0 1px rgba(255,255,255,0.10), 0 2px 12px rgba(0,0,0,0.4));
 }
 
 .db-login-full-btn:disabled {

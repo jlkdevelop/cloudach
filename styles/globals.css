@@ -60,6 +60,12 @@
   --brand-border:   rgba(79, 110, 247, 0.22);
   --brand-glow:     rgba(79, 110, 247, 0.06);
 
+  /* Primary action system — white on dark */
+  --btn-primary-bg:      #ffffff;
+  --btn-primary-text:    #0d0e17;
+  --btn-primary-hover:   rgba(255, 255, 255, 0.88);
+  --btn-primary-shadow:  0 0 0 1px rgba(255,255,255,0.10), 0 2px 12px rgba(0,0,0,0.4);
+
   /* Extended brand palette */
   --indigo:         #5C4EE8;
   --violet:         #7C3AED;
@@ -176,7 +182,7 @@ textarea:focus-visible {
   color: var(--text-1);
 }
 
-.logo-text span { color: var(--brand); }
+.logo-text span { color: var(--text-1); }
 
 /* Search trigger — integrated, refined */
 .nav-search-trigger {
@@ -265,8 +271,8 @@ textarea:focus-visible {
 .btn-solid {
   font-size: 14px;
   font-weight: 600;
-  color: #fff;
-  background: var(--brand);
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
   padding: 8px 18px;
   border-radius: 7px;
   border: none;
@@ -275,8 +281,8 @@ textarea:focus-visible {
 }
 
 .btn-solid:hover {
-  background: var(--brand-hover);
-  box-shadow: 0 0 16px rgba(79,110,247,0.35);
+  background: var(--btn-primary-hover);
+  box-shadow: var(--btn-primary-shadow);
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────────── */
@@ -464,8 +470,8 @@ textarea:focus-visible {
   align-items: center;
   font-size: 13.5px;
   font-weight: 600;
-  color: #fff;
-  background: var(--brand);
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
   padding: 10px 22px;
   border-radius: 7px;
   border: none;
@@ -474,8 +480,8 @@ textarea:focus-visible {
 }
 
 .btn-cta:hover {
-  background: var(--brand-hover);
-  box-shadow: 0 0 20px rgba(79,110,247,0.4);
+  background: var(--btn-primary-hover);
+  box-shadow: 0 4px 24px rgba(255,255,255,0.08);
 }
 
 .btn-cta-ghost {
@@ -483,7 +489,7 @@ textarea:focus-visible {
   align-items: center;
   font-size: 13.5px;
   font-weight: 500;
-  color: var(--text-3);
+  color: var(--text-2);
   padding: 10px 18px;
   border-radius: 7px;
   border: 1px solid rgba(255,255,255,0.09);
@@ -1028,15 +1034,15 @@ textarea:focus-visible {
 }
 
 .pbtn.pblu {
-  background: var(--brand);
-  border-color: var(--brand);
-  color: #fff;
+  background: var(--btn-primary-bg);
+  border-color: rgba(255,255,255,0.15);
+  color: var(--btn-primary-text);
 }
 
 .pbtn.pblu:hover {
-  background: var(--brand-hover);
-  border-color: var(--brand-hover);
-  box-shadow: 0 0 20px rgba(79,110,247,0.4);
+  background: var(--btn-primary-hover);
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 4px 20px rgba(255,255,255,0.06);
 }
 
 .pbtn.pbtn-outline {
@@ -1159,8 +1165,8 @@ textarea:focus-visible {
 }
 
 .btn-cta-white {
-  background: var(--brand);
-  color: #fff;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   font-size: 14px;
   font-weight: 600;
   padding: 13px 28px;
@@ -1171,8 +1177,8 @@ textarea:focus-visible {
 }
 
 .btn-cta-white:hover {
-  background: var(--brand-hover);
-  box-shadow: 0 0 20px rgba(79,110,247,0.4);
+  background: var(--btn-primary-hover);
+  box-shadow: 0 4px 24px rgba(255,255,255,0.08);
 }
 
 .btn-cta-ghost-pricing {

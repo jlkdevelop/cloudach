@@ -32,7 +32,7 @@ export default function Nav() {
         {/* Left: logo + search */}
         <div className="nav-left">
           <Link href="/" className="logo">
-            <Logo size={32} />
+            <Logo size={32} monochrome />
             <span className="logo-text">cloud<span>ach</span></span>
           </Link>
 

@@ -61,7 +61,7 @@ export default function DashboardLayout({ children, user }) {
   const sidebar = (
     <aside className={`db-sidebar${sidebarOpen ? ' db-sidebar--open' : ''}`}>
       <div className="db-sidebar-logo">
-        <Logo size={22} />
+        <Logo size={22} monochrome />
         <span className="db-sidebar-brand">cloud<span>ach</span></span>
         <button
           className="db-sidebar-close"
