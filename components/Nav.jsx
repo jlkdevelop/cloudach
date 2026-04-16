@@ -24,7 +24,7 @@ export default function Nav() {
         {/* Left: logo + search */}
         <div className="nav-left">
           <Link href="/" className="logo">
-            <Logo size={26} />
+            <Logo size={24} />
             <span className="logo-text">cloud<span>ach</span></span>
           </Link>
 
@@ -33,7 +33,7 @@ export default function Nav() {
             onClick={() => setSearchOpen(true)}
             aria-label="Open search"
           >
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
               <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
               <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
@@ -41,7 +41,7 @@ export default function Nav() {
           </button>
         </div>
 
-        {/* Center: nav links */}
+        {/* Center: nav links — absolutely centered in the nav bar */}
         <div className="nav-links">
           <a href="#platform">Platform</a>
           <a href="#models">Models</a>

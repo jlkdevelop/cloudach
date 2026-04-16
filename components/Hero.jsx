@@ -17,8 +17,8 @@ export default function Hero() {
           </div>
 
           <h1 className="hero-anim-2">
-            Run any open&#8209;source<br />
-            LLM in production.<br />
+            Run any open&#8209;source LLM<br />
+            in production.<br />
             <em>In 60 seconds.</em>
           </h1>
 
