@@ -17,11 +17,11 @@ export default function BlogPost1() {
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
-        <Link href="/blog" style={{ fontSize: 13, color: '#4F6EF7', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
+        <Link href="/blog" style={{ fontSize: 13, color: 'var(--brand)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
           ← Back to blog
         </Link>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 20 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Engineering</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Engineering</span>
           <span style={{ fontSize: 12, color: '#9CA3AF' }}>Apr 10, 2026</span>
         </div>
         <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.15, color: '#0D0F1A', margin: '0 0 24px' }}>
@@ -83,7 +83,7 @@ export default function BlogPost1() {
           We&apos;re actively testing speculative decoding for the 70B model — early results suggest we can get p50 TTFT down to ~45ms without touching the accuracy profile. We&apos;ll share those results in a follow-up post.
         </p>
         <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.85, marginBottom: 40 }}>
-          If you&apos;re building latency-sensitive LLM applications, <Link href="/signup" style={{ color: '#4F6EF7' }}>try Cloudach free</Link>. You&apos;ll hit these numbers on your first deploy.
+          If you&apos;re building latency-sensitive LLM applications, <Link href="/signup" style={{ color: 'var(--brand)' }}>try Cloudach free</Link>. You&apos;ll hit these numbers on your first deploy.
         </p>
       </main>
       <Footer />

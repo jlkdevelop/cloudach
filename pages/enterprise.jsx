@@ -89,7 +89,7 @@ function IconCheck() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
       <circle cx="8" cy="8" r="7" fill="rgba(79,110,247,0.10)" />
-      <path d="M5 8l2 2 4-4" stroke="#4F6EF7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5 8l2 2 4-4" stroke="var(--brand)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -262,7 +262,7 @@ export default function Enterprise() {
                   <div style={{
                     width: 44, height: 44, borderRadius: 10,
                     background: 'rgba(79,110,247,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#4F6EF7', marginBottom: 18,
+                    color: 'var(--brand)', marginBottom: 18,
                   }}>
                     <f.Icon />
                   </div>
@@ -309,7 +309,7 @@ export default function Enterprise() {
                 fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
                 color: 'var(--brand)', marginBottom: 24,
               }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4F6EF7' }} />
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--brand)' }} />
                 Enterprise Plan
               </div>
               <div style={{ fontSize: 42, fontWeight: 700, letterSpacing: -2, color: 'var(--text-1)', lineHeight: 1 }}>

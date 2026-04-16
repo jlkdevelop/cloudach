@@ -40,7 +40,7 @@ export default function DocsPage() {
             <Logo size={26} monochrome />
             <span style={{ fontWeight: 700, fontSize: 16, color: '#f2f2f2', letterSpacing: '-0.4px' }}>cloud<span style={{ color: '#f2f2f2' }}>ach</span></span>
           </Link>
-          <Link href="/docs" style={{ fontSize: 13.5, fontWeight: 500, color: '#4F6EF7', textDecoration: 'none' }}>Docs</Link>
+          <Link href="/docs" style={{ fontSize: 13.5, fontWeight: 500, color: 'var(--brand)', textDecoration: 'none' }}>Docs</Link>
           <Link href="/dashboard" style={{ fontSize: 13.5, color: '#a0a0a0', textDecoration: 'none' }}>Dashboard</Link>
           <div style={{ flex: 1 }} />
           <Link href="/signup">
@@ -546,7 +546,7 @@ try {
               <p style={p}>
                 Webhooks let you receive real-time HTTP POST notifications when events happen in your Cloudach account.
                 Register an endpoint URL in the{' '}
-                <a href="/dashboard/webhooks" style={{ color: '#4F6EF7' }}>dashboard</a> and subscribe to the event types you care about.
+                <a href="/dashboard/webhooks" style={{ color: 'var(--brand)' }}>dashboard</a> and subscribe to the event types you care about.
               </p>
 
               <h3 style={h3} id="webhooks-events">Event types</h3>
@@ -617,7 +617,7 @@ function verify(secret, rawBody, header) {
               <p style={p}>
                 Non-2xx responses or timeouts (10 s) trigger up to <strong>3 retries</strong> with
                 exponential back-off (0.5 s → 1 s → 2 s). View delivery history in the{' '}
-                <a href="/dashboard/webhooks" style={{ color: '#4F6EF7' }}>Webhooks dashboard</a>.
+                <a href="/dashboard/webhooks" style={{ color: 'var(--brand)' }}>Webhooks dashboard</a>.
               </p>
             </Section>
 
@@ -820,7 +820,7 @@ for (const m of models.data) console.log(m.id);`}</CodeBlock>
                   <a key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
                       <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
                     </div>
                     <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
                   </a>
@@ -987,7 +987,7 @@ curl https://api.cloudach.com/v1/chat/completions \\
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
                       <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
                       <span style={{ fontSize: 11, fontWeight: 700, color: t.badgeColor, background: t.badgeBg, padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
-                      {t.lang && <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.lang}</span>}
+                      {t.lang && <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.lang}</span>}
                     </div>
                     <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
                   </a>
@@ -1152,7 +1152,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: 'rgba(79,110,247,0.08)', borderLeft: '2px solid #4F6EF7', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#818cf8', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(79,110,247,0.08)', borderLeft: '2px solid var(--brand)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: '#818cf8', marginBottom: 16 }}>
       {children}
     </div>
   );
@@ -1374,7 +1374,7 @@ for await (const chunk of stream) {
           <p style={pgHint}>
             {apiKey
               ? <span style={{ color: '#059669' }}>✓ Key loaded</span>
-              : <><a href="/dashboard/api-keys" style={{ color: '#4F6EF7' }}>Create a key</a> in your dashboard — it is pre-filled if you are already signed in.</>}
+              : <><a href="/dashboard/api-keys" style={{ color: 'var(--brand)' }}>Create a key</a> in your dashboard — it is pre-filled if you are already signed in.</>}
           </p>
 
           <label style={pgLabel}>Model</label>
@@ -1432,8 +1432,8 @@ for await (const chunk of stream) {
               marginTop: 16,
               padding: '10px 0',
               width: '100%',
-              background: streaming ? '#EF4444' : '#4F6EF7',
-              color: '#fff',
+              background: streaming ? '#EF4444' : 'var(--btn-primary-bg)',
+              color: streaming ? '#fff' : 'var(--btn-primary-text)',
               border: 'none',
               borderRadius: 8,
               fontSize: 14,
@@ -1468,7 +1468,7 @@ for await (const chunk of stream) {
             <span style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>
               Response{' '}
               {streaming && (
-                <span style={{ color: '#4F6EF7', animation: 'none' }}>●</span>
+                <span style={{ color: 'var(--brand)', animation: 'none' }}>●</span>
               )}
             </span>
             {response && (
@@ -1516,4 +1516,4 @@ const pgInput = {
   outline: 'none',
   fontFamily: 'inherit',
 };
-const link = { color: '#4F6EF7', textDecoration: 'none' };
+const link = { color: 'var(--brand)', textDecoration: 'none' };

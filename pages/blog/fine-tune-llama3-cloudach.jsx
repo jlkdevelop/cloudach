@@ -20,12 +20,12 @@ export default function FineTuneLlama3Blog() {
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
-        <Link href="/blog" style={{ fontSize: 13, color: '#4F6EF7', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
+        <Link href="/blog" style={{ fontSize: 13, color: 'var(--brand)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
           ← Back to blog
         </Link>
 
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 20 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>ML</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>ML</span>
           <span style={{ fontSize: 12, color: '#9CA3AF' }}>Apr 14, 2026</span>
         </div>
 
@@ -245,7 +245,7 @@ curl https://api.cloudach.com/v1/chat/completions \\
           ].map(t => (
             <Link key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '14px 18px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 14, fontWeight: 600, color: '#0D0F1A', flex: 1 }}>{t.title}</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{t.badge}</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{t.badge}</span>
             </Link>
           ))}
         </div>
@@ -263,7 +263,7 @@ const ul = { fontSize: 15, color: '#374151', lineHeight: 1.85, marginBottom: 20,
 const ol = { fontSize: 15, color: '#374151', lineHeight: 1.85, marginBottom: 20, paddingLeft: 24 };
 const h2 = { fontSize: 24, fontWeight: 700, letterSpacing: -0.5, color: '#0D0F1A', margin: '48px 0 16px' };
 const inlineCode = { fontFamily: 'monospace', background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em' };
-const linkStyle = { color: '#4F6EF7', textDecoration: 'none' };
+const linkStyle = { color: 'var(--brand)', textDecoration: 'none' };
 const code = { background: '#1E1E1E', color: '#D4D4D4', padding: '16px 20px', borderRadius: 8, fontSize: 13, lineHeight: 1.6, overflowX: 'auto', display: 'block', marginBottom: 20, whiteSpace: 'pre' };
 const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: 14, marginBottom: 20 };
 const thStyle = { textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid #E5E7EB', color: '#374151', fontWeight: 600 };

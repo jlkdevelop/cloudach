@@ -148,9 +148,10 @@ export default function Company() {
                             {/* Avatar placeholder */}
                             <div style={{
                               width: 44, height: 44, borderRadius: '50%',
-                              background: 'linear-gradient(135deg, #4F6EF7, #7B96FF)',
+                              background: 'linear-gradient(135deg, var(--bg-3), var(--bg-2))',
+                              border: '1px solid var(--border-strong)',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: 18, fontWeight: 700, color: '#fff', flexShrink: 0,
+                              fontSize: 18, fontWeight: 700, color: 'var(--text-1)', flexShrink: 0,
                             }}>
                               J
                             </div>

@@ -148,9 +148,9 @@ function PricingCalculator() {
               style={{
                 padding: '8px 20px',
                 borderRadius: 8,
-                border: plan === p ? '2px solid #4F6EF7' : '1px solid var(--border)',
+                border: plan === p ? '2px solid var(--brand)' : '1px solid var(--border)',
                 background: plan === p ? 'rgba(79,110,247,0.10)' : 'var(--bg-2)',
-                color: plan === p ? '#4F6EF7' : 'var(--text-2)',
+                color: plan === p ? 'var(--brand)' : 'var(--text-2)',
                 fontWeight: plan === p ? 600 : 400,
                 fontSize: 14,
                 cursor: 'pointer',
@@ -166,7 +166,7 @@ function PricingCalculator() {
       <div style={{ marginBottom: 32 }}>
         <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-2)', display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
           <span>Monthly token usage</span>
-          <span style={{ color: '#4F6EF7' }}>{tokenFormatted} tokens</span>
+          <span style={{ color: 'var(--brand)' }}>{tokenFormatted} tokens</span>
         </label>
         <input
           type="range"
@@ -197,14 +197,14 @@ function PricingCalculator() {
           <div style={{ height: 1, background: 'var(--border)', margin: '4px 0' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 700, color: 'var(--text-1)', letterSpacing: -0.5 }}>
             <span>Estimated monthly total</span>
-            <span style={{ color: '#4F6EF7' }}>${formatted}</span>
+            <span style={{ color: 'var(--brand)' }}>${formatted}</span>
           </div>
         </div>
       </div>
 
       <p style={{ fontSize: 12, color: '#9CA3AF', marginTop: 14, textAlign: 'center' }}>
         Estimates are approximate. Actual billing is based on metered token usage.{' '}
-        <Link href="/docs" style={{ color: '#4F6EF7' }}>See billing docs →</Link>
+        <Link href="/docs" style={{ color: 'var(--brand)' }}>See billing docs →</Link>
       </p>
     </div>
   )
@@ -326,7 +326,7 @@ export default function PricingPage() {
                     <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600 }}>Context</th>
                     <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Available on</th>
                     <th style={{ textAlign: 'right', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Free ($/M tokens)</th>
-                    <th style={{ textAlign: 'right', padding: '10px 16px', color: '#4F6EF7', fontWeight: 600, whiteSpace: 'nowrap' }}>Pro ($/M tokens)</th>
+                    <th style={{ textAlign: 'right', padding: '10px 16px', color: 'var(--brand)', fontWeight: 600, whiteSpace: 'nowrap' }}>Pro ($/M tokens)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -351,7 +351,7 @@ export default function PricingPage() {
                       <td style={{ padding: '13px 16px', textAlign: 'right', color: 'var(--text-2)', fontFamily: 'monospace', fontSize: 13 }}>
                         ${m.freeRate.toFixed(2)}
                       </td>
-                      <td style={{ padding: '13px 16px', textAlign: 'right', color: '#4F6EF7', fontWeight: 600, fontFamily: 'monospace', fontSize: 13 }}>
+                      <td style={{ padding: '13px 16px', textAlign: 'right', color: 'var(--brand)', fontWeight: 600, fontFamily: 'monospace', fontSize: 13 }}>
                         ${m.proRate.toFixed(2)}
                       </td>
                     </tr>

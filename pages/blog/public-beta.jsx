@@ -17,11 +17,11 @@ export default function BlogPost2() {
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
-        <Link href="/blog" style={{ fontSize: 13, color: '#4F6EF7', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
+        <Link href="/blog" style={{ fontSize: 13, color: 'var(--brand)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
           ← Back to blog
         </Link>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 20 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Product</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Product</span>
           <span style={{ fontSize: 12, color: '#9CA3AF' }}>Apr 5, 2026</span>
         </div>
         <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.15, color: '#0D0F1A', margin: '0 0 24px' }}>
@@ -81,7 +81,7 @@ export default function BlogPost2() {
 
         <h2 style={{ fontSize: 24, fontWeight: 700, letterSpacing: -0.5, color: '#0D0F1A', margin: '48px 0 16px' }}>What&apos;s coming next</h2>
         <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.85, marginBottom: 20 }}>
-          We&apos;re working on fine-tuning support (bring your own LoRA adapter), embeddings endpoints for RAG pipelines, and a private VPC deployment option for enterprise teams. If any of those are blockers for you, <Link href="/contact" style={{ color: '#4F6EF7' }}>reach out</Link> — we prioritize based on what the community is building.
+          We&apos;re working on fine-tuning support (bring your own LoRA adapter), embeddings endpoints for RAG pipelines, and a private VPC deployment option for enterprise teams. If any of those are blockers for you, <Link href="/contact" style={{ color: 'var(--brand)' }}>reach out</Link> — we prioritize based on what the community is building.
         </p>
         <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.85, marginBottom: 40 }}>
           <Link href="/signup" style={{ color: '#4F6EF7', fontWeight: 600 }}>Sign up free →</Link> and deploy your first model in 60 seconds.

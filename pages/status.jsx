@@ -263,7 +263,7 @@ export default function Status() {
           </div>
           <a href="mailto:status@cloudach.com?subject=Subscribe to Cloudach status updates" style={{ textDecoration: 'none' }}>
             <button style={{
-              background: '#4F6EF7', color: '#fff', border: 'none',
+              background: 'var(--btn-primary-bg)', color: 'var(--btn-primary-text)', border: 'none',
               borderRadius: 8, padding: '10px 20px', fontSize: 14, fontWeight: 600,
               cursor: 'pointer',
             }}>

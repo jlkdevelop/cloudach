@@ -17,11 +17,11 @@ export default function NewModelsBlogPost() {
       </Head>
       <Nav />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px' }}>
-        <Link href="/blog" style={{ fontSize: 13, color: '#4F6EF7', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
+        <Link href="/blog" style={{ fontSize: 13, color: 'var(--brand)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 40 }}>
           ← Back to blog
         </Link>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 20 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#4F6EF7', background: '#EEF1FF', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Product</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '3px 9px', borderRadius: 5, letterSpacing: '0.04em' }}>Product</span>
           <span style={{ fontSize: 12, color: '#9CA3AF' }}>Apr 14, 2026</span>
         </div>
         <h1 style={{ fontSize: 40, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.15, color: '#0D0F1A', margin: '0 0 24px' }}>
@@ -102,7 +102,7 @@ export default function NewModelsBlogPost() {
         </h2>
         <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.8, marginBottom: 16 }}>
           All four models are available now in your{' '}
-          <Link href="/dashboard/models" style={{ color: '#4F6EF7', textDecoration: 'none' }}>model catalog</Link>.
+          <Link href="/dashboard/models" style={{ color: 'var(--brand)', textDecoration: 'none' }}>model catalog</Link>.
           Deploy any of them and you'll get an OpenAI-compatible endpoint instantly — swap in the model ID and your Cloudach API key and you're done:
         </p>
         <pre style={{ background: '#1E1E1E', color: '#D4D4D4', padding: '20px 24px', borderRadius: 10, fontSize: 13, lineHeight: 1.7, overflowX: 'auto', marginBottom: 24 }}>{`from openai import OpenAI
@@ -119,7 +119,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)`}</pre>
         <p style={{ fontSize: 15, color: '#374151', lineHeight: 1.8 }}>
           Questions? Reach us at{' '}
-          <a href="mailto:support@cloudach.com" style={{ color: '#4F6EF7', textDecoration: 'none' }}>support@cloudach.com</a>.
+          <a href="mailto:support@cloudach.com" style={{ color: 'var(--brand)', textDecoration: 'none' }}>support@cloudach.com</a>.
         </p>
       </main>
       <Footer />
@@ -138,7 +138,7 @@ function ModelCard({ id, name, params, ctx, tags, price }) {
           </div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {tags.map(t => (
-              <span key={t} style={{ fontSize: 11, fontWeight: 600, color: '#4F6EF7', background: '#EEF1FF', padding: '2px 8px', borderRadius: 4 }}>{t}</span>
+              <span key={t} style={{ fontSize: 11, fontWeight: 600, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '2px 8px', borderRadius: 4 }}>{t}</span>
             ))}
           </div>
         </div>

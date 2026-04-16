@@ -54,7 +54,7 @@ export default function AdminUsersPage() {
                 <tr key={u.id} style={{ background: u.isDisabled ? '#FEF2F2' : 'transparent' }}>
                   <td style={td}>{u.email}</td>
                   <td style={td}>
-                    <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: 12, fontWeight: 500, background: u.role === 'admin' ? '#EEF2FF' : '#F3F4F6', color: u.role === 'admin' ? '#4338CA' : '#374151' }}>
+                    <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: 12, fontWeight: 500, background: u.role === 'admin' ? 'var(--brand-subtle)' : 'var(--bg-3)', color: u.role === 'admin' ? 'var(--brand)' : 'var(--text-2)' }}>
                       {u.role}
                     </span>
                   </td>
