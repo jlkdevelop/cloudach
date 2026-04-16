@@ -148,8 +148,10 @@ textarea:focus-visible {
   height: 52px;
   border-bottom: none;
   background: transparent;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
 }
 
@@ -383,8 +385,8 @@ textarea:focus-visible {
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
-  /* Tightly tuned for single-viewport fit at 1080px+ height */
-  padding: 60px 48px 44px;
+  /* Top padding = nav height (52px) + breathing room. Fixed nav floats over hero. */
+  padding: 76px 48px 44px;
   display: grid;
   grid-template-columns: 52% 44%;
   gap: 56px;
@@ -1579,7 +1581,7 @@ footer {
   .nav-links { display: none; }
   .nav-search-trigger { width: 160px; }
   .nav-search-trigger span { display: none; }
-  .hero-wrap { grid-template-columns: 1fr; gap: 36px; padding: 48px 24px 40px; }
+  .hero-wrap { grid-template-columns: 1fr; gap: 36px; padding: 72px 24px 40px; }
   .hero h1 { font-size: 36px; letter-spacing: -1.5px; }
   .hero-glow-1, .hero-glow-2, .hero-glow-3 { display: none; }
   .feat-grid { grid-template-columns: 1fr; }
@@ -1604,7 +1606,7 @@ footer {
 /* ── Mid-size laptops (1280px) — keep hero in one screen ─────────────────── */
 @media (max-width: 1280px) and (min-width: 901px) {
   .nav { padding: 0 32px; }
-  .hero-wrap { padding: 52px 40px 40px; gap: 44px; }
+  .hero-wrap { padding: 72px 40px 40px; gap: 44px; }
   .hero h1 { font-size: 44px; letter-spacing: -2px; }
   .hero-sub { font-size: 14.5px; }
   .nav-search-trigger { width: 220px; }
@@ -1612,7 +1614,7 @@ footer {
 
 /* ── Large desktop (1440px+) — give it a touch more breathing room ───────── */
 @media (min-width: 1440px) {
-  .hero-wrap { padding: 72px 48px 56px; }
+  .hero-wrap { padding: 88px 48px 56px; }
   .hero h1 { font-size: 54px; letter-spacing: -2.5px; }
 }
 
