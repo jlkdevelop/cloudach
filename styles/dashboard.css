@@ -1817,6 +1817,111 @@
   color: #fff;
 }
 
+/* Integrations page — form fields */
+.admin-int-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.admin-int-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-int-label {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+}
+
+.admin-int-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', 'Courier New', monospace;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 7px;
+  outline: none;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.admin-int-input::placeholder {
+  color: rgba(255,255,255,0.30);
+  font-family: inherit;
+}
+
+.admin-int-input:focus {
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.06);
+}
+
+.admin-int-hint {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.40);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.admin-int-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-family: var(--font-jetbrains-mono), monospace;
+  white-space: nowrap;
+}
+
+.admin-int-badge--on {
+  color: #6ee7b7;
+  background: rgba(110,231,183,0.10);
+  border: 1px solid rgba(110,231,183,0.20);
+}
+
+.admin-int-badge--off {
+  color: rgba(255,255,255,0.40);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.admin-int-result {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-int-result--ok {
+  color: #a7f3d0;
+  background: rgba(110,231,183,0.08);
+  border: 1px solid rgba(110,231,183,0.20);
+}
+
+.admin-int-result--err {
+  color: rgba(252,165,165,0.90);
+  background: rgba(220,38,38,0.08);
+  border: 1px solid rgba(220,38,38,0.22);
+}
+
+.admin-int-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  justify-content: flex-end;
+}
+
 /* Narrow screens — collapse the horizontal nav into a scroll row */
 @media (max-width: 720px) {
   .admin-topnav { overflow-x: auto; gap: 16px; padding: 0 16px; }
