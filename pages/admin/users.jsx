@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import { AdminShell } from './index';
 
 // DB plan key -> display label. 'enterprise' is the legacy key for the
@@ -179,7 +180,9 @@ export default function AdminUsersPage() {
                 {filtered.map(u => (
                   <tr key={u.id} style={u.isDisabled ? { opacity: 0.55 } : undefined}>
                     <td>
-                      <span style={{ color: 'rgba(255,255,255,0.85)' }}>{u.email}</span>
+                      <Link href={`/admin/customers/${u.id}`} style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none' }} title="View customer detail">
+                        {u.email}
+                      </Link>
                       {u.role === 'admin' && (
                         <span className="db-badge db-badge--active" style={{ marginLeft: 8 }}>Admin</span>
                       )}
