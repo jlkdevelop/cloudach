@@ -549,17 +549,15 @@ textarea:focus-visible {
 
 /* ── Code window ─────────────────────────────────────────────────────────── */
 .code-window {
-  background: rgba(10,10,18,0.92);
+  background: #0d0e17;
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
-  /* Layered shadow: depth + brand glow rim */
+  border: 1px solid rgba(13,14,23,0.16);
+  /* Light-hero-appropriate drop shadow: soft ink, no inset white rim. */
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 24px 64px rgba(0,0,0,0.7),
-    0 4px 16px rgba(0,0,0,0.5),
-    0 0 80px rgba(255,255,255,0.02);
-  /* Keep the floating animation but also ensure it doesn't go out of viewport */
+    0 1px 2px rgba(13,14,23,0.04),
+    0 12px 32px rgba(13,14,23,0.12),
+    0 32px 80px rgba(13,14,23,0.14);
   position: relative;
 }
 
@@ -660,9 +658,9 @@ textarea:focus-visible {
 
 .da-live {
   box-shadow:
-    0 0 0 1px rgba(34,197,94,0.15),
-    0 24px 64px rgba(0,0,0,0.7),
-    0 0 80px rgba(34,197,94,0.06);
+    0 0 0 1px rgba(34,197,94,0.22),
+    0 12px 32px rgba(13,14,23,0.12),
+    0 32px 80px rgba(34,197,94,0.08);
 }
 
 .da-inner {
@@ -685,15 +683,18 @@ textarea:focus-visible {
   box-shadow: none;
 }
 
-/* Floating stat cards */
+/* Floating stat cards — light glass panels over the light hero.
+   Paired against the dark terminal they're anchored to, they echo the
+   "light chrome / dark product mockup" composition cloudzero uses. */
 .da-stat {
   position: absolute;
-  background: rgba(10, 10, 18, 0.80);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.90);
+  border: 1px solid var(--color-rule);
   border-radius: 10px;
   padding: 12px 18px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  box-shadow: var(--elev-card);
   z-index: 10;
   animation: floatY 4s ease-in-out infinite;
   pointer-events: none;
@@ -703,13 +704,13 @@ textarea:focus-visible {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.5px;
-  color: #ffffff;
+  color: var(--color-ink);
   line-height: 1.2;
 }
 
 .da-stat-lbl {
   font-size: 10.5px;
-  color: rgba(255,255,255,0.55);
+  color: var(--color-ink-muted);
   margin-top: 2px;
   white-space: nowrap;
 }
