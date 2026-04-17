@@ -2019,3 +2019,153 @@ footer {
 [dir="rtl"] .btn-cta svg {
   transform: scaleX(-1);
 }
+
+/* ============================================================
+   /docs — light-mode docs chrome. CLO-8 pass: TOC links and
+   callouts migrated onto the same token system as marketing
+   pages. Code blocks deliberately stay dark (industry norm;
+   see GitHub, Vercel, Stripe, cloudzero).
+   ============================================================ */
+.docs-toc-link {
+  display: block;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  line-height: 1.4;
+  letter-spacing: -0.1px;
+  transition: color 0.12s;
+}
+
+.docs-toc-link:hover {
+  color: var(--color-brand-accent);
+}
+
+.docs-toc-sub {
+  padding-left: 12px;
+  color: var(--color-ink-quiet);
+}
+
+.docs-callout {
+  background: var(--color-brand-accent-tint);
+  border-left: 2px solid var(--color-brand-accent);
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-ink);
+  margin-bottom: 16px;
+}
+
+.docs-callout a {
+  color: var(--color-brand-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.docs-lang-tab {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid var(--color-rule);
+  background: var(--color-surface-alt);
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  transition: color 0.12s, background 0.12s;
+}
+
+.docs-lang-tab:hover {
+  color: var(--color-ink);
+}
+
+.docs-lang-tab--active {
+  background: var(--color-surface);
+  border-bottom-color: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.docs-card {
+  border: 1px solid var(--color-rule);
+  border-radius: 10px;
+  padding: 16px 20px;
+  text-decoration: none;
+  display: block;
+  background: var(--color-surface);
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.docs-card:hover {
+  border-color: var(--color-rule-accent);
+  box-shadow: var(--elev-card);
+}
+
+.docs-input {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: 7px;
+  font-size: 14px;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.docs-input:focus {
+  border-color: var(--color-brand-accent);
+  box-shadow: 0 0 0 3px var(--color-brand-accent-ring);
+}
+
+.docs-details {
+  border-bottom: 1px solid var(--color-rule);
+  padding: 14px 0;
+}
+
+.docs-details > summary {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-ink);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.docs-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.docs-details > summary .docs-details-icon {
+  font-size: 18px;
+  color: var(--color-ink-whisper);
+  transition: transform 0.15s;
+}
+
+.docs-details[open] > summary .docs-details-icon {
+  transform: rotate(45deg);
+  color: var(--color-brand-accent);
+}
+
+.docs-details > p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+}
+
+/* Mobile: collapse sidebar above content */
+@media (max-width: 900px) {
+  .docs-shell {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .docs-shell > aside {
+    position: static !important;
+  }
+}
