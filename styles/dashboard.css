@@ -1545,3 +1545,121 @@
   color: #fff;
 }
 
+/* ============================================================
+   Admin surface — shares dark theme with the main dashboard
+   ============================================================ */
+
+.admin-shell {
+  min-height: 100vh;
+  background: #07080f;
+  color: rgba(255,255,255,0.82);
+}
+
+.admin-topnav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 28px;
+  height: 56px;
+  background: #0e0f18;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.admin-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-nav-link {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 7px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.admin-nav-link:hover {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+}
+
+.admin-nav-link--active {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.92);
+}
+
+.admin-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 28px 64px;
+}
+
+.admin-card-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.admin-card-link:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+.admin-mono {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.75);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+/* Status dot for system-status rows */
+.admin-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.admin-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.18;
+  z-index: -1;
+}
+
+.admin-dot--ok   { background: #6ee7b7; color: #6ee7b7; }
+.admin-dot--warn { background: #fbbf24; color: #fbbf24; }
+.admin-dot--down { background: #fca5a5; color: #fca5a5; }
+
+/* Narrow screens — collapse the horizontal nav into a scroll row */
+@media (max-width: 720px) {
+  .admin-topnav { overflow-x: auto; gap: 16px; padding: 0 16px; }
+  .admin-nav-links { gap: 2px; }
+  .admin-main { padding: 20px 16px 48px; }
+}
+
