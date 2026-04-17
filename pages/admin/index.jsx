@@ -502,8 +502,8 @@ export function AdminShell({ children }) {
     <div className="admin-shell">
       <header className="admin-topnav">
         <Link href="/admin" className="admin-brand">
-          <Logo size={20} monochrome />
-          <span>Cloudach<span style={{ opacity: 0.5, marginLeft: 8, fontWeight: 500 }}>admin</span></span>
+          <Logo size={28} />
+          <span style={{ opacity: 0.5, marginLeft: 8, fontWeight: 500 }}>admin</span>
         </Link>
         <nav className="admin-nav-links">
           <AdminNavLink href="/admin" active={router.pathname === '/admin'}>Overview</AdminNavLink>

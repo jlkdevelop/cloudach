@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="footer-wrap">
         <div className="fbrand">
           <div className="logo" aria-label="Cloudarch">
-            <Logo size={24} monochrome />
+            <Logo size={32} />
           </div>
           <p>{t('footer.tagline')}</p>
         </div>

@@ -85,8 +85,7 @@ export default function LoginPage() {
 
           {/* Logo */}
           <Link href="/" className="db-login-logo">
-            <Logo size={24} monochrome />
-            <span className="db-login-brand">Cloudach</span>
+            <Logo size={36} />
           </Link>
 
           {/* Heading */}
