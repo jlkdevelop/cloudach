@@ -6,17 +6,25 @@ const { LocalInferenceBackend } = require('./LocalInferenceBackend');
 /**
  * AwsInferenceBackend — routes requests to a GPU instance on AWS.
  *
+ * Companion infrastructure: `infra/aws/` (Terraform for the EC2 + vLLM
+ * single-node MVP) and `docs/setup/aws.md` (operator setup walkthrough).
+ *
  * Configuration (from environment):
  *   AWS_REGION          — e.g. "us-east-1"
  *   AWS_GPU_INSTANCE_ID — EC2 instance ID running vLLM (e.g. "i-0abc123def456")
- *   AWS_API_ENDPOINT    — Full HTTPS URL of the inference endpoint (e.g. "https://my-endpoint.example.com")
+ *                          (output of `terraform output instance_id`)
+ *   AWS_API_ENDPOINT    — Full URL of the inference endpoint, default port 8000
+ *                          (output of `terraform output vllm_endpoint`)
  *
  * If any of the required AWS env vars are absent this backend falls back to
  * the LocalInferenceBackend automatically, so the platform degrades gracefully
  * when AWS is not connected.
  *
  * TODO (when AWS is connected):
- *   1. Replace _callAws() with real SigV4-signed requests to AWS_API_ENDPOINT
+ *   1. Replace _callAws() with real requests to AWS_API_ENDPOINT (the vLLM
+ *      OpenAI-compat server doesn't require SigV4 — it's a plain HTTP API
+ *      behind a security group; SigV4 is only needed for AWS-managed
+ *      services like Bedrock).
  *   2. Implement token-streaming by piping the SSE response from the EC2 endpoint
  *   3. Add CloudWatch metrics emission on each request (latency, token counts)
  *   4. Add circuit breaker: on 3 consecutive 502s, flip to localFallback for 60s
