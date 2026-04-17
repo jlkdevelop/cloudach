@@ -511,6 +511,7 @@ export function AdminShell({ children }) {
           <AdminNavLink href="/admin/requests" active={router.pathname.startsWith('/admin/requests')}>Requests</AdminNavLink>
           <AdminNavLink href="/admin/api-keys" active={router.pathname.startsWith('/admin/api-keys')}>API Keys</AdminNavLink>
           <AdminNavLink href="/admin/integrations" active={router.pathname.startsWith('/admin/integrations')}>Integrations</AdminNavLink>
+          <AdminNavLink href="/admin/audit-log" active={router.pathname.startsWith('/admin/audit-log')}>Audit log</AdminNavLink>
         </nav>
         <div style={{ flex: 1 }} />
         <Link href="/dashboard" className="admin-nav-link">← Back to dashboard</Link>
