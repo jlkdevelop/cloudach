@@ -32,17 +32,6 @@
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
-.db-sidebar-brand {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  color: #fff;
-}
-
-.db-sidebar-brand span {
-  color: #fff;
-}
-
 .db-nav {
   flex: 1;
   padding: 12px 10px;
@@ -831,17 +820,6 @@
   text-decoration: none;
 }
 
-.db-login-brand {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: #f2f2f2;
-}
-
-.db-login-brand span {
-  color: #f2f2f2;
-}
-
 .db-login-title {
   font-size: 18px;
   font-weight: 700;
@@ -1020,11 +998,6 @@
   margin: -32px -36px 24px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
-.db-mobile-brand {
-  font-size: 15px; font-weight: 700; letter-spacing: -0.4px; color: #fff;
-}
-.db-mobile-brand span { color: #fff; }
-
 .db-hamburger {
   background: none; border: none; color: rgba(255,255,255,0.45); cursor: pointer;
   display: flex; align-items: center; padding: 0;
@@ -1549,14 +1522,6 @@
   z-index: 1;
 }
 
-/* Refined brand in auth */
-.db-login-brand {
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: #f2f2f2;
-}
-
 /* Refined title */
 .db-login-title {
   font-size: 20px;
@@ -1565,14 +1530,6 @@
   text-align: center;
   margin-bottom: 6px;
   letter-spacing: -0.3px;
-}
-
-/* Sidebar brand refined */
-.db-sidebar-brand {
-  font-size: 15.5px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  color: #fff;
 }
 
 /* ============================================================

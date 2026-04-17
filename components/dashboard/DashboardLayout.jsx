@@ -81,8 +81,7 @@ export default function DashboardLayout({ children, user }) {
   const sidebar = (
     <aside className={`db-sidebar${sidebarOpen ? ' db-sidebar--open' : ''}`}>
       <div className="db-sidebar-logo">
-        <Logo size={20} monochrome />
-        <span className="db-sidebar-brand">Cloudach</span>
+        <Logo size={28} />
         <button
           className="db-sidebar-close"
           onClick={() => setSidebarOpen(false)}
@@ -159,7 +158,7 @@ export default function DashboardLayout({ children, user }) {
               <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </button>
-          <span className="db-mobile-brand">cloud<span>ach</span></span>
+          <Logo size={24} />
         </div>
         {children}
       </main>

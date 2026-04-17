@@ -64,8 +64,7 @@ export default function SignupPage() {
 
           {/* Logo */}
           <Link href="/" className="db-login-logo">
-            <Logo size={24} monochrome />
-            <span className="db-login-brand">Cloudach</span>
+            <Logo size={36} />
           </Link>
 
           <h1 className="db-login-title">Create your account</h1>

@@ -1,4 +1,4 @@
-export default function Logo({ size = 32, monochrome = false }) {
+export default function Logo({ size = 40 }) {
   const aspect = 650 / 356
   const width = Math.round(size * aspect)
   return (
@@ -8,12 +8,7 @@ export default function Logo({ size = 32, monochrome = false }) {
       width={width}
       height={size}
       draggable={false}
-      style={{
-        display: 'block',
-        width,
-        height: size,
-        filter: monochrome ? 'brightness(0) invert(1)' : undefined,
-      }}
+      style={{ display: 'block', width, height: size }}
     />
   )
 }

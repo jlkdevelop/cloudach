@@ -56,7 +56,7 @@ export default function JoinTeamPage() {
           textAlign: 'center',
         }}>
           <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'center' }}>
-            <Logo size={32} />
+            <Logo size={48} />
           </div>
 
           {status === 'loading' && (

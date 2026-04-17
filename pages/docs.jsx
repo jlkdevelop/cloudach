@@ -37,8 +37,7 @@ export default function DocsPage() {
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 60, background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 100 }}>
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Logo size={26} monochrome />
-            <span style={{ fontWeight: 700, fontSize: 16, color: '#f2f2f2', letterSpacing: '-0.4px' }}>cloud<span style={{ color: '#f2f2f2' }}>ach</span></span>
+            <Logo size={36} />
           </Link>
           <Link href="/docs" style={{ fontSize: 13.5, fontWeight: 500, color: 'var(--brand)', textDecoration: 'none' }}>Docs</Link>
           <Link href="/dashboard" style={{ fontSize: 13.5, color: '#a0a0a0', textDecoration: 'none' }}>Dashboard</Link>
