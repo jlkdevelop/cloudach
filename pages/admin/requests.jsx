@@ -18,12 +18,12 @@ export default function AdminRequestsPage() {
       setLoading(false);
     }
     load();
-  }, []);
+  }, [router]);
 
-  if (error) return <AdminShell><p style={{ color: '#DC2626', padding: 24 }}>{error}</p></AdminShell>;
-  if (loading) return <AdminShell><p style={{ color: '#9CA3AF', padding: 24 }}>Loading…</p></AdminShell>;
+  if (error) return <AdminShell><div className="db-card"><p style={{ color: 'rgba(252,165,165,0.85)' }}>{error}</p></div></AdminShell>;
 
-  const { summary, requests } = data;
+  const summary = data?.summary || {};
+  const requests = data?.requests || [];
   const errorRate = summary.totalRequests24h > 0
     ? ((summary.errorCount24h / summary.totalRequests24h) * 100).toFixed(1)
     : '0.0';
@@ -31,64 +31,98 @@ export default function AdminRequestsPage() {
   return (
     <AdminShell>
       <Head><title>Requests — Cloudach Admin</title></Head>
-      <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 20 }}>Inference Requests</h1>
 
-      {/* 24h summary */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12, marginBottom: 24 }}>
-        {[
-          ['Total (24h)', summary.totalRequests24h?.toLocaleString() ?? '0'],
-          ['Tokens (24h)', formatTokens(summary.totalTokens24h ?? 0)],
-          ['Avg latency', summary.avgLatencyMs24h ? `${summary.avgLatencyMs24h}ms` : '—'],
-          ['Errors (24h)', `${summary.errorCount24h ?? 0} (${errorRate}%)`],
-        ].map(([label, value]) => (
-          <div key={label} style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: 10, padding: '14px 18px' }}>
-            <div style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>{label}</div>
-            <div style={{ fontSize: 20, fontWeight: 700 }}>{value}</div>
-          </div>
-        ))}
+      <div className="db-page-header">
+        <h1 className="db-page-title">Inference requests</h1>
+        <p className="db-page-subtitle">Last 100 calls across the platform · 24-hour rollup.</p>
       </div>
 
-      {/* Request log */}
-      <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: 10, overflow: 'hidden' }}>
-        <div style={{ padding: '14px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontWeight: 600, fontSize: 15 }}>Recent requests</span>
-          <span style={{ fontSize: 13, color: '#9CA3AF' }}>Last 100</span>
+      <div className="db-stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+        <SummaryCard label="Total (24h)" value={loading ? null : summary.totalRequests24h?.toLocaleString() ?? '0'} />
+        <SummaryCard label="Tokens (24h)" value={loading ? null : formatTokens(summary.totalTokens24h ?? 0)} />
+        <SummaryCard label="Avg latency" value={loading ? null : (summary.avgLatencyMs24h ? `${summary.avgLatencyMs24h}ms` : '—')} />
+        <SummaryCard
+          label="Errors (24h)"
+          value={loading ? null : (summary.errorCount24h ?? 0).toLocaleString()}
+          sub={loading ? null : `${errorRate}% of requests`}
+          danger={!loading && summary.errorCount24h > 0 && parseFloat(errorRate) >= 5}
+        />
+      </div>
+
+      <div className="db-card">
+        <div className="db-card-header">
+          <span className="db-card-title">Request log</span>
+          <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.35)' }}>Showing last {requests.length}</span>
         </div>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-            <thead>
-              <tr>
-                {['Time', 'User', 'Key', 'Model', 'Prompt', 'Completion', 'Total', 'Cost', 'Latency', 'Status'].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: '10px 14px', borderBottom: '1px solid #E5E7EB', fontWeight: 600, color: '#374151', whiteSpace: 'nowrap' }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map(r => (
-                <tr key={r.id}>
-                  <td style={{ ...td, fontSize: 12, color: '#6B7280', whiteSpace: 'nowrap' }}>
-                    {new Date(r.createdAt).toLocaleString()}
-                  </td>
-                  <td style={{ ...td, fontSize: 12, color: '#6B7280', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.userEmail}</td>
-                  <td style={{ ...td, fontSize: 12, color: '#6B7280' }}>{r.apiKeyName || '—'}</td>
-                  <td style={td}><code style={mono}>{r.model}</code></td>
-                  <td style={td}>{r.promptTokens?.toLocaleString()}</td>
-                  <td style={td}>{r.completionTokens?.toLocaleString()}</td>
-                  <td style={td}><strong>{r.totalTokens?.toLocaleString()}</strong></td>
-                  <td style={{ ...td, fontSize: 12, color: '#6B7280' }}>{formatCost(r.estimatedCost)}</td>
-                  <td style={td}>{r.latencyMs != null ? `${r.latencyMs}ms` : '—'}</td>
-                  <td style={td}>
-                    <span style={{ padding: '2px 7px', borderRadius: 4, fontSize: 12, fontWeight: 500, background: r.statusCode < 400 ? '#DCFCE7' : '#FEE2E2', color: r.statusCode < 400 ? '#16A34A' : '#DC2626' }}>
-                      {r.statusCode ?? '—'}
-                    </span>
-                  </td>
+
+        {loading ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {[0,1,2,3,4,5,6,7].map(i => <div key={i} className="db-skeleton" style={{ height: 32 }} />)}
+          </div>
+        ) : requests.length === 0 ? (
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>No requests recorded yet.</p>
+        ) : (
+          <div className="db-table-wrap">
+            <table className="db-table">
+              <thead>
+                <tr>
+                  {['Time', 'User', 'Key', 'Model', 'Prompt', 'Completion', 'Total', 'Cost', 'Latency', 'Status'].map((h, i) => (
+                    <th key={h} className={i >= 4 && i <= 8 ? 'db-col-num' : ''}>{h}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {requests.map(r => (
+                  <tr key={r.id}>
+                    <td style={{ whiteSpace: 'nowrap', fontSize: 12.5, color: 'rgba(255,255,255,0.55)' }}>
+                      {new Date(r.createdAt).toLocaleString()}
+                    </td>
+                    <td style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.55)', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {r.userEmail}
+                    </td>
+                    <td style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>{r.apiKeyName || '—'}</td>
+                    <td><code style={monoStyle}>{r.model}</code></td>
+                    <td className="db-col-num">{r.promptTokens?.toLocaleString() ?? '—'}</td>
+                    <td className="db-col-num">{r.completionTokens?.toLocaleString() ?? '—'}</td>
+                    <td className="db-col-num" style={{ fontWeight: 600, color: 'rgba(255,255,255,0.85)' }}>
+                      {r.totalTokens?.toLocaleString() ?? '—'}
+                    </td>
+                    <td className="db-col-num" style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.55)' }}>{formatCost(r.estimatedCost)}</td>
+                    <td className="db-col-num">{r.latencyMs != null ? `${r.latencyMs}ms` : '—'}</td>
+                    <td>
+                      <span className={r.statusCode != null && r.statusCode < 400 ? 'db-badge db-badge--active' : 'db-badge db-badge--revoked'}>
+                        {r.statusCode ?? '—'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </AdminShell>
+  );
+}
+
+function SummaryCard({ label, value, sub, danger }) {
+  return (
+    <div className="db-stat-card">
+      <div className="db-stat-label">{label}</div>
+      {value == null ? (
+        <>
+          <div className="db-skeleton db-skeleton--value" />
+          {sub === null && <div className="db-skeleton db-skeleton--sub" />}
+        </>
+      ) : (
+        <>
+          <div className="db-stat-value" style={danger ? { color: 'rgba(252,165,165,0.92)' } : undefined}>{value}</div>
+          {sub !== undefined && sub !== null && (
+            <div className="db-stat-sub" style={danger ? { color: 'rgba(252,165,165,0.75)' } : undefined}>{sub}</div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
@@ -104,5 +138,12 @@ function formatCost(n) {
   return `$${n.toFixed(4)}`;
 }
 
-const td = { padding: '10px 14px', borderBottom: '1px solid #F3F4F6', verticalAlign: 'middle' };
-const mono = { background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontFamily: 'monospace', fontSize: 12 };
+const monoStyle = {
+  fontFamily: 'var(--font-jetbrains-mono), "JetBrains Mono", "Fira Code", "Courier New", monospace',
+  fontSize: 12,
+  background: 'rgba(255,255,255,0.04)',
+  border: '1px solid rgba(255,255,255,0.07)',
+  color: 'rgba(255,255,255,0.75)',
+  padding: '2px 7px',
+  borderRadius: 5,
+};
