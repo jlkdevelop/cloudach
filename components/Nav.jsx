@@ -19,9 +19,8 @@ export default function Nav() {
 
           {/* Left: logo */}
           <div className="nav-left">
-            <Link href="/" className="logo">
+            <Link href="/" className="logo" aria-label="Cloudarch home">
               <Logo size={28} monochrome />
-              <span className="logo-text">cloud<span>ach</span></span>
             </Link>
           </div>
 
