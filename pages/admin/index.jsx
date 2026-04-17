@@ -19,9 +19,14 @@ export default function AdminDashboard() {
       if (usersRes.status === 401) { router.replace('/login'); return; }
       if (usersRes.status === 403) { setError('Admin access required.'); setLoading(false); return; }
 
-      const users = usersRes.ok ? (await usersRes.json()).users : [];
-      const reqsData = reqsRes.ok ? await reqsRes.json() : { summary: {}, requests: [] };
-      setData({ users, summary: reqsData.summary, recentRequests: reqsData.requests });
+      const usersPayload = usersRes.ok ? await usersRes.json() : { users: [], summary: {} };
+      const reqsData     = reqsRes.ok ? await reqsRes.json() : { summary: {}, requests: [] };
+      setData({
+        users: usersPayload.users || [],
+        customerSummary: usersPayload.summary || {},
+        summary: reqsData.summary,
+        recentRequests: reqsData.requests,
+      });
       setLoading(false);
     }
     load();
@@ -30,10 +35,11 @@ export default function AdminDashboard() {
   if (error) return <AdminShell><p style={{ color: '#DC2626', padding: 24 }}>{error}</p></AdminShell>;
   if (loading) return <AdminShell><p style={{ color: '#9CA3AF', padding: 24 }}>Loading…</p></AdminShell>;
 
-  const { users, summary, recentRequests } = data;
+  const { users, customerSummary, summary, recentRequests } = data;
   const activeUsers    = users.filter(u => !u.isDisabled).length;
   const disabledUsers  = users.filter(u => u.isDisabled).length;
   const totalApiKeys   = users.reduce((s, u) => s + u.activeApiKeys, 0);
+  const mrrUsd         = ((customerSummary.totalMrrCents || 0) / 100).toLocaleString();
 
   return (
     <AdminShell>
@@ -43,6 +49,8 @@ export default function AdminDashboard() {
 
       {/* Platform stats */}
       <div style={statsGrid}>
+        <StatCard label="MRR" value={`$${mrrUsd}`} />
+        <StatCard label="Paid customers" value={customerSummary.paidCustomers ?? 0} />
         <StatCard label="Total users" value={users.length} />
         <StatCard label="Active users" value={activeUsers} />
         <StatCard label="Disabled users" value={disabledUsers} accent={disabledUsers > 0} />
@@ -55,7 +63,7 @@ export default function AdminDashboard() {
 
       {/* Quick links */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 32 }}>
-        <Link href="/admin/users"><button style={btn}>Manage Users</button></Link>
+        <Link href="/admin/users"><button style={btn}>Manage Customers</button></Link>
         <Link href="/admin/requests"><button style={{ ...btn, background: '#F3F4F6', color: '#374151' }}>View All Requests</button></Link>
         <Link href="/admin/api-keys"><button style={{ ...btn, background: '#F3F4F6', color: '#374151' }}>View API Keys</button></Link>
       </div>
@@ -114,7 +122,7 @@ export function AdminShell({ children }) {
       <nav style={{ background: '#fff', borderBottom: '1px solid #E5E7EB', padding: '0 24px', display: 'flex', alignItems: 'center', gap: 24, height: 56 }}>
         <span style={{ fontWeight: 700, fontSize: 16, color: '#DC2626' }}>Cloudach Admin</span>
         <Link href="/admin" style={navLink}>Overview</Link>
-        <Link href="/admin/users" style={navLink}>Users</Link>
+        <Link href="/admin/users" style={navLink}>Customers</Link>
         <Link href="/admin/requests" style={navLink}>Requests</Link>
         <Link href="/admin/api-keys" style={navLink}>API Keys</Link>
         <div style={{ flex: 1 }} />
