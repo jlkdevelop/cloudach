@@ -47,11 +47,16 @@ export default function AdminApiKeysPage() {
         </div>
 
         {loading ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minHeight: 240 }}>
             {[0,1,2,3,4,5].map(i => <div key={i} className="db-skeleton" style={{ height: 32 }} />)}
           </div>
         ) : apiKeys.length === 0 ? (
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>No API keys have been created yet.</p>
+          <div style={{ minHeight: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '24px 0' }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 6 }}>No API keys yet</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.40)', lineHeight: 1.55, maxWidth: 480 }}>
+              Customers create their own keys from the dashboard. The first sign-up that visits <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace', fontSize: 12, background: 'rgba(255,255,255,0.05)', padding: '1px 5px', borderRadius: 4 }}>/dashboard/api-keys</code> and clicks "Create key" will appear here.
+            </div>
+          </div>
         ) : (
           <div className="db-table-wrap">
             <table className="db-table">

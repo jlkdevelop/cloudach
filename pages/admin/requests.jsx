@@ -56,11 +56,16 @@ export default function AdminRequestsPage() {
         </div>
 
         {loading ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minHeight: 320 }}>
             {[0,1,2,3,4,5,6,7].map(i => <div key={i} className="db-skeleton" style={{ height: 32 }} />)}
           </div>
         ) : requests.length === 0 ? (
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>No requests recorded yet.</p>
+          <div style={{ minHeight: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '24px 0' }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 6 }}>No requests yet</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.40)', lineHeight: 1.55, maxWidth: 480 }}>
+              Your first API call will appear here. Customers can authenticate with any active key from the API Keys page and POST to <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace', fontSize: 12, background: 'rgba(255,255,255,0.05)', padding: '1px 5px', borderRadius: 4 }}>/v1/chat/completions</code>.
+            </div>
+          </div>
         ) : (
           <div className="db-table-wrap">
             <table className="db-table">

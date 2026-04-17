@@ -50,7 +50,7 @@ export default function AdminDashboard() {
       <div className="db-stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
         <SignupsKpi loading={loading} data={overview?.users} />
         <UsersKpi   loading={loading} data={overview?.users} />
-        <RevenueKpi loading={loading} data={overview?.revenue} />
+        <RevenueKpi loading={loading} data={overview?.revenue} stripe={overview?.stripe} />
         <RequestsKpi loading={loading} data={overview?.usage} />
         <LatencyKpi loading={loading} data={overview?.usage} />
       </div>
@@ -73,7 +73,10 @@ export default function AdminDashboard() {
         {loading ? (
           <RecentRequestsSkeleton />
         ) : recentRequests.length === 0 ? (
-          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>No requests in the last period.</p>
+          <EmptyHint
+            title="No requests yet"
+            body="Once a customer sends an inference request, the most recent calls will appear here. View all requests on /admin/requests."
+          />
         ) : (
           <div className="db-table-wrap">
             <table className="db-table">
@@ -138,19 +141,28 @@ function UsersKpi({ loading, data }) {
   );
 }
 
-function RevenueKpi({ loading, data }) {
+function RevenueKpi({ loading, data, stripe }) {
   const cents = data?.todayCents;
   const currency = data?.currency || 'usd';
+  const stripeWired = stripe?.configured;
+  // When Stripe isn't wired, the empty stripe_invoices table reports 0 cents
+  // — but '$0' implies a real customer paid nothing. Honor configured first.
+  const showAsUnwired = !loading && !stripeWired;
   return (
     <div className="db-stat-card">
       <div className="db-stat-label">Revenue today</div>
       {loading ? (
         <><div className="db-skeleton db-skeleton--value" /><div className="db-skeleton db-skeleton--sub" /></>
+      ) : showAsUnwired ? (
+        <>
+          <div className="db-stat-value" style={{ color: 'rgba(255,255,255,0.45)' }}>—</div>
+          <div className="db-stat-sub">Stripe not wired</div>
+        </>
       ) : (
         <>
           <div className="db-stat-value">{cents == null ? '—' : formatCurrency(cents, currency)}</div>
           <div className="db-stat-sub">
-            {cents == null ? 'Stripe not wired' : `MTD ${formatCurrency(data?.mtdCents || 0, currency)}`}
+            {cents > 0 ? `MTD ${formatCurrency(data?.mtdCents || 0, currency)}` : 'no revenue today'}
           </div>
         </>
       )}
@@ -203,6 +215,10 @@ function LatencyKpi({ loading, data }) {
 /* ---------------- Cards ---------------- */
 
 function TopSpendersCard({ loading, rows }) {
+  // Filter out users with zero activity — the underlying query has no
+  // threshold so on a fresh environment it returns 5 zero-revenue rows
+  // that look like the table is broken.
+  const active = (rows || []).filter(r => (r.revenueCents || 0) > 0 || (r.tokens30d || 0) > 0);
   return (
     <div className="db-card">
       <div className="db-card-header">
@@ -210,17 +226,20 @@ function TopSpendersCard({ loading, rows }) {
         <Link href="/admin/users" className="admin-card-link">All customers →</Link>
       </div>
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minHeight: 160 }}>
           {[0,1,2,3,4].map(i => <div key={i} className="db-skeleton" style={{ height: 28 }} />)}
         </div>
-      ) : !rows || rows.length === 0 ? (
-        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 13 }}>No spender activity in the last 30 days.</p>
+      ) : active.length === 0 ? (
+        <EmptyHint
+          title="No spender activity yet"
+          body="Once customers run inference or pay an invoice, the top 5 will appear here."
+        />
       ) : (
         <div className="db-table-wrap">
           <table className="db-table">
             <thead><tr><th>Customer</th><th className="db-col-num">Revenue (30d)</th><th className="db-col-num">Tokens (30d)</th></tr></thead>
             <tbody>
-              {rows.map(r => (
+              {active.map(r => (
                 <tr key={r.id}>
                   <td>
                     <span style={{ color: 'rgba(255,255,255,0.85)' }}>{r.email}</span>
@@ -402,18 +421,55 @@ function StatusRow({ label, ok, warn, detail }) {
 
 function Sparkline({ points }) {
   if (!points || points.length < 2) return <div style={{ height: 28, marginTop: 10 }} />;
+  const total = points.reduce((s, p) => s + (p.count || 0), 0);
+  const nonZero = points.filter(p => (p.count || 0) > 0).length;
+  // Below the visual threshold the line reads as broken, not informative —
+  // tell the user the truth instead.
+  if (total === 0 || nonZero < 2) {
+    return (
+      <div style={{ height: 28, marginTop: 10, display: 'flex', alignItems: 'center', fontSize: 11, color: 'rgba(255,255,255,0.30)' }}>
+        {total === 0 ? 'No sign-ups in last 30 days' : `${total} sign-up${total === 1 ? '' : 's'} · sparkline waiting on more activity`}
+      </div>
+    );
+  }
   const w = 140;
   const h = 28;
   const max = Math.max(1, ...points.map(p => p.count));
   const step = w / (points.length - 1);
-  const d = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${(i * step).toFixed(1)} ${(h - (p.count / max) * (h - 2) - 1).toFixed(1)}`).join(' ');
-  const lastX = (points.length - 1) * step;
-  const lastY = h - (points[points.length - 1].count / max) * (h - 2) - 1;
+  // Build path coords once, reuse for line + area-fill polygon.
+  const xy = points.map((p, i) => [
+    +(i * step).toFixed(1),
+    +(h - (p.count / max) * (h - 2) - 1).toFixed(1),
+  ]);
+  const d = xy.map(([x, y], i) => `${i === 0 ? 'M' : 'L'} ${x} ${y}`).join(' ');
+  // Closed polygon under the line for the subtle area gradient.
+  const areaD = `${d} L ${xy[xy.length - 1][0]} ${h} L 0 ${h} Z`;
+  const lastX = xy[xy.length - 1][0];
+  const lastY = xy[xy.length - 1][1];
+  const gradId = 'spark-grad';
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{ marginTop: 10, display: 'block' }} aria-hidden="true">
-      <path d={d} fill="none" stroke="rgba(255,255,255,0.50)" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+      <defs>
+        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.18)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </linearGradient>
+      </defs>
+      <path d={areaD} fill={`url(#${gradId})`} />
+      <path d={d} fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
       <circle cx={lastX} cy={lastY} r="2.2" fill="rgba(255,255,255,0.85)" />
     </svg>
+  );
+}
+
+/* ---------------- Empty-state helper ---------------- */
+
+function EmptyHint({ title, body }) {
+  return (
+    <div style={{ minHeight: 120, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', padding: '8px 0' }}>
+      <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 4 }}>{title}</div>
+      <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.40)', lineHeight: 1.5 }}>{body}</div>
+    </div>
   );
 }
 
@@ -421,7 +477,7 @@ function Sparkline({ points }) {
 
 function RecentRequestsSkeleton() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minHeight: 240 }}>
       {[0,1,2,3,4,5].map(i => <div key={i} className="db-skeleton" style={{ height: 32 }} />)}
     </div>
   );
