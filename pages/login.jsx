@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Logo from '../components/Logo';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,6 +14,33 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [adminHint, setAdminHint] = useState(null);
+  const lastHintEmailRef = useRef('');
+
+  useEffect(() => {
+    if (mode !== 'login') { setAdminHint(null); return; }
+    const trimmed = email.trim().toLowerCase();
+    if (!EMAIL_RE.test(trimmed)) { setAdminHint(null); return; }
+    if (trimmed === lastHintEmailRef.current) return;
+    const controller = new AbortController();
+    const t = setTimeout(async () => {
+      lastHintEmailRef.current = trimmed;
+      try {
+        const res = await fetch('/api/auth/admin-hint', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: trimmed }),
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        setAdminHint(data.hint === 'admin' ? 'admin' : null);
+      } catch (_) {
+        // Network errors or aborts are silent — it's a cosmetic hint.
+      }
+    }, 500);
+    return () => { clearTimeout(t); controller.abort(); };
+  }, [email, mode]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -81,7 +110,15 @@ export default function LoginPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="db-login-form">
             <div className="db-field">
-              <label className="db-label">Email address</label>
+              <div className="db-label-row">
+                <label className="db-label">Email address</label>
+                {adminHint === 'admin' && (
+                  <span className="db-login-admin-badge" aria-label="Admin account detected">
+                    <span className="db-login-admin-badge-dot" aria-hidden="true" />
+                    Admin
+                  </span>
+                )}
+              </div>
               <input
                 type="email"
                 className="db-input"
@@ -135,7 +172,10 @@ export default function LoginPage() {
                   {mode === 'login' ? 'Signing in…' : 'Creating account…'}
                 </span>
               ) : (
-                mode === 'login' ? 'Sign in' : 'Create account'
+                <span className="db-login-btn-inner">
+                  {mode === 'login' ? 'Sign in' : 'Create account'}
+                  <IconArrowRight />
+                </span>
               )}
             </button>
           </form>
@@ -181,6 +221,14 @@ function IconEyeOff() {
     <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
       <path d="M2 2l12 12M6.5 6.6A2 2 0 0110 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
       <path d="M4.2 4.3C2.6 5.4 1 8 1 8s2.5 5 7 5c1.4 0 2.7-.4 3.8-1M6.9 3.1C7.3 3 7.6 3 8 3c4.5 0 7 5 7 5s-.6 1.2-1.7 2.4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function IconArrowRight() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0, opacity: 0.85, transition: 'transform 0.15s' }}>
+      <path d="M3 8h9.5M9 4.5L12.5 8 9 11.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
