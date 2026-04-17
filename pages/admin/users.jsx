@@ -73,6 +73,13 @@ export default function AdminUsersPage() {
 
   if (error) return <AdminShell><div className="db-card"><p style={{ color: 'rgba(252,165,165,0.85)' }}>{error}</p></div></AdminShell>;
 
+  // Hide Stripe-derived columns (MRR + 30d revenue) when:
+  //   - the API reported the underlying tables aren't available, OR
+  //   - no user has any Stripe activity (avoids a column of dashes)
+  const stripeAvailable = summary?.stripeColumnsAvailable !== false;
+  const anyStripeActivity = users.some(u => u.mrrCents > 0 || u.stripe30dCents > 0);
+  const showStripeCols = stripeAvailable && anyStripeActivity;
+
   return (
     <AdminShell>
       <Head><title>Customers — Cloudach Admin</title></Head>
@@ -145,7 +152,7 @@ export default function AdminUsersPage() {
         </div>
 
         {loading ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minHeight: 360 }}>
             {[0,1,2,3,4,5,6,7].map(i => <div key={i} className="db-skeleton" style={{ height: 36 }} />)}
           </div>
         ) : filtered.length === 0 ? (
@@ -157,9 +164,15 @@ export default function AdminUsersPage() {
             <table className="db-table">
               <thead>
                 <tr>
-                  {['Email', 'Plan', 'Status', 'MRR', '30d revenue', 'Tokens', 'Requests', 'Last call', 'Joined', 'Actions'].map((h, i) => (
-                    <th key={h} className={[3,4,5,6].includes(i) ? 'db-col-num' : ''}>{h}</th>
-                  ))}
+                  {(showStripeCols
+                    ? ['Email', 'Plan', 'Status', 'MRR', '30d revenue', 'Tokens', 'Requests', 'Last call', 'Joined', 'Actions']
+                    : ['Email', 'Plan', 'Status', 'Tokens', 'Requests', 'Last call', 'Joined', 'Actions']
+                  ).map((h, i) => {
+                    // Numeric columns: MRR / 30d revenue / Tokens / Requests when Stripe shown,
+                    // Tokens / Requests when not.
+                    const numericIdx = showStripeCols ? [3,4,5,6] : [3,4];
+                    return <th key={h} className={numericIdx.includes(i) ? 'db-col-num' : ''}>{h}</th>;
+                  })}
                 </tr>
               </thead>
               <tbody>
@@ -190,28 +203,32 @@ export default function AdminUsersPage() {
                             ? <span className="db-badge db-badge--stopped">Canceled</span>
                             : <span className="db-badge db-badge--active">Active</span>}
                     </td>
-                    <td className="db-col-num">
-                      {u.mrrCents > 0
-                        ? formatCurrency(u.mrrCents, 'usd')
-                        : <span style={{ color: 'rgba(255,255,255,0.30)' }}>—</span>}
-                    </td>
-                    <td className="db-col-num">
-                      {u.stripe30dCents > 0
-                        ? formatCurrency(u.stripe30dCents, 'usd')
-                        : <span style={{ color: 'rgba(255,255,255,0.30)' }}>—</span>}
-                      {u.stripeCustomerId && (
-                        <a
-                          href={`https://dashboard.stripe.com/customers/${u.stripeCustomerId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="admin-stripe-link"
-                          title="Open in Stripe Dashboard"
-                          aria-label={`Open ${u.email} in Stripe Dashboard`}
-                        >
-                          ↗
-                        </a>
-                      )}
-                    </td>
+                    {showStripeCols && (
+                      <>
+                        <td className="db-col-num">
+                          {u.mrrCents > 0
+                            ? formatCurrency(u.mrrCents, 'usd')
+                            : <span style={{ color: 'rgba(255,255,255,0.30)' }}>—</span>}
+                        </td>
+                        <td className="db-col-num">
+                          {u.stripe30dCents > 0
+                            ? formatCurrency(u.stripe30dCents, 'usd')
+                            : <span style={{ color: 'rgba(255,255,255,0.30)' }}>—</span>}
+                          {u.stripeCustomerId && (
+                            <a
+                              href={`https://dashboard.stripe.com/customers/${u.stripeCustomerId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="admin-stripe-link"
+                              title="Open in Stripe Dashboard"
+                              aria-label={`Open ${u.email} in Stripe Dashboard`}
+                            >
+                              ↗
+                            </a>
+                          )}
+                        </td>
+                      </>
+                    )}
                     <td className="db-col-num">{formatCount(u.totalTokens)}</td>
                     <td className="db-col-num">{formatCount(u.totalRequests)}</td>
                     <td style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap' }}>
