@@ -703,13 +703,13 @@ textarea:focus-visible {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.5px;
-  color: var(--text-1);
+  color: #ffffff;
   line-height: 1.2;
 }
 
 .da-stat-lbl {
   font-size: 10.5px;
-  color: var(--text-4);
+  color: rgba(255,255,255,0.55);
   margin-top: 2px;
   white-space: nowrap;
 }
@@ -1390,11 +1390,11 @@ footer {
 .sm-box {
   width: 100%;
   max-width: 600px;
-  background: #111;
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.9);
+  box-shadow: var(--elev-raised);
   animation: slideDown 0.22s cubic-bezier(0.16,1,0.3,1) both;
 }
 
@@ -1479,7 +1479,7 @@ footer {
 }
 
 .sm-item:hover, .sm-item-active {
-  background: rgba(255,255,255,0.06);
+  background: var(--color-surface-alt);
 }
 
 .sm-type {
@@ -1547,31 +1547,31 @@ footer {
 
 .sm-footer kbd {
   font-size: 10px;
-  background: var(--bg-3);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
   border-radius: 4px;
   padding: 1px 6px;
   font-family: var(--font-inter), sans-serif;
   color: var(--text-2);
 }
 
-/* ── Card hover lifts ────────────────────────────────────────────────────── */
-.feat      { transition: background 0.2s, transform 0.2s; }
-.feat:hover{ background: var(--bg-2); }
-
+/* ── Card hover lifts ──────────────────────────────────────────────────────
+   `.feat` owns its own airy hover via the top-rule width expansion — no
+   background tint (the grid is card-less by design). `.mcard` / `.tcard`
+   lift subtly with a light elevation shadow instead of a dark one. */
 .mcard { transition: border-color 0.2s, background 0.2s, transform 0.18s, box-shadow 0.18s; }
 .mcard:hover {
-  border-color: var(--border-strong);
-  background: var(--bg-2);
+  border-color: var(--color-rule-strong);
+  background: var(--color-surface-alt);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: var(--elev-card);
 }
 
-.tcard { transition: border-color 0.2s, background 0.2s, transform 0.18s; }
+.tcard { transition: border-color 0.2s, transform 0.18s, box-shadow 0.18s; }
 .tcard:hover {
-  border-color: var(--border-strong);
-  background: var(--bg-2);
+  border-color: var(--color-rule-accent);
   transform: translateY(-2px);
+  box-shadow: var(--elev-card);
 }
 
 .pcard { transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
@@ -1644,8 +1644,8 @@ footer {
 }
 
 .nav-hamburger:hover {
-  background: rgba(255,255,255,0.06);
-  color: var(--text-1);
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
 }
 
 .nav-mobile-drawer {
@@ -1653,14 +1653,15 @@ footer {
   top: 110px;
   left: 12px;
   right: 12px;
-  background: #222525;
-  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
   border-radius: 12px;
   padding: 12px 12px 20px;
   z-index: 99;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-shadow: var(--elev-raised);
   animation: slideDown 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 
@@ -1681,8 +1682,8 @@ footer {
 }
 
 .nav-mobile-links a:hover {
-  background: rgba(255,255,255,0.05);
-  color: var(--text-1);
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
 }
 
 .nav-mobile-auth {
@@ -1708,8 +1709,8 @@ footer {
 }
 
 .nav-mobile-signin:hover {
-  background: rgba(255,255,255,0.05);
-  color: var(--text-1);
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
 }
 
 @media (max-width: 900px) {
@@ -1728,9 +1729,9 @@ footer {
   height: 34px;
   padding: 0 10px;
   border-radius: 7px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--color-rule);
   background: transparent;
-  color: var(--text-3);
+  color: var(--color-ink-muted);
   font-size: 12.5px;
   font-weight: 500;
   font-family: var(--font-inter), sans-serif;
@@ -1741,9 +1742,9 @@ footer {
 }
 
 .lang-trigger:hover {
-  border-color: rgba(255,255,255,0.14);
-  color: var(--text-2);
-  background: rgba(255,255,255,0.04);
+  border-color: var(--color-rule-strong);
+  color: var(--color-ink);
+  background: var(--color-surface-alt);
 }
 
 .lang-trigger--compact {
@@ -1774,12 +1775,12 @@ footer {
   top: calc(100% + 6px);
   right: 0;
   min-width: 160px;
-  background: #0f1018;
-  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
   border-radius: 10px;
   padding: 4px;
   z-index: 200;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  box-shadow: var(--elev-raised);
   animation: slideDown 0.18s cubic-bezier(0.16,1,0.3,1) both;
 }
 
@@ -1799,11 +1800,11 @@ footer {
 }
 
 .lang-option:hover {
-  background: rgba(255,255,255,0.06);
+  background: var(--color-surface-alt);
 }
 
 .lang-option--active {
-  background: rgba(255,255,255,0.06);
+  background: var(--color-brand-accent-tint);
 }
 
 .lang-option-code {
