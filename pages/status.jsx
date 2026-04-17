@@ -105,7 +105,7 @@ export default function Status() {
         <meta name="twitter:description" content="Live status of Cloudach infrastructure and services." />
       </Head>
       <Nav />
-      <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px 80px', fontFamily: 'Inter, system-ui, sans-serif', background: '#07080f', minHeight: '100vh' }}>
+      <main style={{ maxWidth: 800, margin: '0 auto', padding: '88px 48px 80px', fontFamily: 'Inter, system-ui, sans-serif', background: '#ffffff', minHeight: '100vh' }}>
 
         {/* Header */}
         <div className="sec-tag">Status</div>

@@ -23,7 +23,7 @@ export default function Contact() {
         <meta name="twitter:description" content="Get in touch with the Cloudach team. Sales, support, partnerships." />
       </Head>
       <Nav />
-      <main style={{ background: '#07080f', minHeight: '100vh' }}>
+      <main style={{ background: '#ffffff', minHeight: '100vh' }}>
         <div style={{ maxWidth: 560, margin: '0 auto', padding: '88px 48px' }}>
           <div className="sec-tag">Contact</div>
           <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: 'var(--text-1)', margin: '16px 0 12px' }}>Get in touch</h1>

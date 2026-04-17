@@ -159,7 +159,7 @@ export default function Enterprise() {
 
       <Nav />
 
-      <main style={{ background: '#07080f' }}>
+      <main style={{ background: '#ffffff' }}>
         {/* Hero */}
         <section style={{ maxWidth: 1180, margin: '0 auto', padding: '96px 48px 80px', textAlign: 'center' }}>
           <div className="eyebrow" style={{ justifyContent: 'center', margin: '0 auto 28px', display: 'inline-flex' }}>

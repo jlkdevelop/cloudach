@@ -127,7 +127,7 @@ export default function SignupPage() {
                         key={i}
                         className="db-strength-bar"
                         style={{
-                          background: i <= strength ? STRENGTH_COLORS[strength] : 'rgba(255,255,255,0.08)',
+                          background: i <= strength ? STRENGTH_COLORS[strength] : 'rgba(13,14,23,0.10)',
                         }}
                       />
                     ))}

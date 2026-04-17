@@ -42,50 +42,52 @@
 }
 
 /* ============================================================
-   Design Tokens — Dark-native design system
-   Inspired by: Replicate-level polish, Cloudach identity
+   Design Tokens — Light-mode default (CLO-5)
+   Hero stays dark via explicit .hero-outer override; nav pill + code
+   window + deploy-animation stat cards keep their dark treatment as
+   intentional contrast on the marketing surface.
    ============================================================ */
 :root {
-  /* Brand */
-  --brand:          #ffffff;
-  --brand-hover:    rgba(255, 255, 255, 0.88);
-  --brand-subtle:   rgba(255, 255, 255, 0.06);
-  --brand-border:   rgba(255, 255, 255, 0.12);
-  --brand-glow:     rgba(255, 255, 255, 0.03);
+  /* Brand — primary ink on light surface */
+  --brand:          #1E40FF;
+  --brand-hover:    #1633CC;
+  --brand-subtle:   rgba(30, 64, 255, 0.06);
+  --brand-border:   rgba(30, 64, 255, 0.18);
+  --brand-glow:     rgba(30, 64, 255, 0.10);
 
-  /* Primary action system — white on dark */
-  --btn-primary-bg:      #ffffff;
-  --btn-primary-text:    #0d0e17;
-  --btn-primary-hover:   rgba(255, 255, 255, 0.88);
-  --btn-primary-shadow:  0 0 0 1px rgba(255,255,255,0.10), 0 2px 12px rgba(0,0,0,0.4);
+  /* Primary action — dark ink on light */
+  --btn-primary-bg:      #0d0e17;
+  --btn-primary-text:    #ffffff;
+  --btn-primary-hover:   #1a1b26;
+  --btn-primary-shadow:  0 1px 2px rgba(13,14,23,0.10), 0 4px 14px rgba(13,14,23,0.10);
 
-  /* Extended brand palette */
+  /* Extended brand palette (unchanged — used on dark hero) */
   --indigo:         #5C4EE8;
   --violet:         #7C3AED;
   --cyan-accent:    #22D3EE;
 
-  /* Background layers */
-  --bg:             #07080f;
-  --bg-1:           #0f1018;
-  --bg-2:           #14151f;
-  --bg-3:           #1a1b26;
+  /* Background layers — light */
+  --bg:             #ffffff;
+  --bg-1:           #F7F8FA;
+  --bg-2:           #EFF1F5;
+  --bg-3:           #E4E7EC;
 
   /* Borders */
-  --border:         rgba(255, 255, 255, 0.08);
-  --border-strong:  rgba(255, 255, 255, 0.14);
-  --border-brand:   rgba(255, 255, 255, 0.18);
+  --border:         rgba(13, 14, 23, 0.08);
+  --border-strong:  rgba(13, 14, 23, 0.14);
+  --border-brand:   rgba(13, 14, 23, 0.18);
 
   /* Text */
-  --text-1:  #f2f2f2;
-  --text-2:  #a0a0a0;
-  --text-3:  #666666;
-  --text-4:  #3d3d3d;
+  --text-1:  #0d0e17;
+  --text-2:  #4B5563;
+  --text-3:  #6B7280;
+  --text-4:  #9CA3AF;
 
   /* Semantic */
-  --green:      #22c55e;
-  --green-bg:   rgba(34, 197, 94, 0.10);
-  --red:        #ef4444;
-  --yellow:     #f59e0b;
+  --green:      #16a34a;
+  --green-bg:   rgba(22, 163, 74, 0.10);
+  --red:        #dc2626;
+  --yellow:     #d97706;
 
   /* Spacing (8pt grid) */
   --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
@@ -98,9 +100,9 @@
   --r-xl: 14px; --r-full: 9999px;
 
   /* Shadows */
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
-  --shadow-code: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(255,255,255,0.02);
-  --shadow-glow: 0 0 40px rgba(255,255,255,0.04);
+  --shadow-card: 0 1px 3px rgba(13,14,23,0.06), 0 4px 16px rgba(13,14,23,0.06);
+  --shadow-code: 0 0 0 1px rgba(13,14,23,0.05), 0 20px 60px rgba(13,14,23,0.08);
+  --shadow-glow: 0 0 40px rgba(30,64,255,0.05);
 }
 
 *, *::before, *::after {
@@ -117,6 +119,25 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Dark-surface scopes — keep marquee areas dark (per CLO-5 brief:
+   "reserve the neon version for dark hero backgrounds"). Each
+   scope re-defines the text and button tokens so `var(--text-*)`
+   reads white-on-dark inside it, without per-rule overrides.
+   ============================================================ */
+.hero-outer,
+.nav-pill,
+.cta-band {
+  --text-1: #f2f2f2;
+  --text-2: rgba(255,255,255,0.72);
+  --text-3: rgba(255,255,255,0.45);
+  --text-4: rgba(255,255,255,0.30);
+  --brand:  #ffffff;
+  --btn-primary-bg:    #ffffff;
+  --btn-primary-text:  #0d0e17;
+  --btn-primary-hover: rgba(255,255,255,0.88);
 }
 
 a { text-decoration: none; color: inherit; }
@@ -539,16 +560,16 @@ textarea:focus-visible {
   color: var(--text-2);
   padding: 10px 18px;
   border-radius: 7px;
-  border: 1px solid rgba(255,255,255,0.09);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-strong);
+  background: transparent;
   gap: 7px;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
 .btn-cta-ghost:hover {
-  border-color: rgba(255,255,255,0.16);
+  border-color: var(--border-brand);
   color: var(--text-1);
-  background: rgba(255,255,255,0.06);
+  background: var(--bg-1);
 }
 
 .hero-free-note {
@@ -780,14 +801,14 @@ textarea:focus-visible {
 .trust-bar span {
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255,255,255,0.22);
+  color: rgba(13,14,23,0.32);
   white-space: nowrap;
   letter-spacing: 0.01em;
   transition: color 0.25s;
 }
 
 .trust-bar span:hover {
-  color: rgba(255,255,255,0.40);
+  color: rgba(13,14,23,0.55);
 }
 
 /* ── Sections ────────────────────────────────────────────────────────────── */
@@ -808,7 +829,7 @@ textarea:focus-visible {
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: var(--brand);
   margin-bottom: 14px;
 }
 
@@ -860,7 +881,7 @@ textarea:focus-visible {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06));
+  background: linear-gradient(90deg, var(--brand), rgba(30,64,255,0.20));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
@@ -873,13 +894,13 @@ textarea:focus-visible {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
+  background: var(--brand-subtle);
+  border: 1px solid var(--brand-border);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
-  color: rgba(255,255,255,0.80);
+  color: var(--brand);
   flex-shrink: 0;
 }
 
@@ -930,8 +951,8 @@ textarea:focus-visible {
   letter-spacing: 0.02em;
 }
 
-.mb-os { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.50); border: 1px solid rgba(255,255,255,0.10); }
-.mb-cu { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.40); border: 1px solid rgba(255,255,255,0.08); }
+.mb-os { background: rgba(13,14,23,0.04); color: rgba(13,14,23,0.60); border: 1px solid rgba(13,14,23,0.08); }
+.mb-cu { background: var(--brand-subtle); color: var(--brand); border: 1px solid var(--brand-border); }
 
 .mcard h4 {
   font-size: 13.5px;
@@ -981,7 +1002,7 @@ textarea:focus-visible {
 .mcard-deploy {
   font-size: 11.5px;
   font-weight: 600;
-  color: rgba(255,255,255,0.70);
+  color: var(--brand);
   margin-top: auto;
   padding-top: 12px;
   opacity: 0;
@@ -1000,14 +1021,14 @@ textarea:focus-visible {
 }
 
 .step {
-  border-left: 2px solid rgba(255,255,255,0.12);
+  border-left: 2px solid var(--border-strong);
   padding-left: 18px;
   position: relative;
   transition: border-left-color 0.2s;
 }
 
 .step:hover {
-  border-left-color: rgba(255,255,255,0.40);
+  border-left-color: var(--brand);
 }
 
 .step:not(:last-child)::after {
@@ -1017,14 +1038,14 @@ textarea:focus-visible {
   right: -24px;
   width: 48px;
   height: 1px;
-  border-top: 1px dashed rgba(255,255,255,0.12);
+  border-top: 1px dashed var(--border-strong);
   pointer-events: none;
 }
 
 .step-n {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255,255,255,0.38);
+  color: var(--brand);
   margin-bottom: 14px;
   font-family: 'Menlo', 'Monaco', monospace;
   letter-spacing: 0.01em;
@@ -1078,18 +1099,18 @@ textarea:focus-visible {
 .pcard:hover { border-color: var(--border-strong); }
 
 .pcard.featured {
-  border-color: rgba(255,255,255,0.20);
+  border-color: var(--brand-border);
   border-width: 1px;
-  background: var(--bg-2);
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
+  background: var(--brand-subtle);
+  box-shadow: 0 0 0 1px var(--brand-border);
 }
 
 .ptag {
   font-size: 10.5px;
   font-weight: 700;
-  background: rgba(255,255,255,0.07);
-  color: rgba(255,255,255,0.65);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--brand-subtle);
+  color: var(--brand);
+  border: 1px solid var(--brand-border);
   padding: 3px 10px;
   border-radius: var(--r-sm);
   display: inline-block;
@@ -1135,7 +1156,7 @@ textarea:focus-visible {
 
 .plist li {
   font-size: 13px;
-  color: rgba(255,255,255,0.55);
+  color: var(--text-2);
   padding: 7px 0;
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -1165,14 +1186,14 @@ textarea:focus-visible {
 
 .pbtn.pblu {
   background: var(--btn-primary-bg);
-  border-color: rgba(255,255,255,0.15);
+  border-color: var(--btn-primary-bg);
   color: var(--btn-primary-text);
 }
 
 .pbtn.pblu:hover {
   background: var(--btn-primary-hover);
-  border-color: rgba(255,255,255,0.22);
-  box-shadow: 0 4px 20px rgba(255,255,255,0.06);
+  border-color: var(--btn-primary-hover);
+  box-shadow: var(--btn-primary-shadow);
 }
 
 .pbtn.pbtn-outline {
@@ -1182,8 +1203,8 @@ textarea:focus-visible {
 }
 
 .pbtn.pbtn-outline:hover {
-  background: rgba(255,255,255,0.03);
-  border-color: rgba(255,255,255,0.2);
+  background: var(--bg-1);
+  border-color: var(--border-brand);
   color: var(--text-1);
 }
 
@@ -1239,7 +1260,7 @@ textarea:focus-visible {
 .tauthor-name {
   font-size: 13px;
   font-weight: 600;
-  color: #d4d4d8;
+  color: var(--text-1);
 }
 
 .tauthor-role {
@@ -1250,7 +1271,7 @@ textarea:focus-visible {
 
 /* ── CTA band ────────────────────────────────────────────────────────────── */
 .cta-band {
-  background: linear-gradient(180deg, var(--bg-1) 0%, #07080f 100%);
+  background: linear-gradient(180deg, #0f1018 0%, #07080f 100%);
   border-top: 1px solid rgba(255,255,255,0.07);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
   padding: 96px 48px;

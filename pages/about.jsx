@@ -16,7 +16,7 @@ export default function About() {
         <meta name="twitter:description" content="Cloudach is the developer platform for hosting, scaling, and fine-tuning open-source language models." />
       </Head>
       <Nav />
-      <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px', background: '#07080f', minHeight: '100vh' }}>
+      <main style={{ maxWidth: 720, margin: '0 auto', padding: '88px 48px', background: '#ffffff', minHeight: '100vh' }}>
         <div className="sec-tag">About</div>
         <h1 style={{ fontSize: 42, fontWeight: 700, letterSpacing: -1.5, lineHeight: 1.12, color: 'var(--text-1)', margin: '16px 0 24px' }}>
           We make open-source LLMs production-ready.
