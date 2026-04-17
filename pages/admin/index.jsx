@@ -55,10 +55,14 @@ export default function AdminDashboard() {
         <LatencyKpi loading={loading} data={overview?.usage} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr)', gap: 24, marginBottom: 24 }}>
+      <div style={{ marginBottom: 24 }}>
         <TopSpendersCard loading={loading} rows={overview?.topSpenders} />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 24 }}>
         <StripeStatusCard loading={loading} data={overview?.stripe} revenue={overview?.revenue} />
-        <SystemStatusCard loading={loading} data={overview?.systemStatus} revenue={overview?.revenue} />
+        <AwsStatusCard    loading={loading} data={overview?.aws} />
+        <SystemStatusCard loading={loading} data={overview?.systemStatus} revenue={overview?.revenue} aws={overview?.aws} />
       </div>
 
       <div className="db-card">
@@ -289,9 +293,72 @@ function KvRow({ label, value }) {
   );
 }
 
-function SystemStatusCard({ loading, data, revenue }) {
-  const stripeAt = data?.stripeWebhookLastAt;
-  const stripeNotWired = !stripeAt && revenue?.todayCents == null;
+function AwsStatusCard({ loading, data }) {
+  return (
+    <div className="db-card">
+      <div className="db-card-header">
+        <span className="db-card-title">AWS</span>
+        {!loading && data && (
+          <span className={`db-badge ${data.configured ? 'db-badge--active' : 'db-badge--revoked'}`}>
+            {data.configured ? 'KEY_PRESENT' : 'NOT_CONFIGURED'}
+          </span>
+        )}
+      </div>
+      {loading ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div className="db-skeleton" style={{ height: 20 }} />
+          <div className="db-skeleton" style={{ height: 20 }} />
+          <div className="db-skeleton" style={{ height: 20 }} />
+        </div>
+      ) : !data?.configured ? (
+        <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.45)', lineHeight: 1.5, margin: 0 }}>
+          AWS not configured — paste keys to activate. Set <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4 }}>AWS_REGION</code> + <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4 }}>AWS_ACCESS_KEY_ID</code> in Vercel envs. See <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>docs/setup/aws.md</code>.
+        </p>
+      ) : (
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 0, margin: 0, listStyle: 'none' }}>
+          <KvRow label="Region" value={<code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace', fontSize: 12 }}>{data.region}</code>} />
+          <KvRow label="Backend mode" value={data.inferenceBackend} />
+          <KvRow
+            label="GPU instances"
+            value={data.gpuInstanceConfigured ? '1' : <span style={{ color: 'rgba(255,255,255,0.45)' }}>0</span>}
+          />
+          <KvRow
+            label="vLLM endpoint"
+            value={
+              data.apiEndpoint
+                ? <span style={{ fontSize: 12, fontFamily: 'var(--font-jetbrains-mono), monospace', maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{shortenEndpoint(data.apiEndpoint)}</span>
+                : <span style={{ color: 'rgba(255,255,255,0.45)' }}>not set</span>
+            }
+          />
+          <KvRow
+            label="Monthly cost"
+            value={data.monthlyCostCents == null
+              ? <span style={{ color: 'rgba(255,255,255,0.45)', fontWeight: 400 }}>CloudWatch pending</span>
+              : formatCurrency(data.monthlyCostCents, 'usd')}
+          />
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function shortenEndpoint(url) {
+  try {
+    const u = new URL(url);
+    return u.hostname;
+  } catch {
+    return url.length > 30 ? url.slice(0, 27) + '…' : url;
+  }
+}
+
+function SystemStatusCard({ loading, data, aws }) {
+  const inferenceMode = aws?.inferenceBackend || 'local';
+  const inferenceOk = inferenceMode === 'local' || (inferenceMode === 'aws' && aws?.configured);
+  const inferenceDetail = inferenceMode === 'local'
+    ? 'Local backend (vLLM / mock)'
+    : aws?.configured
+      ? `AWS backend · ${aws.region}`
+      : 'AWS backend selected but env not set — falling back to local';
 
   return (
     <div className="db-card">
@@ -309,14 +376,10 @@ function SystemStatusCard({ loading, data, revenue }) {
             detail={data?.dbReachable ? 'Connected · Neon' : 'Unreachable'}
           />
           <StatusRow
-            label="Stripe webhook"
-            ok={!!stripeAt}
-            warn={stripeNotWired}
-            detail={
-              stripeAt ? `Last event ${formatRelative(stripeAt)}`
-                : stripeNotWired ? 'Not wired yet'
-                : 'No event in last 30 days'
-            }
+            label="Inference"
+            ok={inferenceOk}
+            warn={inferenceMode === 'aws' && !aws?.configured}
+            detail={inferenceDetail}
           />
         </ul>
       )}
