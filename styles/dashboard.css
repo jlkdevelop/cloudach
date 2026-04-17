@@ -785,28 +785,28 @@
   color: rgba(252,165,165,0.80);
 }
 
-/* ---- Login page ---- */
+/* ---- Login / Signup page (light surface — public entry) ---- */
 .db-login-shell {
   min-height: 100vh;
-  background: #07080f;
+  background: #F7F8FA;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(13,14,23,0.05) 1px, transparent 1px);
   background-size: 24px 24px;
   position: relative;
 }
 
 .db-login-card {
-  background: #0f1018;
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #ffffff;
+  border: 1px solid rgba(13,14,23,0.08);
   border-radius: 16px;
   padding: 40px 44px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 24px 64px rgba(0,0,0,0.6);
+  box-shadow: 0 1px 3px rgba(13,14,23,0.04), 0 24px 64px rgba(13,14,23,0.08);
   position: relative;
   z-index: 1;
 }
@@ -823,14 +823,14 @@
 .db-login-title {
   font-size: 18px;
   font-weight: 700;
-  color: #f2f2f2;
+  color: #0d0e17;
   text-align: center;
   margin-bottom: 4px;
 }
 
 .db-login-sub {
   font-size: 13.5px;
-  color: rgba(255,255,255,0.38);
+  color: #6B7280;
   text-align: center;
   margin-bottom: 24px;
 }
@@ -839,17 +839,17 @@
   text-align: center;
   margin-top: 20px;
   font-size: 13.5px;
-  color: rgba(255,255,255,0.38);
+  color: #6B7280;
 }
 
 .db-login-switch a {
-  color: rgba(255,255,255,0.80);
+  color: #0d0e17;
   font-weight: 600;
   cursor: pointer;
 }
 
 .db-login-switch a:hover {
-  color: #ffffff;
+  color: #1E40FF;
 }
 
 .db-login-full-btn {
@@ -857,17 +857,17 @@
   padding: 11px;
   font-size: 14.5px;
   font-weight: 600;
-  background: var(--btn-primary-bg, #ffffff);
-  color: var(--btn-primary-text, #0d0e17);
+  background: #0d0e17;
+  color: #ffffff;
   border: none;
   border-radius: 9px;
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.12s, box-shadow 0.12s;
 }
 
 .db-login-full-btn:hover {
-  background: var(--btn-primary-hover, rgba(255,255,255,0.88));
-  box-shadow: var(--btn-primary-shadow, 0 0 0 1px rgba(255,255,255,0.10), 0 2px 12px rgba(0,0,0,0.4));
+  background: #1a1b26;
+  box-shadow: 0 1px 2px rgba(13,14,23,0.10), 0 4px 14px rgba(13,14,23,0.10);
 }
 
 .db-login-full-btn:disabled {
@@ -1508,16 +1508,16 @@
 
 /* Refined login card */
 .db-login-card {
-  background: #0f1018;
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #ffffff;
+  border: 1px solid rgba(13,14,23,0.08);
   border-radius: 18px;
   padding: 44px 48px;
   width: 100%;
   max-width: 420px;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 24px 64px rgba(0,0,0,0.55),
-    0 8px 24px rgba(0,0,0,0.35);
+    0 1px 3px rgba(13,14,23,0.04),
+    0 24px 64px rgba(13,14,23,0.08),
+    0 8px 24px rgba(13,14,23,0.04);
   position: relative;
   z-index: 1;
 }
@@ -1526,10 +1526,80 @@
 .db-login-title {
   font-size: 20px;
   font-weight: 700;
-  color: #f2f2f2;
+  color: #0d0e17;
   text-align: center;
   margin-bottom: 6px;
   letter-spacing: -0.3px;
+}
+
+/* ============================================================
+   Auth-scoped form overrides — inside .db-login-shell, flip the
+   shared db-input / db-label / db-pw-toggle / db-strength /
+   db-login-error / db-login-terms rules to a light surface.
+   These same selectors are also used on the logged-in dashboard
+   (dark), so the overrides are deliberately scoped, not global.
+   ============================================================ */
+.db-login-shell .db-label {
+  color: #4B5563;
+}
+.db-login-shell .db-input {
+  background: #ffffff;
+  border: 1px solid rgba(13,14,23,0.12);
+  color: #0d0e17;
+}
+.db-login-shell .db-input::placeholder {
+  color: rgba(13,14,23,0.38);
+}
+.db-login-shell .db-input:focus {
+  border-color: rgba(30,64,255,0.45);
+  box-shadow: 0 0 0 3px rgba(30,64,255,0.12);
+}
+.db-login-shell .db-input:-webkit-autofill,
+.db-login-shell .db-input:-webkit-autofill:hover,
+.db-login-shell .db-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0d0e17;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  box-shadow: 0 0 0 1000px #ffffff inset, 0 0 0 3px rgba(30,64,255,0.12);
+  border-color: rgba(30,64,255,0.45);
+}
+.db-login-shell .db-label-link {
+  color: #6B7280;
+}
+.db-login-shell .db-label-link:hover {
+  color: #1E40FF;
+}
+.db-login-shell .db-pw-toggle {
+  color: rgba(13,14,23,0.40);
+}
+.db-login-shell .db-pw-toggle:hover {
+  color: rgba(13,14,23,0.70);
+}
+.db-login-shell .db-login-admin-badge {
+  color: #1E40FF;
+  background: rgba(30,64,255,0.10);
+  border: 1px solid rgba(30,64,255,0.22);
+}
+.db-login-shell .db-login-admin-badge-dot {
+  background: #1E40FF;
+}
+.db-login-shell .db-login-error {
+  background: rgba(220,38,38,0.08);
+  border-color: rgba(220,38,38,0.22);
+  color: #991B1B;
+}
+.db-login-shell .db-login-terms {
+  color: #9CA3AF;
+}
+.db-login-shell .db-login-terms a {
+  color: #6B7280;
+  text-decoration-color: rgba(13,14,23,0.18);
+}
+.db-login-shell .db-login-terms a:hover {
+  color: #1E40FF;
+}
+.db-login-shell .db-login-spinner {
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: #ffffff;
 }
 
 /* ============================================================

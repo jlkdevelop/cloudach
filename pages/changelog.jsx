@@ -176,7 +176,7 @@ export default function ChangelogPage() {
         <link rel="alternate" type="application/rss+xml" title="Cloudach Changelog RSS" href="/api/changelog/rss" />
       </Head>
 
-      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: 'var(--text-1)', background: '#07080f', minHeight: '100vh' }}>
+      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: 'var(--text-1)', background: '#ffffff', minHeight: '100vh' }}>
         {/* Nav */}
         <nav style={{ borderBottom: '1px solid var(--border)', padding: '0 32px', display: 'flex', alignItems: 'center', gap: 32, height: 60 }}>
           <Link href="/" style={{ textDecoration: 'none' }}>

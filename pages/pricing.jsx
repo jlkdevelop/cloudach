@@ -290,7 +290,7 @@ export default function PricingPage() {
 
       <Nav />
 
-      <main style={{ background: '#07080f', minHeight: '100vh' }}>
+      <main style={{ background: '#ffffff', minHeight: '100vh' }}>
         {/* Hero */}
         <section style={{ textAlign: 'center', padding: '88px 24px 64px', maxWidth: 720, margin: '0 auto' }}>
           <div className="eyebrow" style={{ justifyContent: 'center', margin: '0 auto 24px' }}>
