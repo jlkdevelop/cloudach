@@ -3,7 +3,7 @@ import '../styles/dashboard.css'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Inter, Cairo } from 'next/font/google'
+import { Inter, Cairo, JetBrains_Mono } from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -18,6 +18,13 @@ const cairo = Cairo({
   variable: '--font-cairo',
 })
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+})
+
 export default function App({ Component, pageProps }) {
   const { locale } = useRouter()
 
@@ -27,7 +34,7 @@ export default function App({ Component, pageProps }) {
   }, [locale])
 
   return (
-    <div className={`${inter.variable} ${cairo.variable}`}>
+    <div className={`${inter.variable} ${cairo.variable} ${jetbrainsMono.variable}`}>
       <Head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/favicon.svg" />
