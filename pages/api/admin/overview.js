@@ -1,6 +1,7 @@
 import { requireAdmin } from '../../../lib/auth';
 import { getDb } from '../../../lib/db';
 import { isStripeConfigured, isStripeWebhookConfigured } from '../../../lib/stripe';
+import { getAwsConfig } from '../../../lib/aws';
 
 /**
  * GET /api/admin/overview — consolidated KPI snapshot for the admin dashboard.
@@ -27,6 +28,7 @@ export default requireAdmin(async function handler(req, res) {
       paidInvoicesMtd: null,
       paidInvoicesTotal: null,
     },
+    aws: getAwsConfig(),
     systemStatus: { dbReachable: true, stripeWebhookLastAt: null },
   };
 
