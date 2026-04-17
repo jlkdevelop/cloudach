@@ -507,7 +507,8 @@ export function AdminShell({ children }) {
         </Link>
         <nav className="admin-nav-links">
           <AdminNavLink href="/admin" active={router.pathname === '/admin'}>Overview</AdminNavLink>
-          <AdminNavLink href="/admin/users" active={router.pathname.startsWith('/admin/users')}>Users</AdminNavLink>
+          <AdminNavLink href="/admin/users" active={router.pathname.startsWith('/admin/users') || router.pathname.startsWith('/admin/customers')}>Customers</AdminNavLink>
+          <AdminNavLink href="/admin/usage" active={router.pathname.startsWith('/admin/usage')}>Usage</AdminNavLink>
           <AdminNavLink href="/admin/requests" active={router.pathname.startsWith('/admin/requests')}>Requests</AdminNavLink>
           <AdminNavLink href="/admin/api-keys" active={router.pathname.startsWith('/admin/api-keys')}>API Keys</AdminNavLink>
           <AdminNavLink href="/admin/integrations" active={router.pathname.startsWith('/admin/integrations')}>Integrations</AdminNavLink>
