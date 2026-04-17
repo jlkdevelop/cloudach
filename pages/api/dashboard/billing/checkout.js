@@ -1,6 +1,6 @@
 import { requireAuth } from '../../../../lib/auth';
 import { getDb } from '../../../../lib/db';
-import { getStripe, PLANS } from '../../../../lib/stripe';
+import { getStripe, isStripeConfigured, PLANS } from '../../../../lib/stripe';
 
 /**
  * POST /api/dashboard/billing/checkout
@@ -18,13 +18,20 @@ export default requireAuth(async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid plan. Must be "pro" or "enterprise".' });
   }
 
+  if (!isStripeConfigured()) {
+    return res.status(503).json({
+      error: 'Stripe is not configured on this environment. Try again once billing is wired.',
+      code: 'stripe_not_configured',
+    });
+  }
+
   const planMeta = PLANS[plan];
   if (!planMeta.stripePriceId) {
     // Enterprise or unconfigured — redirect to contact page
     if (plan === 'enterprise') {
       return res.status(200).json({ url: '/contact?plan=enterprise' });
     }
-    return res.status(503).json({ error: 'Billing is not configured. Contact support.' });
+    return res.status(503).json({ error: 'Billing price ID is not configured. Contact support.' });
   }
 
   const db = getDb();

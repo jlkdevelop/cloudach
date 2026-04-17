@@ -1,6 +1,6 @@
 import { requireAuth } from '../../../../lib/auth';
 import { getDb } from '../../../../lib/db';
-import { getStripe } from '../../../../lib/stripe';
+import { getStripe, isStripeConfigured } from '../../../../lib/stripe';
 
 /**
  * POST /api/dashboard/billing/portal
@@ -12,6 +12,13 @@ import { getStripe } from '../../../../lib/stripe';
  */
 export default requireAuth(async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
+
+  if (!isStripeConfigured()) {
+    return res.status(503).json({
+      error: 'Stripe is not configured on this environment. Try again once billing is wired.',
+      code: 'stripe_not_configured',
+    });
+  }
 
   const db = getDb();
   const stripe = getStripe();

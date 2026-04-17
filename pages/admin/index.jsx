@@ -55,8 +55,9 @@ export default function AdminDashboard() {
         <LatencyKpi loading={loading} data={overview?.usage} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: 24, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr)', gap: 24, marginBottom: 24 }}>
         <TopSpendersCard loading={loading} rows={overview?.topSpenders} />
+        <StripeStatusCard loading={loading} data={overview?.stripe} revenue={overview?.revenue} />
         <SystemStatusCard loading={loading} data={overview?.systemStatus} revenue={overview?.revenue} />
       </div>
 
@@ -233,6 +234,58 @@ function TopSpendersCard({ loading, rows }) {
         </div>
       )}
     </div>
+  );
+}
+
+function StripeStatusCard({ loading, data, revenue }) {
+  return (
+    <div className="db-card">
+      <div className="db-card-header">
+        <span className="db-card-title">Stripe</span>
+        {!loading && data && (
+          <span className={`db-badge ${data.configured ? 'db-badge--active' : 'db-badge--revoked'}`}>
+            {data.configured ? 'KEY_PRESENT' : 'NOT_CONFIGURED'}
+          </span>
+        )}
+      </div>
+      {loading ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div className="db-skeleton" style={{ height: 20 }} />
+          <div className="db-skeleton" style={{ height: 20 }} />
+          <div className="db-skeleton" style={{ height: 20 }} />
+        </div>
+      ) : !data?.configured ? (
+        <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.45)', lineHeight: 1.5, margin: 0 }}>
+          Set <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4 }}>STRIPE_SECRET_KEY</code> in Vercel envs to activate billing. See <code style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>docs/setup/stripe.md</code>.
+        </p>
+      ) : (
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 0, margin: 0, listStyle: 'none' }}>
+          <KvRow
+            label="Webhook"
+            value={
+              !data.webhookConfigured
+                ? <span style={{ color: 'rgba(252,165,165,0.85)' }}>secret missing</span>
+                : data.webhookLastAt
+                  ? <span>{formatRelative(data.webhookLastAt)}</span>
+                  : <span style={{ color: 'rgba(255,255,255,0.45)' }}>no events yet</span>
+            }
+          />
+          <KvRow label="Paid invoices · 24h"  value={data.paidInvoices24h ?? 0} />
+          <KvRow label="Paid invoices · MTD"  value={data.paidInvoicesMtd ?? 0} />
+          <KvRow label="Revenue · 30 days"    value={formatCurrency(revenue?.last30dCents ?? 0, revenue?.currency || 'usd')} />
+          <KvRow label="Revenue · today"      value={formatCurrency(revenue?.todayCents ?? 0, revenue?.currency || 'usd')} />
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function KvRow({ label, value }) {
+  return (
+    <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+      <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.45)' }}>{label}</span>
+      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>{value}</span>
+    </li>
   );
 }
 

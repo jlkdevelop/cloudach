@@ -1,4 +1,4 @@
-import { getStripe } from '../../../lib/stripe';
+import { getStripe, isStripeConfigured, isStripeWebhookConfigured } from '../../../lib/stripe';
 import { getDb } from '../../../lib/db';
 
 // Stripe sends the raw body for signature verification — disable body parsing.
@@ -16,13 +16,20 @@ async function getRawBody(req) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
+  // If Stripe isn't wired on this environment, ack the webhook 200 so
+  // Stripe stops retrying. This is the right behavior in test envs and
+  // for staging that hasn't been configured yet.
+  if (!isStripeConfigured() || !isStripeWebhookConfigured()) {
+    console.warn('stripe webhook ignored — STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET is not configured');
+    return res.status(200).json({
+      received: true,
+      ignored: true,
+      reason: 'stripe_not_configured',
+    });
+  }
+
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!webhookSecret) {
-    console.error('STRIPE_WEBHOOK_SECRET is not configured');
-    return res.status(500).json({ error: 'Webhook secret not configured' });
-  }
 
   let event;
   try {
