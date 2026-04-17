@@ -1,0 +1,101 @@
+/* ============================================================
+   Cloudarch design tokens — light-first, brand-anchored.
+   Palette sampled from the Cloudarch logo neon blues
+   (deep indigo-blue on the "cloud" mark, sky-blue on the "arch"
+   mark). Public marketing surfaces consume these; dashboard +
+   admin keep their own dark system in styles/dashboard.css.
+
+   Cloudzero-inspired restraint: white is the dominant surface,
+   --surface-alt is a near-white tint used for band alternation,
+   the accent is used sparingly (CTAs, links, thin underlines —
+   never as a fill).
+   ============================================================ */
+
+:root {
+  /* ── Brand accent (sampled from /brand/cloudarch-neon.png) ── */
+  --color-brand-accent:        #1E40FF;  /* "cloud" mark — primary CTA */
+  --color-brand-accent-hover:  #1633CC;  /* pressed / hover */
+  --color-brand-accent-light:  #1AA3FF;  /* "arch" mark — secondary accent */
+  --color-brand-accent-tint:   rgba(30, 64, 255, 0.06);
+  --color-brand-accent-ring:   rgba(30, 64, 255, 0.18);
+
+  /* ── Surfaces ── */
+  --color-surface:       #ffffff;   /* dominant white */
+  --color-surface-alt:   #F7F9FC;   /* near-white tint for band alternation */
+  --color-surface-mute:  #EFF2F7;   /* deeper tint, rarely used */
+  --color-surface-sunk:  #E4E7EC;   /* wells, avatars */
+
+  /* ── Ink (text) ── */
+  --color-ink:          #0d0e17;   /* body / headlines — near-black */
+  --color-ink-strong:   #000000;   /* reserved — display weights if ever needed */
+  --color-ink-muted:    #4B5563;   /* secondary text */
+  --color-ink-quiet:    #6B7280;   /* tertiary / supporting */
+  --color-ink-whisper:  #9CA3AF;   /* metadata, timestamps */
+
+  /* ── Rules / borders ── */
+  --color-rule:          rgba(13, 14, 23, 0.08);
+  --color-rule-strong:   rgba(13, 14, 23, 0.14);
+  --color-rule-accent:   rgba(30, 64, 255, 0.22);
+
+  /* ── Semantic (unchanged from existing system) ── */
+  --color-success:   #16a34a;
+  --color-warning:   #d97706;
+  --color-danger:    #dc2626;
+
+  /* ── Typography scale (cloudzero-inspired airy rhythm) ── */
+  --font-display-xxl:  clamp(44px, 6vw, 68px);  /* hero headline */
+  --font-display-xl:   clamp(36px, 4.5vw, 48px); /* section title */
+  --font-display-lg:   28px;
+  --font-display-md:   22px;
+  --font-body-lg:      18px;                    /* hero subcopy */
+  --font-body:         16px;
+  --font-body-sm:      14px;
+  --font-meta:         12.5px;                  /* eyebrows, captions */
+
+  --line-display:   1.08;
+  --line-title:     1.2;
+  --line-body:      1.65;
+  --line-body-airy: 1.75;                       /* hero subcopy, marketing body */
+
+  --letter-display: -0.025em;
+  --letter-title:   -0.012em;
+  --letter-body:    0;
+
+  /* ── Spatial rhythm (≥80px between major sections per brief) ── */
+  --space-section:       112px;
+  --space-section-sm:    72px;     /* mobile / compact */
+  --space-block:         48px;
+  --space-content-max:   1200px;   /* page max-width per brief */
+  --space-content-gutter: 48px;
+
+  /* ── Radii ── */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  /* ── Elevations — light, restrained ── */
+  --elev-card:    0 1px 2px rgba(13,14,23,0.04), 0 4px 12px rgba(13,14,23,0.05);
+  --elev-raised:  0 4px 16px rgba(13,14,23,0.06), 0 16px 40px rgba(13,14,23,0.06);
+
+  /* ── Legacy aliases so existing globals.css rules keep working ──
+     New rules should consume the named tokens above. The legacy
+     short names (--bg, --text-*, --brand, --border) can be
+     gradually migrated — leaving them here means the CLO-5 light
+     pass continues to render while we iterate. */
+  --brand:            var(--color-brand-accent);
+  --brand-hover:      var(--color-brand-accent-hover);
+  --brand-subtle:     var(--color-brand-accent-tint);
+  --brand-border:     var(--color-brand-accent-ring);
+  --bg:               var(--color-surface);
+  --bg-1:             var(--color-surface-alt);
+  --bg-2:             var(--color-surface-mute);
+  --bg-3:             var(--color-surface-sunk);
+  --border:           var(--color-rule);
+  --border-strong:    var(--color-rule-strong);
+  --border-brand:     var(--color-rule-accent);
+  --text-1:           var(--color-ink);
+  --text-2:           var(--color-ink-muted);
+  --text-3:           var(--color-ink-quiet);
+  --text-4:           var(--color-ink-whisper);
+}
