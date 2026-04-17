@@ -2019,3 +2019,250 @@ footer {
 [dir="rtl"] .btn-cta svg {
   transform: scaleX(-1);
 }
+
+/* ── Tutorial pages (/tutorials/*) ──────────────────────────────────────── */
+
+.tutorial-toc-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-ink-whisper);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.tutorial-toc-link {
+  display: block;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  line-height: 1.4;
+  transition: color 120ms ease;
+}
+.tutorial-toc-link:hover {
+  color: var(--color-brand-accent);
+}
+
+.tutorial-breadcrumb-link {
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+.tutorial-breadcrumb-link:hover {
+  color: var(--color-brand-accent);
+}
+
+.tutorial-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  letter-spacing: var(--letter-title);
+}
+
+.tutorial-chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 5px;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-surface-alt);
+  color: var(--color-ink-muted);
+  border: 1px solid var(--color-rule);
+}
+.tutorial-chip-beginner {
+  color: #047857;
+  background: #ECFDF5;
+  border-color: rgba(4, 120, 87, 0.18);
+}
+.tutorial-chip-intermediate {
+  color: #b45309;
+  background: #FFFBEB;
+  border-color: rgba(180, 83, 9, 0.18);
+}
+.tutorial-chip-advanced {
+  color: #b91c1c;
+  background: #FEF2F2;
+  border-color: rgba(185, 28, 28, 0.18);
+}
+.tutorial-chip-duration {
+  font-weight: 500;
+  color: var(--color-ink-quiet);
+  background: transparent;
+  border-color: transparent;
+  padding: 3px 0;
+  letter-spacing: 0;
+}
+.tutorial-chip-lang {
+  color: var(--color-brand-accent);
+  background: var(--color-brand-accent-tint);
+  border-color: var(--color-brand-accent-ring);
+}
+
+.tutorial-inline-code {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--color-surface-alt);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+}
+
+.tutorial-callout {
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-rule);
+  background: var(--color-surface-alt);
+  color: var(--color-ink-muted);
+}
+.tutorial-callout-info {
+  border-color: var(--color-brand-accent-ring);
+  background: var(--color-brand-accent-tint);
+  color: var(--color-ink);
+}
+.tutorial-callout-warn {
+  border-color: rgba(180, 83, 9, 0.22);
+  background: #FFFBEB;
+  color: #78350f;
+}
+
+/* Dark code block — industry convention (cloudzero/Vercel/Stripe all dark) */
+.tutorial-code-wrap {
+  position: relative;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--elev-card);
+}
+.tutorial-code-lang {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8B949E;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.tutorial-code-pre {
+  background: #0D1117;
+  color: #E6EDF3;
+  padding: 16px 20px;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+}
+.tutorial-code-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(230, 237, 243, 0.08);
+  color: #E6EDF3;
+  border: 1px solid rgba(230, 237, 243, 0.14);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.tutorial-code-copy:hover {
+  background: rgba(230, 237, 243, 0.14);
+  border-color: rgba(230, 237, 243, 0.24);
+}
+.tutorial-code-copy-ok {
+  background: #065F46;
+  border-color: #065F46;
+  color: #D1FAE5;
+}
+
+.tutorial-lang-tab {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-surface-alt);
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+.tutorial-lang-tab:hover {
+  color: var(--color-ink);
+}
+.tutorial-lang-tab-active {
+  background: #0D1117;
+  color: #E6EDF3;
+  border-color: #0D1117;
+}
+
+.tutorial-card {
+  display: block;
+  border: 1px solid var(--color-rule);
+  border-radius: 10px;
+  padding: 14px 18px;
+  text-decoration: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  background: var(--color-surface);
+}
+.tutorial-card:hover {
+  border-color: var(--color-brand-accent-ring);
+  box-shadow: var(--elev-card);
+  transform: translateY(-1px);
+}
+.tutorial-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+.tutorial-card-desc {
+  font-size: 13px;
+  color: var(--color-ink-quiet);
+}
+
+.tutorial-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.tutorial-table th {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--color-rule-strong);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.tutorial-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-rule);
+  color: var(--color-ink-muted);
+}
+.tutorial-table td:first-child {
+  color: var(--color-ink);
+}
+
+@media (max-width: 900px) {
+  .tutorial-shell {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .tutorial-shell aside {
+    position: static !important;
+  }
+}
