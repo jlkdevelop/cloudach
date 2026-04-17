@@ -1,0 +1,25 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored — never commit live secrets.
+
+region        = "us-east-1"
+environment   = "prod"
+name_prefix   = "cloudach"
+instance_type = "g6.xlarge"
+
+# Paste your full SSH public key here (cat ~/.ssh/id_ed25519.pub).
+# This is what authorizes you to SSH into the EC2 instance.
+ssh_pub_key = "ssh-ed25519 AAAA…replace-me…"
+
+# Tighten this to your office IP / VPN before going to production.
+# Keeping 0.0.0.0/0 means anyone on the internet can attempt SSH.
+allowed_ingress_cidr = "0.0.0.0/0"
+
+# Initial Hugging Face model to serve. Switch via systemctl + edit
+# the unit file once the instance is up if you want a different model.
+model_id = "meta-llama/Llama-3.1-8B-Instruct"
+
+# CloudWatch log retention. 30 = sane default; 0 = forever.
+log_retention_days = 30
+
+# Root EBS size. vLLM + Llama 3.1 8B weights want >=80 GB.
+ebs_root_size_gb = 100
