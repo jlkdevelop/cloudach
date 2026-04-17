@@ -1,5 +1,6 @@
 import { requireAdmin } from '../../../lib/auth';
 import { getDb } from '../../../lib/db';
+import { isStripeConfigured, isStripeWebhookConfigured } from '../../../lib/stripe';
 
 /**
  * GET /api/admin/overview — consolidated KPI snapshot for the admin dashboard.
@@ -18,6 +19,14 @@ export default requireAdmin(async function handler(req, res) {
     usage: { requests24h: null, tokens24h: null, errors24h: null, avgLatencyMs24h: null, p95LatencyMs24h: null },
     revenue: { todayCents: null, mtdCents: null, last30dCents: null, currency: 'usd' },
     topSpenders: null,
+    stripe: {
+      configured: isStripeConfigured(),
+      webhookConfigured: isStripeWebhookConfigured(),
+      webhookLastAt: null,
+      paidInvoices24h: null,
+      paidInvoicesMtd: null,
+      paidInvoicesTotal: null,
+    },
     systemStatus: { dbReachable: true, stripeWebhookLastAt: null },
   };
 
@@ -154,13 +163,33 @@ export default requireAdmin(async function handler(req, res) {
     }
   }
 
-  // --- Stripe webhook last received ---
+  // --- Stripe webhook last received + paid-invoice counts ---
   try {
     const r = await db.query(`SELECT MAX(processed_at) AS last_at FROM stripe_events`);
-    out.systemStatus.stripeWebhookLastAt = r.rows[0].last_at;
+    const lastAt = r.rows[0].last_at;
+    out.systemStatus.stripeWebhookLastAt = lastAt;
+    out.stripe.webhookLastAt = lastAt;
   } catch (err) {
     if (!/does not exist/i.test(err.message || '')) {
       console.error('overview stripe webhook status error:', err.message);
+    }
+  }
+
+  try {
+    const r = await db.query(
+      `SELECT
+         COUNT(*) FILTER (WHERE created_at > now() - interval '24 hours' AND status = 'paid') AS invoices_24h,
+         COUNT(*) FILTER (WHERE created_at >= date_trunc('month', now())   AND status = 'paid') AS invoices_mtd,
+         COUNT(*) FILTER (WHERE status = 'paid')                                              AS invoices_total
+       FROM stripe_invoices`
+    );
+    const row = r.rows[0];
+    out.stripe.paidInvoices24h = parseInt(row.invoices_24h, 10);
+    out.stripe.paidInvoicesMtd = parseInt(row.invoices_mtd, 10);
+    out.stripe.paidInvoicesTotal = parseInt(row.invoices_total, 10);
+  } catch (err) {
+    if (!/does not exist/i.test(err.message || '')) {
+      console.error('overview stripe invoice count error:', err.message);
     }
   }
 
