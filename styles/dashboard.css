@@ -1686,6 +1686,137 @@
 .admin-dot--warn { background: #fbbf24; color: #fbbf24; }
 .admin-dot--down { background: #fca5a5; color: #fca5a5; }
 
+/* Customers-view: search input + filter pills */
+.admin-search {
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.85);
+  outline: none;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.admin-search::placeholder {
+  color: rgba(255,255,255,0.35);
+}
+
+.admin-search:focus {
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.06);
+}
+
+.admin-filter-pill {
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.admin-filter-pill:hover {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+}
+
+.admin-filter-pill--active {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.95);
+  border-color: rgba(255,255,255,0.20);
+}
+
+/* Customers-view: plan pill (shown in table) */
+.admin-plan-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.75);
+}
+
+.admin-plan-pill--free {
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.07);
+}
+
+.admin-plan-pill--pro {
+  color: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.18);
+}
+
+.admin-plan-pill--enterprise {
+  color: #fff;
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.28);
+}
+
+/* Stripe deep-link arrow */
+.admin-stripe-link {
+  display: inline-block;
+  margin-left: 6px;
+  color: rgba(255,255,255,0.40);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.12s;
+}
+
+.admin-stripe-link:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+/* Customers-view: action buttons (Disable / Enable) */
+.admin-action-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.10);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, opacity 0.12s;
+}
+
+.admin-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-action-btn--disable {
+  background: rgba(220,38,38,0.10);
+  color: rgba(252,165,165,0.85);
+  border-color: rgba(220,38,38,0.24);
+}
+
+.admin-action-btn--disable:not(:disabled):hover {
+  background: rgba(220,38,38,0.18);
+  color: rgba(252,165,165,0.95);
+}
+
+.admin-action-btn--enable {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.80);
+}
+
+.admin-action-btn--enable:not(:disabled):hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
 /* Narrow screens — collapse the horizontal nav into a scroll row */
 @media (max-width: 720px) {
   .admin-topnav { overflow-x: auto; gap: 16px; padding: 0 16px; }
