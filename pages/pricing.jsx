@@ -15,32 +15,35 @@ const plans = [
     name: 'Free',
     desc: 'For developers exploring and building side projects.',
     price: '$0',
-    unit: 'then $0.20 / million tokens',
+    unit: '1M tokens included · then $0.20 / million',
     features: [
+      '1M tokens included per month',
       '1 active deployment',
       'Shared GPU infrastructure',
       'OpenAI-compatible API',
+      '3 API keys with rate limits',
       'Community support',
-      '1 GB model storage',
-      'Up to 128K context',
     ],
     cta: 'Get started free',
     href: '/signup',
     featured: false,
     freeNote: 'No credit card required',
     rateKey: 0.20,
+    subscription: 0,
+    includedMillions: 1,
     planLabel: 'Free',
   },
   {
     name: 'Pro',
     desc: 'For production apps and growing teams that need more.',
     price: '$49',
-    unit: 'per month · $0.15 / million tokens',
+    unit: 'per month · 25M tokens included · then $0.15 / million',
     features: [
+      '25M tokens included per month',
       '10 active deployments',
-      'Dedicated GPU instances',
-      'Autoscaling + fine-tuning',
-      'Usage dashboard + logs',
+      'Dedicated GPU bursting + fine-tuning',
+      'Per-key spend caps + cost tagging',
+      'Request log viewer (30-day retention)',
       '50 GB model storage',
       'Priority support',
     ],
@@ -49,39 +52,44 @@ const plans = [
     featured: true,
     freeNote: '14-day free trial — no card required',
     rateKey: 0.15,
+    subscription: 49,
+    includedMillions: 25,
     planLabel: 'Pro',
   },
   {
-    name: 'Enterprise',
-    desc: 'For regulated industries and large-scale production.',
-    price: 'Custom',
-    unit: 'Volume discounts · dedicated team',
+    name: 'Business',
+    desc: 'For production workloads with SLA and scale requirements.',
+    price: '$499',
+    unit: 'per month · 250M tokens included · then $0.10 / million',
     features: [
+      '250M tokens included per month',
       'Unlimited deployments',
-      'Private VPC + air-gap',
-      '99.9% uptime SLA',
-      'HIPAA · SOC 2 · GDPR',
+      '99.9% uptime SLA with service credits',
+      'A/B fine-tune traffic split',
+      'Request log viewer (90-day retention)',
+      'Team-level budget rollup',
       'Dedicated solutions engineer',
-      'Custom model storage',
     ],
     cta: 'Contact sales',
     href: '/contact',
     featured: false,
     freeNote: null,
-    rateKey: null,
-    planLabel: 'Enterprise',
+    rateKey: 0.10,
+    subscription: 499,
+    includedMillions: 250,
+    planLabel: 'Business',
   },
 ]
 
 const modelPricing = [
-  { name: 'Llama 3.1 8B', provider: 'Meta', freeRate: 0.20, proRate: 0.15, context: '128K', tier: 'Free+' },
-  { name: 'Mistral 7B', provider: 'Mistral AI', freeRate: 0.16, proRate: 0.12, context: '32K', tier: 'Free+' },
-  { name: 'Phi-3 Mini', provider: 'Microsoft', freeRate: 0.12, proRate: 0.09, context: '4K', tier: 'Free+' },
-  { name: 'CodeLlama 13B', provider: 'Meta', freeRate: 0.24, proRate: 0.18, context: '16K', tier: 'Free+' },
-  { name: 'Llama 3.1 70B', provider: 'Meta', freeRate: 0.60, proRate: 0.45, context: '128K', tier: 'Pro+' },
-  { name: 'Mixtral 8×7B', provider: 'Mistral AI', freeRate: 0.48, proRate: 0.36, context: '32K', tier: 'Pro+' },
-  { name: 'DeepSeek R1 7B', provider: 'DeepSeek', freeRate: 0.24, proRate: 0.18, context: '64K', tier: 'Pro+' },
-  { name: 'Qwen 2.5 72B', provider: 'Alibaba', freeRate: 0.56, proRate: 0.42, context: '128K', tier: 'Pro+' },
+  { name: 'Phi-3 Mini', provider: 'Microsoft', freeRate: 0.12, proRate: 0.09, businessRate: 0.06, context: '4K', tier: 'Free+' },
+  { name: 'Mistral 7B', provider: 'Mistral AI', freeRate: 0.18, proRate: 0.13, businessRate: 0.09, context: '32K', tier: 'Free+' },
+  { name: 'Llama 3.1 8B', provider: 'Meta', freeRate: 0.20, proRate: 0.15, businessRate: 0.10, context: '128K', tier: 'Free+' },
+  { name: 'DeepSeek R1 7B Distill', provider: 'DeepSeek', freeRate: 0.24, proRate: 0.18, businessRate: 0.13, context: '64K', tier: 'Free+' },
+  { name: 'CodeLlama 13B', provider: 'Meta', freeRate: 0.25, proRate: 0.18, businessRate: 0.13, context: '16K', tier: 'Free+' },
+  { name: 'Mixtral 8×7B', provider: 'Mistral AI', freeRate: 0.55, proRate: 0.40, businessRate: 0.30, context: '32K', tier: 'Pro+' },
+  { name: 'Llama 3.1 70B', provider: 'Meta', freeRate: 0.85, proRate: 0.65, businessRate: 0.45, context: '128K', tier: 'Pro+' },
+  { name: 'Qwen 2.5 72B', provider: 'Alibaba', freeRate: 0.85, proRate: 0.65, businessRate: 0.45, context: '128K', tier: 'Pro+' },
 ]
 
 const faqs = [
@@ -99,7 +107,7 @@ const faqs = [
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'We accept all major credit and debit cards via Stripe. Enterprise customers can also pay by invoice.',
+    a: 'We accept all major credit and debit cards via Stripe. Business customers can also pay by invoice.',
   },
   {
     q: 'Do unused tokens roll over?',
@@ -115,7 +123,7 @@ const faqs = [
   },
   {
     q: 'What SLA do you offer?',
-    a: 'Pro plans include best-effort availability. Enterprise plans include a contractual 99.9% monthly uptime SLA backed by redundant infrastructure.',
+    a: 'Pro plans include best-effort availability. Business plans include a 99.9% monthly uptime target with service credits issued when we fall short.',
   },
 ]
 
@@ -123,13 +131,19 @@ function PricingCalculator() {
   const [tokens, setTokens] = useState(10)
   const [plan, setPlan] = useState('Free')
 
-  const rate = plan === 'Pro' ? 0.15 : 0.20
-  const sub = plan === 'Pro' ? 49 : 0
-  const tokenCost = tokens * rate
+  const planConfig = {
+    Free: { rate: 0.20, sub: 0, included: 1 },
+    Pro: { rate: 0.15, sub: 49, included: 25 },
+    Business: { rate: 0.10, sub: 499, included: 250 },
+  }
+  const { rate, sub, included } = planConfig[plan]
+  const overageTokens = Math.max(0, tokens - included)
+  const tokenCost = overageTokens * rate
   const total = sub + tokenCost
 
   const formatted = total.toFixed(2)
   const tokenFormatted = (tokens * 1_000_000).toLocaleString()
+  const effectivePerMillion = tokens > 0 ? (total / tokens).toFixed(3) : '0.000'
 
   return (
     <div style={{ background: 'var(--bg-1)', border: '1px solid var(--border)', borderRadius: 16, padding: '40px 40px', maxWidth: 680, margin: '0 auto' }}>
@@ -140,8 +154,8 @@ function PricingCalculator() {
         <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-2)', display: 'block', marginBottom: 10 }}>
           Plan
         </label>
-        <div style={{ display: 'flex', gap: 10 }}>
-          {['Free', 'Pro'].map(p => (
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {['Free', 'Pro', 'Business'].map(p => (
             <button
               key={p}
               onClick={() => setPlan(p)}
@@ -186,18 +200,26 @@ function PricingCalculator() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {sub > 0 && (
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--text-2)' }}>
-              <span>{plan} subscription</span>
+              <span>{plan} subscription (includes {included}M tokens)</span>
               <span>${sub.toFixed(2)}</span>
             </div>
           )}
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--text-2)' }}>
-            <span>{tokens}M tokens × ${rate.toFixed(2)}/M</span>
+            <span>
+              {overageTokens > 0
+                ? `${overageTokens}M overage × $${rate.toFixed(2)}/M`
+                : `Within ${included}M included allotment`}
+            </span>
             <span>${tokenCost.toFixed(2)}</span>
           </div>
           <div style={{ height: 1, background: 'var(--border)', margin: '4px 0' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 700, color: 'var(--text-1)', letterSpacing: -0.5 }}>
             <span>Estimated monthly total</span>
             <span style={{ color: 'var(--brand)' }}>${formatted}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#9CA3AF' }}>
+            <span>Effective rate</span>
+            <span>${effectivePerMillion} / million tokens</span>
           </div>
         </div>
       </div>
@@ -256,7 +278,7 @@ export default function PricingPage() {
     <>
       <Head>
         <title>Pricing — Cloudach</title>
-        <meta name="description" content="Start free, scale with confidence. Cloudach pricing is usage-based with no hidden fees. Free tier, Pro at $49/month, and Enterprise custom pricing." />
+        <meta name="description" content="Start free, scale with confidence. Cloudach pricing is subscription plus metered usage with no hidden fees. Free tier, Pro at $49/month with 25M tokens included, Business at $499/month with 250M tokens and 99.9% SLA." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta property="og:title" content="Pricing — Cloudach" />
@@ -315,7 +337,7 @@ export default function PricingPage() {
             <div className="sec-tag" style={{ textAlign: 'center' }}>Model pricing</div>
             <h2 className="sec-title" style={{ textAlign: 'center', marginBottom: 8 }}>Per-model token rates</h2>
             <p style={{ textAlign: 'center', fontSize: 15, color: 'var(--text-2)', marginBottom: 48, lineHeight: 1.6 }}>
-              Pro plan customers get 25% lower token rates across the board.
+              Pro and Business plans get progressively lower rates as your volume commitment grows.
             </p>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
@@ -327,6 +349,7 @@ export default function PricingPage() {
                     <th style={{ textAlign: 'left', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Available on</th>
                     <th style={{ textAlign: 'right', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Free ($/M tokens)</th>
                     <th style={{ textAlign: 'right', padding: '10px 16px', color: 'var(--brand)', fontWeight: 600, whiteSpace: 'nowrap' }}>Pro ($/M tokens)</th>
+                    <th style={{ textAlign: 'right', padding: '10px 16px', color: 'var(--text-2)', fontWeight: 600, whiteSpace: 'nowrap' }}>Business ($/M tokens)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -354,13 +377,16 @@ export default function PricingPage() {
                       <td style={{ padding: '13px 16px', textAlign: 'right', color: 'var(--brand)', fontWeight: 600, fontFamily: 'monospace', fontSize: 13 }}>
                         ${m.proRate.toFixed(2)}
                       </td>
+                      <td style={{ padding: '13px 16px', textAlign: 'right', color: 'var(--text-2)', fontWeight: 600, fontFamily: 'monospace', fontSize: 13 }}>
+                        ${m.businessRate.toFixed(2)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
             <p style={{ fontSize: 13, color: '#9CA3AF', marginTop: 16, textAlign: 'center' }}>
-              Rates are per million tokens (combined input + output). Enterprise rates available on request.
+              Rates are per million tokens (combined input + output). Reasoning models are priced with split input/output rates. Custom pricing for 6B+ tokens/month — contact sales.
             </p>
           </div>
         </section>
