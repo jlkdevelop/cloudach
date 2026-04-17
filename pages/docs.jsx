@@ -1,7 +1,6 @@
-import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
-import Logo from '../components/Logo';
+import DocsLayout from '../components/DocsLayout';
 
 const MODELS = [
   { id: 'llama3-8b',      name: 'Llama 3 8B',      ctx: '8K',   best: 'Fast chat, Q&A, summarization' },
@@ -14,96 +13,41 @@ const MODELS = [
   { id: 'dbrx',           name: 'DBRX',            ctx: '32K',  best: 'Coding, reasoning, MoE efficiency' },
 ];
 
+const DOCS_TOC = [
+  ['#quickstart', 'Quickstart'],
+  ['#authentication', 'Authentication'],
+  ['#endpoints', 'Endpoints'],
+  ['#chat-completions', '↳ Chat Completions'],
+  ['#streaming', '↳ Streaming'],
+  ['#text-completions', '↳ Text Completions'],
+  ['#models-list', '↳ Models List'],
+  ['#rate-limits', 'Rate Limits'],
+  ['#errors', 'Error Codes'],
+  ['#webhooks', 'Webhooks'],
+  ['#webhooks-events', '↳ Event Types'],
+  ['#webhooks-signatures', '↳ Verifying Signatures'],
+  ['#sdks', 'SDK Reference'],
+  ['#integrations', 'Integrations'],
+  ['#fine-tuning', 'Fine-Tuning'],
+  ['#fine-tuning-quickstart', '↳ Quickstart'],
+  ['#fine-tuning-lora', '↳ LoRA Adapters'],
+  ['#fine-tuning-models', '↳ Supported Models'],
+  ['#tutorials', 'Tutorials'],
+  ['#playground', 'API Playground'],
+  ['#faq', 'FAQ'],
+];
+
 export default function DocsPage() {
   const [lang, setLang] = useState('curl');
 
   return (
-    <>
-      <Head>
-        <title>API Documentation — Cloudach</title>
-        <meta name="description" content="Cloudach API documentation — OpenAI-compatible LLM API. Quickstart, authentication, endpoints, and code examples." />
-        <meta property="og:title" content="API Documentation — Cloudach" />
-        <meta property="og:description" content="OpenAI-compatible API for Llama 3, Mistral, and Mixtral. Drop-in replacement for the OpenAI SDK." />
-        <meta property="og:image" content="https://cloudach.com/og-image.png" />
-        <meta property="og:url" content="https://cloudach.com/docs" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="API Documentation — Cloudach" />
-        <meta name="twitter:description" content="OpenAI-compatible API for Llama 3, Mistral, and Mixtral. Drop-in replacement for the OpenAI SDK." />
-        <meta name="twitter:image" content="https://cloudach.com/og-image.png" />
-      </Head>
-
-      <div style={{ fontFamily: 'Inter, system-ui, sans-serif', color: '#f2f2f2', background: '#07080f', minHeight: '100vh' }}>
-        {/* Nav */}
-        <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '0 48px', display: 'flex', alignItems: 'center', gap: 32, height: 60, background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', position: 'sticky', top: 0, zIndex: 100 }}>
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Logo size={36} />
-          </Link>
-          <Link href="/docs" style={{ fontSize: 13.5, fontWeight: 500, color: 'var(--brand)', textDecoration: 'none' }}>Docs</Link>
-          <Link href="/dashboard" style={{ fontSize: 13.5, color: '#a0a0a0', textDecoration: 'none' }}>Dashboard</Link>
-          <div style={{ flex: 1 }} />
-          <Link href="/signup">
-            <button className="btn-solid">
-              Get started
-            </button>
-          </Link>
-        </nav>
-
-        <div style={{ display: 'flex', maxWidth: 1100, margin: '0 auto', padding: '40px 24px', gap: 48 }}>
-          {/* Sidebar */}
-          <aside style={{ width: 200, flexShrink: 0 }}>
-            <nav style={{ position: 'sticky', top: 80 }}>
-              {[
-                ['#quickstart', 'Quickstart'],
-                ['#authentication', 'Authentication'],
-                ['#endpoints', 'Endpoints'],
-                ['#chat-completions', '↳ Chat Completions'],
-                ['#streaming', '↳ Streaming'],
-                ['#text-completions', '↳ Text Completions'],
-                ['#models-list', '↳ Models List'],
-                ['#rate-limits', 'Rate Limits'],
-                ['#errors', 'Error Codes'],
-                ['#webhooks', 'Webhooks'],
-                ['#webhooks-events', '↳ Event Types'],
-                ['#webhooks-signatures', '↳ Verifying Signatures'],
-                ['#sdks', 'SDK Reference'],
-                ['#integrations', 'Integrations'],
-                ['#fine-tuning', 'Fine-Tuning'],
-                ['#fine-tuning-quickstart', '↳ Quickstart'],
-                ['#fine-tuning-lora', '↳ LoRA Adapters'],
-                ['#fine-tuning-models', '↳ Supported Models'],
-                ['#tutorials', 'Tutorials'],
-                ['#playground', 'API Playground'],
-                ['#faq', 'FAQ'],
-              ].map(([href, label]) => (
-                <a
-                  key={href}
-                  href={href}
-                  style={{
-                    display: 'block',
-                    padding: '6px 0',
-                    fontSize: 13,
-                    color: label.startsWith('↳') ? '#555555' : '#a0a0a0',
-                    textDecoration: 'none',
-                    lineHeight: 1.4,
-                    transition: 'color 0.15s',
-                  }}
-                >
-                  {label}
-                </a>
-              ))}
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                <Link href="/changelog" style={{ display: 'block', padding: '6px 0', fontSize: 13, color: '#a0a0a0', textDecoration: 'none', lineHeight: 1.4 }}>Changelog</Link>
-              </div>
-            </nav>
-          </aside>
-
-          {/* Main content */}
-          <main style={{ flex: 1, minWidth: 0 }}>
-            <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 8, color: '#f2f2f2', letterSpacing: '-1px' }}>API Documentation</h1>
-            <p style={{ color: '#666666', fontSize: 16, marginBottom: 40 }}>
-              Cloudach is an OpenAI-compatible LLM API. Drop in your API key and base URL — no code changes needed.
-            </p>
+    <DocsLayout toc={DOCS_TOC}>
+      <h1 style={{ fontSize: 'var(--font-display-xl)', fontWeight: 700, marginBottom: 12, color: 'var(--color-ink)', letterSpacing: '-0.025em', lineHeight: 1.08 }}>
+        API Documentation
+      </h1>
+      <p style={{ color: 'var(--color-ink-muted)', fontSize: 17, lineHeight: 1.6, marginBottom: 40, maxWidth: 680 }}>
+        Cloudach is an OpenAI-compatible LLM API. Drop in your API key and base URL — no code changes needed.
+      </p>
 
             {/* ── Quickstart ── */}
             <Section id="quickstart" title="Quickstart">
@@ -281,16 +225,16 @@ data: [DONE]`}</CodeBlock>
                 <thead>
                   <tr>
                     {['Model ID', 'Context', 'Best for'].map(h => (
-                      <th key={h} style={{ textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid #E5E7EB', color: '#374151', fontWeight: 600 }}>{h}</th>
+                      <th key={h} style={{ textAlign: 'left', padding: '10px 14px 10px 0', borderBottom: '1px solid var(--color-rule-strong)', color: 'var(--color-ink-muted)', fontWeight: 600, fontSize: 12.5, letterSpacing: '0.02em', textTransform: 'uppercase' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {MODELS.map(m => (
                     <tr key={m.id}>
-                      <td style={{ padding: '8px 12px', borderBottom: '1px solid #F3F4F6' }}><Code>{m.id}</Code></td>
-                      <td style={{ padding: '8px 12px', borderBottom: '1px solid #F3F4F6', color: '#6B7280' }}>{m.ctx}</td>
-                      <td style={{ padding: '8px 12px', borderBottom: '1px solid #F3F4F6', color: '#6B7280' }}>{m.best}</td>
+                      <td style={{ padding: '10px 14px 10px 0', borderBottom: '1px solid var(--color-rule)' }}><Code>{m.id}</Code></td>
+                      <td style={{ padding: '10px 14px 10px 0', borderBottom: '1px solid var(--color-rule)', color: 'var(--color-ink-muted)' }}>{m.ctx}</td>
+                      <td style={{ padding: '10px 14px 10px 0', borderBottom: '1px solid var(--color-rule)', color: 'var(--color-ink-muted)' }}>{m.best}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -551,9 +495,9 @@ try {
               <h3 style={h3} id="webhooks-events">Event types</h3>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13.5, marginBottom: 24 }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid #E5E7EB', color: '#6B7280', fontSize: 12.5 }}>
-                    <th style={{ textAlign: 'left', padding: '6px 12px 6px 0', fontWeight: 500 }}>Event</th>
-                    <th style={{ textAlign: 'left', padding: '6px 12px 6px 0', fontWeight: 500 }}>When it fires</th>
+                  <tr style={{ borderBottom: '1px solid var(--color-rule-strong)', color: 'var(--color-ink-muted)', fontSize: 12.5 }}>
+                    <th style={{ textAlign: 'left', padding: '10px 12px 10px 0', fontWeight: 600, letterSpacing: '0.02em', textTransform: 'uppercase' }}>Event</th>
+                    <th style={{ textAlign: 'left', padding: '10px 12px 10px 0', fontWeight: 600, letterSpacing: '0.02em', textTransform: 'uppercase' }}>When it fires</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -563,11 +507,11 @@ try {
                     ['api_key.revoked',  'An API key is revoked'],
                     ['request.failed',   'An API request returns a 4xx or 5xx status code'],
                   ].map(([ev, desc]) => (
-                    <tr key={ev} style={{ borderBottom: '1px solid #F3F4F6' }}>
-                      <td style={{ padding: '9px 12px 9px 0', verticalAlign: 'top' }}>
+                    <tr key={ev} style={{ borderBottom: '1px solid var(--color-rule)' }}>
+                      <td style={{ padding: '10px 12px 10px 0', verticalAlign: 'top' }}>
                         <Code>{ev}</Code>
                       </td>
-                      <td style={{ padding: '9px 0', color: '#374151' }}>{desc}</td>
+                      <td style={{ padding: '10px 0', color: 'var(--color-ink-muted)' }}>{desc}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -633,12 +577,12 @@ function verify(secret, rawBody, header) {
                   { href: '/tutorials/python-quickstart', lang: 'Python', pkg: 'pip install openai', desc: 'Install, configure, first call in 5 lines' },
                   { href: '/tutorials/nodejs-quickstart', lang: 'Node.js', pkg: 'npm install openai', desc: 'ESM, CommonJS, and TypeScript setup' },
                 ].map(t => (
-                  <a key={t.href} href={t.href} style={{ flex: 1, border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px', textDecoration: 'none', display: 'block' }}>
+                  <a key={t.href} href={t.href} className="docs-card" style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: '#0D0F1A' }}>{t.lang}</span>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-ink)' }}>{t.lang}</span>
                       <Code>{t.pkg}</Code>
                     </div>
-                    <div style={{ fontSize: 12, color: '#6B7280' }}>{t.desc}</div>
+                    <div style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>{t.desc}</div>
                   </a>
                 ))}
               </div>
@@ -816,12 +760,12 @@ for (const m of models.data) console.log(m.id);`}</CodeBlock>
                     badge: 'Python',
                   },
                 ].map(t => (
-                  <a key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}>
+                  <a key={t.href} href={t.href} className="docs-card">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--color-ink)' }}>{t.title}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-brand-accent)', background: 'var(--color-brand-accent-tint)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
                     </div>
-                    <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
+                    <p style={{ margin: 0, fontSize: 13, color: 'var(--color-ink-muted)' }}>{t.desc}</p>
                   </a>
                 ))}
               </div>
@@ -869,8 +813,8 @@ curl https://api.cloudach.com/v1/chat/completions \\
   -d '{"model": "llama3-8b:ft:my-model:ftjob-a1b2c3", "messages": [...]}'`}</CodeBlock>
 
               <p style={p}>
-                Dataset format: each line of your <code style={{ background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'monospace' }}>.jsonl</code> file
-                must be a JSON object with a <code style={{ background: '#F3F4F6', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'monospace' }}>messages</code> array
+                Dataset format: each line of your <code style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-rule)', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'var(--font-jetbrains), ui-monospace, monospace', color: 'var(--color-ink)' }}>.jsonl</code> file
+                must be a JSON object with a <code style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-rule)', padding: '2px 6px', borderRadius: 4, fontSize: '0.9em', fontFamily: 'var(--font-jetbrains), ui-monospace, monospace', color: 'var(--color-ink)' }}>messages</code> array
                 (identical to the OpenAI fine-tuning format). Minimum 100 examples.
               </p>
               <CodeBlock>{`{"messages": [
@@ -982,13 +926,13 @@ curl https://api.cloudach.com/v1/chat/completions \\
                     lang: null,
                   },
                 ].map(t => (
-                  <a key={t.href} href={t.href} style={{ border: '1px solid #E5E7EB', borderRadius: 10, padding: '16px 20px', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}>
+                  <a key={t.href} href={t.href} className="docs-card">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: '#0D0F1A' }}>{t.title}</span>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--color-ink)' }}>{t.title}</span>
                       <span style={{ fontSize: 11, fontWeight: 700, color: t.badgeColor, background: t.badgeBg, padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.badge}</span>
-                      {t.lang && <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--brand)', background: 'var(--brand-subtle)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.lang}</span>}
+                      {t.lang && <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-brand-accent)', background: 'var(--color-brand-accent-tint)', padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em' }}>{t.lang}</span>}
                     </div>
-                    <p style={{ margin: 0, fontSize: 13, color: '#6B7280' }}>{t.desc}</p>
+                    <p style={{ margin: 0, fontSize: 13, color: 'var(--color-ink-muted)' }}>{t.desc}</p>
                   </a>
                 ))}
               </div>
@@ -1031,27 +975,24 @@ curl https://api.cloudach.com/v1/chat/completions \\
                   a: 'Llama 3 8B, Llama 3 70B, Mistral 7B, and Mixtral 8×7B are available today. New models are announced on the blog.',
                 },
               ].map(({ q, a }) => (
-                <details key={q} style={{ borderBottom: '1px solid #F3F4F6', padding: '14px 0', cursor: 'pointer' }}>
-                  <summary style={{ fontWeight: 600, fontSize: 15, color: '#0D0F1A', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    {q} <span style={{ fontSize: 18, color: '#9CA3AF' }}>+</span>
+                <details key={q} className="docs-details">
+                  <summary>
+                    {q} <span className="docs-details-icon">+</span>
                   </summary>
-                  <p style={{ marginTop: 10, fontSize: 14, color: '#6B7280', lineHeight: 1.7 }}>{a}</p>
+                  <p>{a}</p>
                 </details>
               ))}
             </Section>
 
-            {/* Footer */}
-            <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid #E5E7EB', display: 'flex', gap: 24, flexWrap: 'wrap', fontSize: 13, color: '#9CA3AF' }}>
-              <a href="mailto:support@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>support@cloudach.com</a>
-              <a href="mailto:sales@cloudach.com" style={{ color: '#9CA3AF', textDecoration: 'none' }}>sales@cloudach.com</a>
-              <Link href="/dashboard" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Dashboard</Link>
-              <Link href="/changelog" style={{ color: '#9CA3AF', textDecoration: 'none' }}>Changelog</Link>
-              <a href="/api/changelog/rss" style={{ color: '#9CA3AF', textDecoration: 'none' }}>RSS</a>
+            {/* In-page contact strip — sits above the shared <Footer /> */}
+            <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid var(--color-rule)', display: 'flex', gap: 24, flexWrap: 'wrap', fontSize: 13, color: 'var(--color-ink-quiet)' }}>
+              <a href="mailto:support@cloudach.com" style={{ color: 'var(--color-ink-quiet)', textDecoration: 'none' }}>support@cloudach.com</a>
+              <a href="mailto:sales@cloudach.com" style={{ color: 'var(--color-ink-quiet)', textDecoration: 'none' }}>sales@cloudach.com</a>
+              <Link href="/dashboard" style={{ color: 'var(--color-ink-quiet)', textDecoration: 'none' }}>Dashboard</Link>
+              <Link href="/changelog" style={{ color: 'var(--color-ink-quiet)', textDecoration: 'none' }}>Changelog</Link>
+              <a href="/api/changelog/rss" style={{ color: 'var(--color-ink-quiet)', textDecoration: 'none' }}>RSS</a>
             </div>
-          </main>
-        </div>
-      </div>
-    </>
+    </DocsLayout>
   );
 }
 
@@ -1060,7 +1001,7 @@ curl https://api.cloudach.com/v1/chat/completions \\
 function Section({ id, title, children }) {
   return (
     <section id={id} style={{ marginBottom: 56 }}>
-      <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#f2f2f2', letterSpacing: '-0.5px' }}>{title}</h2>
+      <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid var(--color-rule)', color: 'var(--color-ink)', letterSpacing: '-0.012em' }}>{title}</h2>
       {children}
     </section>
   );
@@ -1073,18 +1014,7 @@ function LangTabs({ lang, onLang }) {
         <button
           key={key}
           onClick={() => onLang(key)}
-          style={{
-            padding: '6px 14px',
-            fontSize: 13,
-            fontWeight: 500,
-            borderRadius: '6px 6px 0 0',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderBottom: lang === key ? '1px solid #0d0d0d' : '1px solid rgba(255,255,255,0.08)',
-            background: lang === key ? '#0d0d0d' : '#161616',
-            color: lang === key ? '#f2f2f2' : '#666666',
-            cursor: 'pointer',
-            transition: 'color 0.15s',
-          }}
+          className={lang === key ? 'docs-lang-tab docs-lang-tab--active' : 'docs-lang-tab'}
         >
           {label}
         </button>
@@ -1105,17 +1035,20 @@ function CodeBlock({ children }) {
 
   return (
     <div style={{ position: 'relative', marginBottom: 16 }}>
+      {/* Code blocks stay dark on a light page — industry norm (GitHub, Vercel,
+          Stripe, cloudzero all do this). Aids readability of syntax. */}
       <pre style={{
-        background: '#0d0d0d',
-        color: '#c9d1d9',
+        background: '#0D1117',
+        color: '#E6EDF3',
         padding: '16px 20px',
-        borderRadius: 8,
+        borderRadius: 10,
         fontSize: 13,
         lineHeight: 1.65,
         overflowX: 'auto',
         whiteSpace: 'pre',
         margin: 0,
-        border: '1px solid rgba(255,255,255,0.07)',
+        border: '1px solid rgba(13,14,23,0.08)',
+        boxShadow: 'var(--elev-card)',
       }}>
         {children}
       </pre>
@@ -1125,14 +1058,16 @@ function CodeBlock({ children }) {
           position: 'absolute',
           top: 10,
           right: 10,
-          padding: '3px 10px',
+          padding: '4px 10px',
           fontSize: 11,
-          background: copied ? '#22C55E' : '#1c1c1c',
-          color: copied ? '#fff' : '#a0a0a0',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 4,
+          fontWeight: 600,
+          background: copied ? 'var(--color-success)' : 'rgba(255,255,255,0.08)',
+          color: copied ? '#fff' : 'rgba(230,237,243,0.8)',
+          border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: 5,
           cursor: 'pointer',
-          transition: 'background 0.15s',
+          transition: 'background 0.15s, color 0.15s',
+          letterSpacing: '0.02em',
         }}
       >
         {copied ? 'Copied!' : 'Copy'}
@@ -1143,7 +1078,7 @@ function CodeBlock({ children }) {
 
 function Code({ children }) {
   return (
-    <code style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: '0.875em', fontFamily: 'monospace', color: '#a0a0a0' }}>
+    <code style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-rule)', padding: '2px 6px', borderRadius: 4, fontSize: '0.875em', fontFamily: 'var(--font-jetbrains), ui-monospace, monospace', color: 'var(--color-ink)' }}>
       {children}
     </code>
   );
@@ -1151,7 +1086,7 @@ function Code({ children }) {
 
 function Callout({ children }) {
   return (
-    <div style={{ background: 'rgba(255,255,255,0.04)', borderLeft: '2px solid rgba(255,255,255,0.25)', padding: '12px 16px', borderRadius: '0 8px 8px 0', fontSize: 14, color: 'rgba(255,255,255,0.65)', marginBottom: 16 }}>
+    <div className="docs-callout">
       {children}
     </div>
   );
@@ -1164,7 +1099,7 @@ function Table({ headers, rows }) {
         <thead>
           <tr>
             {headers.map(h => (
-              <th key={h} style={{ textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#a0a0a0', fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>
+              <th key={h} style={{ textAlign: 'left', padding: '10px 14px 10px 0', borderBottom: '1px solid var(--color-rule-strong)', color: 'var(--color-ink-muted)', fontWeight: 600, whiteSpace: 'nowrap', fontSize: 12.5, letterSpacing: '0.02em', textTransform: 'uppercase' }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -1172,8 +1107,8 @@ function Table({ headers, rows }) {
           {rows.map((row, i) => (
             <tr key={i}>
               {row.map((cell, j) => (
-                <td key={j} style={{ padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#a0a0a0', verticalAlign: 'top' }}>
-                  {j === 0 ? <code style={{ background: '#161616', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: 12, fontFamily: 'monospace', color: 'rgba(255,255,255,0.65)' }}>{cell}</code> : cell}
+                <td key={j} style={{ padding: '10px 14px 10px 0', borderBottom: '1px solid var(--color-rule)', color: 'var(--color-ink-muted)', verticalAlign: 'top', lineHeight: 1.55 }}>
+                  {j === 0 ? <code style={{ background: 'var(--color-surface-alt)', border: '1px solid var(--color-rule)', padding: '2px 6px', borderRadius: 4, fontSize: 12, fontFamily: 'var(--font-jetbrains), ui-monospace, monospace', color: 'var(--color-ink)' }}>{cell}</code> : cell}
                 </td>
               ))}
             </tr>
@@ -1184,11 +1119,11 @@ function Table({ headers, rows }) {
   );
 }
 
-const p = { fontSize: 15, lineHeight: 1.7, color: '#a0a0a0', marginBottom: 16 };
-const h3 = { fontSize: 17, fontWeight: 600, marginTop: 24, marginBottom: 12, color: '#f2f2f2' };
-const h4 = { fontSize: 14, fontWeight: 600, marginTop: 16, marginBottom: 8, color: '#a0a0a0' };
-const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#a0a0a0', fontSize: 15 };
-const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: '#a0a0a0', fontSize: 15 };
+const p = { fontSize: 15, lineHeight: 1.7, color: 'var(--color-ink-muted)', marginBottom: 16 };
+const h3 = { fontSize: 18, fontWeight: 600, marginTop: 28, marginBottom: 12, color: 'var(--color-ink)', letterSpacing: '-0.008em' };
+const h4 = { fontSize: 14, fontWeight: 600, marginTop: 16, marginBottom: 8, color: 'var(--color-ink)', letterSpacing: '0.01em', textTransform: 'uppercase' };
+const ul = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: 'var(--color-ink-muted)', fontSize: 15 };
+const ol = { paddingLeft: 20, marginBottom: 16, lineHeight: 1.8, color: 'var(--color-ink-muted)', fontSize: 15 };
 
 // ── API Playground ────────────────────────────────────────────────────────────
 
@@ -1403,7 +1338,7 @@ for await (const chunk of stream) {
             <div style={{ flex: 1 }}>
               <label style={pgLabel}>
                 Temperature{' '}
-                <span style={{ color: '#9CA3AF', fontWeight: 400 }}>{temperature}</span>
+                <span style={{ color: 'var(--color-ink-whisper)', fontWeight: 400 }}>{temperature}</span>
               </label>
               <input
                 type="range"
@@ -1464,16 +1399,16 @@ for await (const chunk of stream) {
       {(response || streaming) && (
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-ink)' }}>
               Response{' '}
               {streaming && (
-                <span style={{ color: 'var(--brand)', animation: 'none' }}>●</span>
+                <span style={{ color: 'var(--color-brand-accent)', animation: 'none' }}>●</span>
               )}
             </span>
             {response && (
               <button
                 onClick={copyResponse}
-                style={{ fontSize: 12, padding: '3px 10px', background: copied ? '#22C55E' : '#374151', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}
+                style={{ fontSize: 12, fontWeight: 600, padding: '4px 10px', background: copied ? 'var(--color-success)' : 'var(--color-surface-alt)', color: copied ? '#fff' : 'var(--color-ink)', border: '1px solid var(--color-rule)', borderRadius: 5, cursor: 'pointer', transition: 'background 0.15s' }}
               >
                 {copied ? 'Copied!' : 'Copy'}
               </button>
@@ -1481,9 +1416,9 @@ for await (const chunk of stream) {
           </div>
           <pre style={{
             background: '#0D1117',
-            color: '#C9D1D9',
+            color: '#E6EDF3',
             padding: '16px 20px',
-            borderRadius: 8,
+            borderRadius: 10,
             fontSize: 14,
             lineHeight: 1.7,
             whiteSpace: 'pre-wrap',
@@ -1491,6 +1426,8 @@ for await (const chunk of stream) {
             minHeight: 80,
             margin: 0,
             overflowX: 'auto',
+            border: '1px solid rgba(13,14,23,0.08)',
+            boxShadow: 'var(--elev-card)',
           }}>
             {response || (streaming ? '…' : '')}
           </pre>
@@ -1500,19 +1437,19 @@ for await (const chunk of stream) {
   );
 }
 
-const pgLabel = { display: 'block', fontSize: 13, fontWeight: 600, color: '#a0a0a0', marginBottom: 6, marginTop: 14 };
-const pgHint  = { fontSize: 12, color: '#666666', marginTop: 4, marginBottom: 0 };
+const pgLabel = { display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--color-ink)', marginBottom: 6, marginTop: 14 };
+const pgHint  = { fontSize: 12, color: 'var(--color-ink-quiet)', marginTop: 4, marginBottom: 0 };
 const pgInput = {
   display: 'block',
   width: '100%',
-  padding: '8px 12px',
-  border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: 6,
+  padding: '9px 12px',
+  border: '1px solid var(--color-rule)',
+  borderRadius: 7,
   fontSize: 14,
-  color: '#f2f2f2',
-  background: '#161616',
+  color: 'var(--color-ink)',
+  background: 'var(--color-surface)',
   boxSizing: 'border-box',
   outline: 'none',
   fontFamily: 'inherit',
 };
-const link = { color: 'var(--brand)', textDecoration: 'none' };
+const link = { color: 'var(--color-brand-accent)', textDecoration: 'underline', textUnderlineOffset: '2px' };
